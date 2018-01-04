@@ -147,6 +147,7 @@ io.on('connection', (socket) => {
         }
         delete SocketList[socket.id];
         User.disconnect(socket);
+        Player.disconnect(socket);
 
 
     });
