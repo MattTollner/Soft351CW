@@ -139,9 +139,11 @@ io.on('connection', (socket) => {
 
         console.log('User disconected');
         for (var i in User.list) {
-            if (User.list[socket.id] != undefined) {
+            if (User.list[socket.id] != undefined)
+            {
                 SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has disconnected.');
-            } else {
+            } else
+            {
                 console.log("would have broken")
             }
         }
@@ -177,6 +179,7 @@ function joinRoom(socket, room) {
 
     socket.join(room);
 }
+
 function printMsg(msg) {
     for (var i in User.list) {
         SocketList[i].emit('printLobbyMsg', msg);
@@ -321,7 +324,16 @@ var Player = function (id, room, username) {
         self.isJumping = false;
     self.isGrounded = false;
 
+    //Shooting
+    self.ammo = 100;
+    self.playerHasShot;
+    self.mouseAngle;
+    self.mouseX;
+    self.mouseY;
 
+    //Player
+    self.lives = 3;
+    self.score = 0;
 
 
     //Stores entity update
@@ -330,7 +342,9 @@ var Player = function (id, room, username) {
     //Overwriting
     self.update = function () {
         self.updatePosition();
+        self.detectShooting();
         entityUpdate();
+
     }
 
 
@@ -341,7 +355,7 @@ var Player = function (id, room, username) {
             if (!self.isJumping) {
                 self.isJumping = true;
                 self.isGrounded = false;
-                //Negative goes up Y slowly goes back to positive creating a curve
+                //Negative goes up Y slowly goes back to positive creating a curve 
                 self.yVelocity = -self.speed * 2;
             }
         }
@@ -351,7 +365,7 @@ var Player = function (id, room, username) {
                 self.xVelocity++;
             }
         }
-        //<<-----
+        //<<-----    
         if (self.pressingLeft) {
             if (self.xVelocity > -self.speed) {
                 self.xVelocity--;
@@ -387,7 +401,7 @@ var Player = function (id, room, username) {
             self.isGrounded = true;
         }
 
-        //Allows for falling off platforms
+        //Allows for falling off platforms       
         if (self.isGrounded) {
             self.yVelocity = 0;
         }
@@ -397,6 +411,37 @@ var Player = function (id, room, username) {
 
     }
 
+    self.detectShooting = function () {
+        if (self.pressingAttack && self.ammo > 0) {
+            var angle = Math.atan2(self.mouseY - self.y, self.mouseX - self.x);
+            angle = angle * (180 / Math.PI);
+            if (angle < 0) {
+                angle = 360 - (-angle);
+            }
+
+            self.mouseAngle = angle;
+            console.log(self.mouseAngle);
+
+            if (self.playerHasShot) {
+
+                self.shootBullet(self.mouseAngle);
+                self.ammo--;
+                self.playerHasShot = false;
+                console.log("bullet shot: " + self.mouseAngle + "ammo : " + self.ammo);
+            }
+
+        }
+
+        self.shootBullet = function (angle) {
+            var b = Bullet(self.id, angle, self.room);
+            b.x = self.x;
+            b.y = self.y;
+        }
+
+        if (!self.pressingAttack) {
+            self.playerHasShot = true;
+        }
+    }
 
     self.getPlayerInfo = function () {
         return {
@@ -404,6 +449,9 @@ var Player = function (id, room, username) {
             username: self.username,
             x: self.x,
             y: self.y,
+            lives: self.lives,
+            score: self.score,
+            ammo: self.ammo,
         };
     }
 
@@ -412,6 +460,9 @@ var Player = function (id, room, username) {
             id: self.id,
             x: self.x,
             y: self.y,
+            lives: self.lives,
+            score: self.score,
+            ammo: self.ammo,
         };
     }
 
@@ -429,9 +480,9 @@ var Player = function (id, room, username) {
 
     return self;
 
-
 }
 
+Player.list = {}; //static
 
 Player.getAllPlayerInfo = function (room) {
     var players = [];
