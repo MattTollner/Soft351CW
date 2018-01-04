@@ -6,7 +6,7 @@ module.exports = function () {
         // Write code here that turns the phrase above into concrete actions
         helpers.loadPage("http://localhost:5000").then(function () {
             driver.findElement(By.id("userInput")).sendKeys("Nate").then(function () {
-                driver.findElement(By.id("joinLobby")).click().then(function (result) {
+                driver.findElement(By.id("loginForm")).submit().then(function (result) {
                     var element = driver.findElement(By.id('loginText'));
                     element.getText().then(s => assert.equal(s, "")).then(function () {
                         callback();
