@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 
         if ($("#userInput").val().length === 0) {
-            $('#loginText').text("Please enter a username");  
+            alert('Please enter a username');
         } else {
             socket.emit('checkUsername', $("#userInput").val())
         }
@@ -65,16 +65,6 @@ $(document).ready(function () {
     });
 
 
-    //Lobby Load
-    $('#toLobby').click(function () {
-        $('#loginDiv').hide();
-        $('#lobbyDiv').show();
-        $('#gameDiv').hide();
-        $('#worldDisplay').text("");
-        
-        socket.emit('toLobby', thisUserName);
-    });
-
 
     //Game load
      $('#toGame1').click(function () {
@@ -96,13 +86,7 @@ $(document).ready(function () {
 
         for (var i = 0; i < data.player.length; i++) {
             new Player(data.player[i]);
-            
         }
-
-        $('#playerList').empty();
-            for (i in Player.list) {
-            $('#playerList').append('<li class="playerListItem">' + Player.list[i].username + '</li>');
-        }       
 
     });
 
@@ -116,7 +100,6 @@ $(document).ready(function () {
                 if (updatedP.x !== undefined) { player.x = updatedP.x; }
                 if (updatedP.y !== undefined) { player.y = updatedP.y; }
             }
-            
         }
     });
 
@@ -163,7 +146,11 @@ $(document).ready(function () {
 });
 
 setInterval(function () {
-    ctx.clearRect(0, 0, 500, 500);  
+    ctx.clearRect(0, 0, 500, 500);
+    for (var i in platforms) {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(platforms[i].x - 5, platforms[i].y, platforms[i].w, platforms[i].h);
+    }
     for (var i in Player.list) {
         Player.list[i].draw();
     }
@@ -175,8 +162,7 @@ var User = function (data) {
     self.id = data.id;
     self.username = data.username;
     User.list[self.id] = self;
-    socket.emit("alert", "Step onedd "  + self.username);
-    console.log("Step oeene " + self.username);
+
     return self;
 }
 
@@ -185,7 +171,7 @@ User.list = {};
 var Player = function (playerInfo) {
     var self = {};
     self.id = playerInfo.id;
-    self.username = playerInfo.username;
+    self.username = playerInfo.uname;
     self.x = playerInfo.x;
     self.y = playerInfo.y;
     self.hp = playerInfo.hp;
@@ -196,8 +182,6 @@ var Player = function (playerInfo) {
         ctx.fillRect(self.x - 5, self.y - 5, 5, 5);
     }
 
-    socket.emit("alert", "Step one "  + self.username);
-    console.log("Step one " + self.username);
     return self;
 }
 

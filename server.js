@@ -1,7 +1,8 @@
-var express = require('express'),
+const express = require('express'),
       socketio = require('socket.io');
 var app = express();
-var server = app.listen(5000);
+var port = 5000;
+var server = app.listen(port);
 var io = socketio(server);
 
 app.use(express.static(__dirname + '/public'));
@@ -16,10 +17,62 @@ app.get('/', function (req, res, next) {
 
 
 
-console.log("Server stared on port 5000");
+console.log("Server stared on port " + port);
 
 SocketList = {};
 
+var platforms = [];
+
+{
+    platforms.push({
+        w: 80,
+        h: 80,
+        x: 10,
+        y: 490,
+    });
+    platforms.push({
+        w: 515,
+        h: 80,
+        x: -10,
+        y: 490,
+    });
+
+    platforms.push({
+        w: 515,
+        h: 10,
+        x: -10,
+        y: 0,
+    });
+
+    platforms.push({
+        w: 10,
+        h: 500,
+        x: 0,
+        y: -10,
+    });
+
+    platforms.push({
+        w: 10,
+        h: 500,
+        x: 500,
+        y: -10,
+    });
+    platforms.push({
+        w: 80,
+        h: 80,
+        x: 220,
+        y: 100,
+    });
+    platforms.push({
+        w: 40,
+        h: 40,
+        x: 250,
+        y: 450,
+  })
+}
+
+friction = 0.9,
+gravity = 0.25;
 
 //Lobby data
 var lobbyUsers = { user: [] };
@@ -48,7 +101,8 @@ io.on('connection', (socket) => {
         joinRoom(socket, 'gameRoom1');
 
         console.log(data.username + " just joined room " + data.room);
-        User.disconnect(socket);       
+        User.disconnect(socket);
+        socket.emit('loadPlatforms', platforms);
         Player.connect(socket, data.username, data.room);
     });
 
@@ -81,13 +135,6 @@ io.on('connection', (socket) => {
 
     });
 
-
-
-    socket.on("toLobby", function(data) {        
-        User.connection(socket, data);
-        Player.disconnect(socket);
-    });
-
     socket.on('disconnect', function () {
 
      console.log('User disconected');
@@ -102,7 +149,6 @@ io.on('connection', (socket) => {
      }
      delete SocketList[socket.id];
      User.disconnect(socket);
-     Player.disconnect(socket);
 
 
  });
@@ -267,7 +313,12 @@ var Player = function (id, room, username) {
     self.pressingUp = false;
     self.pressingDown = false;
     self.pressingSpace = false;
-    self.maxSpeed = 10;
+	self.speed = 3;
+    self.xVelocity = 0;
+    self.yVelocity = 0,
+    self.isJumping = false;
+    self.isGrounded = false;
+
 
 
 
@@ -280,18 +331,71 @@ var Player = function (id, room, username) {
         entityUpdate();
     }
 
+
+
     self.updatePosition = function () {
+        //Detect Jump
+        if (self.pressingUp) {
+            if ( !self.isJumping) {
+                self.isJumping = true;
+                self.isGrounded = false;
+                //Negative goes up Y slowly goes back to positive creating a curve
+                self.yVelocity = -self.speed * 2;
+            }
+        }
+        //----->>
         if (self.pressingRight) {
-            self.x += self.maxSpeed;          
+            if (self.xVelocity < self.speed) {
+                self.xVelocity++;
+            }
+        }
+        //<<-----
+        if (self.pressingLeft) {
+            if (self.xVelocity > -self.speed) {
+                self.xVelocity--;
+            }
         }
 
-        if (self.pressingLeft) { self.x -= self.maxSpeed; };
-        if (self.pressingUp) { self.y -= self.maxSpeed; }
-        if (self.pressingDown) { self.y += self.maxSpeed; }
+
+        //Slowly reduces velocity
+        self.xVelocity *= friction;
+		//Positive yVelocity player goes down
+        self.yVelocity += gravity;
+
+
+        self.isGrounded = false;
+        for (var i in platforms) {
+            var collisionPointer = checkForCollision(self, platforms[i]);
+
+            if (collisionPointer === "left" || collisionPointer === "right") {
+                self.xVelocity = 0;
+                //self.isJumping = false;
+            } else if (collisionPointer === "bottom") {
+                self.isGrounded = true;
+                self.isJumping = false;
+            } else if (collisionPointer === "top")
+            {
+                self.yVelocity *= -1;
+            }
+        }
+
+        //At bootom of canvas
+        if (self.y >= 500 - self.width ) {
+            self.y = 500;
+            self.isJumping = false;
+            self.isGrounded = true;
+        }
+
+        //Allows for falling off platforms
+        if (self.isGrounded) {
+            self.yVelocity = 0;
+        }
+
+        self.x += self.xVelocity;
+        self.y += self.yVelocity;
+
     }
 
-
-   
 
     self.getPlayerInfo = function () {
         return {
@@ -384,3 +488,55 @@ Player.update = function (room) {
 
 Player.list = {}; //static
 
+
+//Collision Checking
+function checkForCollision(entity1, entity2) {
+
+    //What the vectors get checked against
+    var halfWidths = (entity1.width / 2) + (entity2.w / 2);
+    var halfHeights = (entity1.height / 2) + (entity2.h / 2);
+
+    //Entity
+    var vectorX = (entity1.x + (entity1.width / 2)) - (entity2.x + (entity2.w / 2));
+    var vectorY = (entity1.y + (entity1.height / 2)) - (entity2.y + (entity2.h / 2));
+
+    var collisionPointer = null;
+
+
+    if (Math.abs(vectorY) < halfHeights && Math.abs(vectorX) < halfWidths)
+    {
+        //How far are the shapes collide into the object
+        var offsetX = halfWidths - Math.abs(vectorX);
+        var offsetY = halfHeights - Math.abs(vectorY);
+
+
+        //Left or right collide
+        if (offsetX < offsetY) //greater than
+        {
+            if (vectorX > 0)
+            {
+                collisionPointer = "left";
+                entity1.x += offsetX;
+            } else
+            {
+                collisionPointer = "right";
+                entity1.x -= offsetX;
+            }
+
+        }
+        else
+        {
+            if (vectorY > 0)
+            {
+                collisionPointer = "top";
+                entity1.y += offsetY;
+            }
+            else
+            {
+                collisionPointer = "bottom";
+                entity1.y -= offsetY;
+            }
+        }
+    }
+    return collisionPointer;
+}
