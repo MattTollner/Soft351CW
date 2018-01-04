@@ -518,7 +518,7 @@ Player.connect = function (socket, username, room) {
     socket.emit('initPlayer', {
         id: socket.id,
         player: Player.getAllPlayerInfo(room),
-        //bullet: Bullet.getAllBulletInfo(room),
+        bullet: Bullet.getAllBulletInfo(room),
     });
 
 }
