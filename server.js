@@ -1,4 +1,4 @@
-const express = require('express'),
+var express = require('express'),
       socketio = require('socket.io');
 var app = express();
 var server = app.listen(5000);

@@ -4,7 +4,7 @@
   "description": "Soft coursework",
   "main": "index.js",
   "scripts": {
-	"pretest": "eslint --ignore-path .gitignore .",
+    "pretest": "eslint --ignore-path .gitignore .",
     "test": "node ./node_modules/selenium-cucumber-js/index.js -s ./steps -x 50000"
   },
   "keywords": [
@@ -21,7 +21,12 @@
     "chai": "^4.1.2",
     "chromedriver": "^2.34.0",
     "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.0.1",
     "selenium-cucumber-js": "^1.5.11"
   }
