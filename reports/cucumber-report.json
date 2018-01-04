@@ -14,11 +14,11 @@
             "name": "I have logged in",
             "result": {
               "status": "passed",
-              "duration": 3997168114
+              "duration": 3775229759
             },
             "line": 6,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\lobbyMessageSteps.js:5"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\lobbyMessageSteps.js:5"
             }
           },
           {
@@ -27,11 +27,11 @@
             "name": "i can click on the element \"JoinWorld\"",
             "result": {
               "status": "passed",
-              "duration": 47822213
+              "duration": 51251886
             },
             "line": 7,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\joinGameRoomSteps.js:4"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\joinGameRoomSteps.js:4"
             }
           },
           {
@@ -40,11 +40,11 @@
             "name": "i will join world one",
             "result": {
               "status": "passed",
-              "duration": 43184445
+              "duration": 34961645
             },
             "line": 8,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\joinGameRoomSteps.js:11"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\joinGameRoomSteps.js:11"
             }
           },
           {
@@ -53,11 +53,11 @@
             "name": "i can leave the game room",
             "result": {
               "status": "passed",
-              "duration": 48894851
+              "duration": 71829365
             },
             "line": 9,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\joinGameRoomSteps.js:18"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\joinGameRoomSteps.js:18"
             }
           },
           {
@@ -69,7 +69,7 @@
             },
             "line": 10,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\joinGameRoomSteps.js:24"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\joinGameRoomSteps.js:24"
             }
           },
           {
@@ -77,11 +77,11 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 133214747
+              "duration": 143739065
             },
             "hidden": true,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
             }
           }
         ],
@@ -94,7 +94,7 @@
     "line": 1,
     "name": "User join game world",
     "tags": [],
-    "uri": "C:/Users/Matt/Source/Repos/Soft351CW4/features/JoinWorld.feature"
+    "uri": "C:/Users/Matt/Source/Repos/Soft351CW5/features/JoinWorld.feature"
   },
   {
     "description": "    As a user i should be able to enter a nick name and join the lobby",
@@ -111,11 +111,11 @@
             "name": "I navigate to \"http://localhost:5000\"",
             "result": {
               "status": "passed",
-              "duration": 2680365846
+              "duration": 2625776984
             },
             "line": 6,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\loginSteps.js:5"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\loginSteps.js:5"
             }
           },
           {
@@ -124,11 +124,11 @@
             "name": "i enter the nickname \"Nate\" into input field with id \"userInput\"",
             "result": {
               "status": "passed",
-              "duration": 62663434
+              "duration": 64601327
             },
             "line": 7,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\loginSteps.js:14"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\loginSteps.js:14"
             }
           },
           {
@@ -137,11 +137,11 @@
             "name": "i click on the element \"joinLobby\"",
             "result": {
               "status": "passed",
-              "duration": 85625715
+              "duration": 103653133
             },
             "line": 8,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\loginSteps.js:25"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\loginSteps.js:25"
             }
           },
           {
@@ -150,11 +150,11 @@
             "name": "join the lobby if my username is unique",
             "result": {
               "status": "passed",
-              "duration": 13680425
+              "duration": 21239113
             },
             "line": 9,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\loginSteps.js:36"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\loginSteps.js:36"
             }
           },
           {
@@ -162,11 +162,11 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 116036288
+              "duration": 133956857
             },
             "hidden": true,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
             }
           }
         ],
@@ -179,7 +179,7 @@
     "line": 1,
     "name": "User Loging in",
     "tags": [],
-    "uri": "C:/Users/Matt/Source/Repos/Soft351CW4/features/Login.feature"
+    "uri": "C:/Users/Matt/Source/Repos/Soft351CW5/features/Login.feature"
   },
   {
     "description": "    As a user i should be able to write out and send messages to the lobby chat",
@@ -196,11 +196,11 @@
             "name": "I have logged in",
             "result": {
               "status": "passed",
-              "duration": 2801684388
+              "duration": 2787960591
             },
             "line": 6,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\lobbyMessageSteps.js:5"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\lobbyMessageSteps.js:5"
             }
           },
           {
@@ -209,11 +209,11 @@
             "name": "i write out my message to the lobby",
             "result": {
               "status": "passed",
-              "duration": 45211475
+              "duration": 47230024
             },
             "line": 7,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\lobbyMessageSteps.js:19"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\lobbyMessageSteps.js:19"
             }
           },
           {
@@ -222,11 +222,11 @@
             "name": "i press enter",
             "result": {
               "status": "passed",
-              "duration": 27380708
+              "duration": 30391279
             },
             "line": 8,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\lobbyMessageSteps.js:25"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\lobbyMessageSteps.js:25"
             }
           },
           {
@@ -235,11 +235,11 @@
             "name": "i should see my message in the lobby chat with my username",
             "result": {
               "status": "passed",
-              "duration": 13554657
+              "duration": 15474856
             },
             "line": 9,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\steps\\lobbyMessageSteps.js:31"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\steps\\lobbyMessageSteps.js:31"
             }
           },
           {
@@ -247,11 +247,11 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 111589277
+              "duration": 119097902
             },
             "hidden": true,
             "match": {
-              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW4\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW5\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
             }
           }
         ],
@@ -264,6 +264,6 @@
     "line": 1,
     "name": "User sending messages to lobby",
     "tags": [],
-    "uri": "C:/Users/Matt/Source/Repos/Soft351CW4/features/SendLobbyMessage.feature"
+    "uri": "C:/Users/Matt/Source/Repos/Soft351CW5/features/SendLobbyMessage.feature"
   }
 ]
