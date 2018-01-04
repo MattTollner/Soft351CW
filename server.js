@@ -506,6 +506,11 @@ Player.connect = function (socket, username, room) {
         else if (data.inputId === 'up') { player.pressingUp = data.state; }
         else if (data.inputId === 'down') { player.pressingDown = data.state; }
         else if (data.inputId === 'leftMouse') { player.pressingAttack = data.state; }
+        else if (data.inputId === 'mouseAngle') {
+            player.mouseX = data.state.x;
+            player.mouseY = data.state.y;
+        }
+
     });
 
 
@@ -513,6 +518,7 @@ Player.connect = function (socket, username, room) {
     socket.emit('initPlayer', {
         id: socket.id,
         player: Player.getAllPlayerInfo(room),
+        //bullet: Bullet.getAllBulletInfo(room),
     });
 
 }
