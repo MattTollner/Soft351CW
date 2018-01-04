@@ -619,6 +619,33 @@ var Bullet = function (parent, angle, room) {
 }
 Bullet.list = {};
 
+Bullet.getAllBulletInfo = function () {
+    var bullets = [];
+    for (var i in Bullet.list) {
+        bullets.push(Bullet.list[i].getInfo());
+    }
+    return bullets;
+}
+
+//Called every frame
+Bullet.update = function () {
+
+    var bInfo = [];
+    for (var i in Bullet.list) {
+        var bullet = Bullet.list[i];
+        bullet.update();
+        if (bullet.delBullet) {
+            removeEntity.bullet.push(bullet.id);
+            delete Bullet.list[i];
+        }
+        else {
+            bInfo.push(bullet.getUpdateInfo());
+        }
+
+    }
+    return bInfo;
+}
+
 //Collision Checking
 function checkForCollision(entity1, entity2) {
 
