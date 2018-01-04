@@ -159,9 +159,22 @@ $(document).ready(function () {
         else if (event.keyCode === 87) { socket.emit('keyPress', { inputId: 'up', state: false }); }
     }
 
+    //Handle Mouse Press
+    //document.onmousedown = function (event) {
+    //    socket.emit('keyPress', { inputId: 'leftMouse', state: true });
+    //}
 
     //document.onmouseup = function (event) {
-    //    socket.emit('keypress', { inputid: 'leftmouse', state: false });
+    //    socket.emit('keyPress', { inputId: 'leftMouse', state: false });
+    //}
+
+    //document.onmousemove = function (event) {
+    //    var angle = [];
+    //    angle = {
+    //        x: event.clientX,
+    //        y: event.clientY,
+    //    }
+    //    socket.emit('keyPress', { inputId: 'mouseAngle', state: angle });
     //}
 
 
