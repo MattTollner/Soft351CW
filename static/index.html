@@ -1,9 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
-   
+
 </head>
 <body>
+
+    <div id="gameDiv" style="display:none;">
+        <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+ 
+            <ul id="playerList">
+                <li>Mattey</li>
+                <li>Jon</li>
+                <li>Derek</li>
+            </ul>
+
+
+
+        <h2 id="worldDisplay" style="display: block">World : </h2>
+        <button id="toLobby" style="display:block">To Lobby</button>
+    </div>
 
     <div id="loginDiv">
         Username: <input id="userInput" type="text" /> <div id="loginText">....</div> <br />
@@ -23,12 +38,14 @@
             <input id="lobbyChatInput" type="text" style="width:500px">
         </form>
 
+       
+        <ul id="userList"></ul>
+        <button id="toGame1">To Game</button>
+        <button id="toGame2">To Game 2</button>
       
 
 
-        <ul id="userList">
-            List
-        </ul>
+       
     </div> 
     
     <script src="/socket.io/socket.io.js"></script>

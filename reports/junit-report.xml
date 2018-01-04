@@ -1,31 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-    <testsuite name="user-loging-in;load-website,-enter-nickname-and-join-lobby" tests="4" failures="0" skipped="0">
+    <testsuite name="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" tests="5" failures="0" skipped="2">
         <properties>
-            <property name="URI" value="C:/Users/Matt/Source/Repos/Soft351CW2/features/Login.feature">
+            <property name="URI" value="C:/Users/Matt/Desktop/SOFT351 GIT Versions/Soft-354 Basic Character Movement 1/features/JoinWorld.feature">
             </property>
         </properties>
-        <testcase name="Given I navigate to &quot;http://localhost:5000&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="3.592848798">
+        <testcase name="Given I have logged in" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="3.724547544">
         </testcase>
-        <testcase name="Then i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.04811497">
+        <testcase name="Then i can click on the element &quot;JoinWorld&quot;" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.05245881">
         </testcase>
-        <testcase name="Then i click on the element &quot;joinLobby&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.092461414">
+        <testcase name="And i will join world one" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.040565306">
         </testcase>
-        <testcase name="And join the lobby if my username is unique" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.013924739">
+        <testcase name="Then i can leave the game room" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave">
+            <skipped message="">
+            </skipped>
+        </testcase>
+        <testcase name="And i will be back in the lobby" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave">
+            <skipped message="">
+            </skipped>
+        </testcase>
+    </testsuite>
+    <testsuite name="user-loging-in;load-website,-enter-nickname-and-join-lobby" tests="4" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="C:/Users/Matt/Desktop/SOFT351 GIT Versions/Soft-354 Basic Character Movement 1/features/Login.feature">
+            </property>
+        </properties>
+        <testcase name="Given I navigate to &quot;http://localhost:5000&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="2.656905102">
+        </testcase>
+        <testcase name="Then i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.062650233">
+        </testcase>
+        <testcase name="Then i click on the element &quot;joinLobby&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.084361466">
+        </testcase>
+        <testcase name="And join the lobby if my username is unique" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.014306264">
         </testcase>
     </testsuite>
     <testsuite name="user-sending-messages-to-lobby;send-message-to-users-in-lobby" tests="4" failures="0" skipped="0">
         <properties>
-            <property name="URI" value="C:/Users/Matt/Source/Repos/Soft351CW2/features/SendLobbyMessage.feature">
+            <property name="URI" value="C:/Users/Matt/Desktop/SOFT351 GIT Versions/Soft-354 Basic Character Movement 1/features/SendLobbyMessage.feature">
             </property>
         </properties>
-        <testcase name="Given I have logged in" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="2.778541278">
+        <testcase name="Given I have logged in" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="2.815396896">
         </testcase>
-        <testcase name="Then i write out my message to the lobby" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.063369901">
+        <testcase name="Then i write out my message to the lobby" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.061749999">
         </testcase>
-        <testcase name="Then i press enter" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.028690439">
+        <testcase name="Then i press enter" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.027121064">
         </testcase>
-        <testcase name="And i should see my message in the lobby chat with my username" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.01495375">
+        <testcase name="And i should see my message in the lobby chat with my username" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.015240197">
         </testcase>
     </testsuite>
 </testsuites>

@@ -271,7 +271,7 @@ pre {
 
     <div class="container">
 
-      <div class="generated-on">Thu Jan 04 2018 11:48:08 GMT+0000 (GMT Standard Time)</div>
+      <div class="generated-on">Sat Dec 30 2017 21:46:24 GMT+0000 (GMT Standard Time)</div>
 
       <div class="row">
         <div class="chart col-lg-6 col-md-6" id="piechart_features"></div>
@@ -292,12 +292,12 @@ pre {
                     <a data-toggle="collapse" href="#collapseFeaturesoftcw0">
                         <i class="glyphicon glyphicon-chevron-right"></i>
                         <i class="glyphicon glyphicon-chevron-down"></i>
-                        <b>Feature:</b>User Loging in
+                        <b>Feature:</b>User join game world
                         <span class="label-container">
-              <span class="label label-success" title="1 Scenarios Passed">1</span>
               
               
               
+              <span class="label label-default" title="1 Scenarios Pending">1</span>
               
               
             </span>
@@ -306,7 +306,7 @@ pre {
             </div>
             <div id="collapseFeaturesoftcw0" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="description">    As a user i should be able to enter a nick name and join the lobby</div>
+                    <div class="description">    As a user user i should be able to join and leave 3 different worlds</div>
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -316,17 +316,17 @@ pre {
                                 <a data-toggle="collapse" href="#collapseScenariosoftcw0_0">
                                     <div>
 
-                                        <div style="padding-right: 30px">
+                                        <div style="padding-right: 70px">
                                             <i class="glyphicon glyphicon-chevron-right"></i>
                                             <i class="glyphicon glyphicon-chevron-down"></i>
-                                            <b>Scenario:</b>Load website, enter nickname and join lobby
+                                            <b>Scenario:</b>Once in lobby i should be able to join world one and then leave
                                         </div>
                                         <div>
                             <span class="label-container">
-                              <span class="label label-success" title="4 Steps Passed">4</span>
+                              <span class="label label-success" title="3 Steps Passed">3</span>
                               
-                              
-                              
+                              <span class="label label-default" title="1 Steps Pending">1</span>
+                              <span class="label label-warning" title="1 Steps Skipped">1</span>
                               
                               
                             </span>
@@ -349,10 +349,10 @@ pre {
                                     
                                     <span class="text">
                         <span class="keyword highlight">Given </span>
-                          <span> I navigate to &quot;http://localhost:5000&quot;</span>
+                          <span> I have logged in</span>
                           
                               <span class="step-duration">
-                               59880m 48s 798ms
+                               62075m 47s 544ms
                               </span>
                             
                          
@@ -383,44 +383,10 @@ pre {
                                     
                                     <span class="text">
                         <span class="keyword highlight">Then </span>
-                          <span> i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;</span>
+                          <span> i can click on the element &quot;JoinWorld&quot;</span>
                           
                               <span class="step-duration">
-                               801m 54s 970ms
-                              </span>
-                            
-                         
-                            
-                          
-                      </span>
-                                    
-                                    
-
-                                    
-
-                                    
-
-                                    
-
-                                    
-                            	</div>
-                            </p>
-                            
-                            
-                                
-                                <p class="scenario-container">
-                                <div class="row steps">
-                                    
-                                    
-                                    <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
-                                    
-                                    
-                                    <span class="text">
-                        <span class="keyword highlight">Then </span>
-                          <span> i click on the element &quot;joinLobby&quot;</span>
-                          
-                              <span class="step-duration">
-                               1541m 1s 414ms
+                               874m 18s 810ms
                               </span>
                             
                          
@@ -451,10 +417,78 @@ pre {
                                     
                                     <span class="text">
                         <span class="keyword highlight">And </span>
-                          <span> join the lobby if my username is unique</span>
+                          <span> i will join world one</span>
                           
                               <span class="step-duration">
-                               232m 4s 739ms
+                               676m 5s 306ms
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-default" title="Pending"><i class="glyphicon glyphicon-exclamation-sign"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">Then </span>
+                          <span> i can leave the game room</span>
+                          
+                              <span class="step-duration">
+                               0s
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-warning" title="Skipped"><i class="glyphicon glyphicon-minus"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">And </span>
+                          <span> i will be back in the lobby</span>
+                          
+                              <span class="step-duration">
+                               0s
                               </span>
                             
                          
@@ -496,7 +530,7 @@ pre {
                     <a data-toggle="collapse" href="#collapseFeaturesoftcw1">
                         <i class="glyphicon glyphicon-chevron-right"></i>
                         <i class="glyphicon glyphicon-chevron-down"></i>
-                        <b>Feature:</b>User sending messages to lobby
+                        <b>Feature:</b>User Loging in
                         <span class="label-container">
               <span class="label label-success" title="1 Scenarios Passed">1</span>
               
@@ -510,7 +544,7 @@ pre {
             </div>
             <div id="collapseFeaturesoftcw1" class="panel-collapse collapse">
                 <div class="panel-body">
-                    <div class="description">    As a user i should be able to write out and send messages to the lobby chat</div>
+                    <div class="description">    As a user i should be able to enter a nick name and join the lobby</div>
                     
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -523,7 +557,7 @@ pre {
                                         <div style="padding-right: 30px">
                                             <i class="glyphicon glyphicon-chevron-right"></i>
                                             <i class="glyphicon glyphicon-chevron-down"></i>
-                                            <b>Scenario:</b>Send message to users in lobby
+                                            <b>Scenario:</b>Load website, enter nickname and join lobby
                                         </div>
                                         <div>
                             <span class="label-container">
@@ -553,10 +587,218 @@ pre {
                                     
                                     <span class="text">
                         <span class="keyword highlight">Given </span>
+                          <span> I navigate to &quot;http://localhost:5000&quot;</span>
+                          
+                              <span class="step-duration">
+                               44281m 45s 102ms
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">Then </span>
+                          <span> i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;</span>
+                          
+                              <span class="step-duration">
+                               1044m 10s 233ms
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">Then </span>
+                          <span> i click on the element &quot;joinLobby&quot;</span>
+                          
+                              <span class="step-duration">
+                               1406m 1s 466ms
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">And </span>
+                          <span> join the lobby if my username is unique</span>
+                          
+                              <span class="step-duration">
+                               238m 26s 264ms
+                              </span>
+                            
+                         
+                            
+                          
+                      </span>
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+
+                                    
+                            	</div>
+                            </p>
+                            
+                            
+                                
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+<div class="row">
+    
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <div class="tags"> </div>
+                    <a data-toggle="collapse" href="#collapseFeaturesoftcw2">
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                        <i class="glyphicon glyphicon-chevron-down"></i>
+                        <b>Feature:</b>User sending messages to lobby
+                        <span class="label-container">
+              <span class="label label-success" title="1 Scenarios Passed">1</span>
+              
+              
+              
+              
+              
+            </span>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseFeaturesoftcw2" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="description">    As a user i should be able to write out and send messages to the lobby chat</div>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                
+                                <div class="tags"> </div>
+                                <a data-toggle="collapse" href="#collapseScenariosoftcw2_0">
+                                    <div>
+
+                                        <div style="padding-right: 30px">
+                                            <i class="glyphicon glyphicon-chevron-right"></i>
+                                            <i class="glyphicon glyphicon-chevron-down"></i>
+                                            <b>Scenario:</b>Send message to users in lobby
+                                        </div>
+                                        <div>
+                            <span class="label-container">
+                              <span class="label label-success" title="4 Steps Passed">4</span>
+                              
+                              
+                              
+                              
+                              
+                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseScenariosoftcw2_0" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                
+                                
+                                
+                                <p class="scenario-container">
+                                <div class="row steps">
+                                    
+                                    
+                                    <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                                    
+                                    
+                                    <span class="text">
+                        <span class="keyword highlight">Given </span>
                           <span> I have logged in</span>
                           
                               <span class="step-duration">
-                               46309m 1s 278ms
+                               46923m 16s 896ms
                               </span>
                             
                          
@@ -590,7 +832,7 @@ pre {
                           <span> i write out my message to the lobby</span>
                           
                               <span class="step-duration">
-                               1056m 9s 901ms
+                               1029m 9s 999ms
                               </span>
                             
                          
@@ -624,7 +866,7 @@ pre {
                           <span> i press enter</span>
                           
                               <span class="step-duration">
-                               478m 10s 439ms
+                               452m 1s 64ms
                               </span>
                             
                          
@@ -658,7 +900,7 @@ pre {
                           <span> i should see my message in the lobby chat with my username</span>
                           
                               <span class="step-duration">
-                               249m 13s 750ms
+                               254m 197ms
                               </span>
                             
                          
@@ -718,7 +960,7 @@ pre {
         google.setOnLoadCallback(function() {drawChart({
                                                             "title" : "Features",
                                                             "failed" : 0,
-                                                            "passed" : 2,
+                                                            "passed" : 3,
                                                             "ambiguous" : 0
                                                         })
                                             });
@@ -727,7 +969,7 @@ pre {
                                                             "failed" : 0,
                                                             "passed" : 2,
                                                             "notdefined" : 0,
-                                                            "pending" : 0,
+                                                            "pending" : 1,
                                                             "skipped" : 0,
                                                             "ambiguous" : 0
                                                         })
