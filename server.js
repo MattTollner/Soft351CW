@@ -194,13 +194,15 @@ setInterval(function () {
 
     var r1Data =
         {
-            player: Player.update('gameRoom1')
+            player: Player.update('gameRoom1'),
+            bullet: Bullet.update('gameRoom1'),
 
         };
 
     var r2Data =
         {
-            player: Player.update('gameRoom2')
+            player: Player.update('gameRoom2'),
+            bullet: Bullet.update('gameRoom2'),
         };
 
     io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
