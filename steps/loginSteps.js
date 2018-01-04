@@ -24,7 +24,7 @@ module.exports = function () {
 
     this.Then(/^i press enter element "([^"]*)"$/, function (arg1, callback) {
         // Write code here that turns the phrase above into concrete actions
-        driver.findElement(By.id(arg1)).submit().then(function(result){
+        driver.findElement(By.id(arg1)).click().then(function(result){
             var element = driver.findElement(By.id('loginText'));
             element.getText().then(s => assert.equal(s, "")).then(function(){
               callback();  
