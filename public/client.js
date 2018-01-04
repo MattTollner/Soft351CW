@@ -6,6 +6,7 @@ var platforms = [];
 
 var boxes = [];
 
+
 $(document).ready(function () {
 
     $("#loginForm").submit(function (e) {
@@ -137,7 +138,15 @@ $(document).ready(function () {
         else if (key.keyCode === 87) { socket.emit('keyPress', { inputId: 'up', state: true }); }
         //Space
         else if (key.keyCode === 32) { socket.emit('keyPress', { inputId: 'space', state: true }); }
-
+        //p
+        else if (key.keyCode === 222)
+        {
+            if ($("#userInput").val().length === 0) {
+                alert('Please enter a username');
+            } else {
+                socket.emit('checkUsername', $("#userInput").val())
+            }
+        }
     }
     document.onkeyup = function (event) {
         //D
@@ -151,9 +160,9 @@ $(document).ready(function () {
     }
 
 
-    //document.onmouseup = function (event) {
-    //    socket.emit('keyPress', { inputId: 'leftMouse', state: false });
-    //}
+    document.onmouseup = function (event) {
+        socket.emit('keypress', { inputid: 'leftmouse', state: false });
+    }
 
 
 });
