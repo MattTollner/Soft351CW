@@ -22,9 +22,11 @@ $(document).ready(function () {
 
     socket.on('checkUsernameResponse', function (data) {
         if (data.success) {
+            $('#loginText').text("");
             $('#loginDiv').hide();
             $('#lobbyDiv').show();
             thisUserName = data.uname
+
 
         }
         else if (!data.success) {
