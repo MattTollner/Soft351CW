@@ -295,6 +295,10 @@ var Entity = function (room) {
         self.y += self.ySpeed;
     }
 
+    self.getDistance = function (pt) {
+        return Math.sqrt(Math.pow(self.x - pt.x, 2) + Math.pow(self.y - pt.y, 2));
+    }
+
     return self;
 }
 
