@@ -22,6 +22,7 @@ $(document).ready(function () {
 
     socket.on('checkUsernameResponse', function (data) {
         if (data.success) {
+            $('#LobbyHeading').text("Lobby");
             $('#loginDiv').hide();
             $('#lobbyDiv').show();
             thisUserName = data.uname
