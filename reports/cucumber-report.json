@@ -14,7 +14,7 @@
             "name": "I have logged in",
             "result": {
               "status": "passed",
-              "duration": 4326778857
+              "duration": 4293591761
             },
             "line": 6,
             "match": {
@@ -27,7 +27,7 @@
             "name": "i can click on the element \"JoinWorld\"",
             "result": {
               "status": "passed",
-              "duration": 52194605
+              "duration": 49058531
             },
             "line": 7,
             "match": {
@@ -40,7 +40,7 @@
             "name": "i will join world one",
             "result": {
               "status": "passed",
-              "duration": 29757662
+              "duration": 42019436
             },
             "line": 8,
             "match": {
@@ -53,7 +53,7 @@
             "name": "i can leave the game room",
             "result": {
               "status": "passed",
-              "duration": 55487740
+              "duration": 61446674
             },
             "line": 9,
             "match": {
@@ -66,7 +66,7 @@
             "name": "i will be back in the lobby",
             "result": {
               "status": "passed",
-              "duration": 96883
+              "duration": 95379
             },
             "line": 10,
             "match": {
@@ -78,7 +78,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 125161384
+              "duration": 111748743
             },
             "hidden": true,
             "match": {
@@ -112,7 +112,7 @@
             "name": "I navigate to \"http://localhost:5000\"",
             "result": {
               "status": "passed",
-              "duration": 3213498934
+              "duration": 3201021128
             },
             "line": 6,
             "match": {
@@ -125,7 +125,7 @@
             "name": "i enter the nickname \"Nate\" into input field with id \"userInput\"",
             "result": {
               "status": "passed",
-              "duration": 68313063
+              "duration": 58113523
             },
             "line": 7,
             "match": {
@@ -138,7 +138,7 @@
             "name": "i click on the element \"joinLobby\"",
             "result": {
               "status": "passed",
-              "duration": 82741176
+              "duration": 93738050
             },
             "line": 8,
             "match": {
@@ -151,7 +151,7 @@
             "name": "join the lobby if my username is unique",
             "result": {
               "status": "passed",
-              "duration": 13739999
+              "duration": 12599362
             },
             "line": 9,
             "match": {
@@ -163,7 +163,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 112905026
+              "duration": 104485794
             },
             "hidden": true,
             "match": {
@@ -197,7 +197,7 @@
             "name": "I have logged in",
             "result": {
               "status": "passed",
-              "duration": 3362687415
+              "duration": 3295896805
             },
             "line": 6,
             "match": {
@@ -210,7 +210,7 @@
             "name": "i write out my message to the lobby",
             "result": {
               "status": "passed",
-              "duration": 61074786
+              "duration": 60719146
             },
             "line": 7,
             "match": {
@@ -223,7 +223,7 @@
             "name": "i press enter",
             "result": {
               "status": "passed",
-              "duration": 26935706
+              "duration": 26440456
             },
             "line": 8,
             "match": {
@@ -236,7 +236,7 @@
             "name": "i should see my message in the lobby chat with my username",
             "result": {
               "status": "passed",
-              "duration": 13504710
+              "duration": 13639205
             },
             "line": 9,
             "match": {
@@ -248,7 +248,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 114749723
+              "duration": 109988894
             },
             "hidden": true,
             "match": {
