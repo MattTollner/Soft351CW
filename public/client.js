@@ -160,23 +160,24 @@ $(document).ready(function () {
     }
 
     //Handle Mouse Press
-    //document.onmousedown = function (event) {
-    //    socket.emit('keyPress', { inputId: 'leftMouse', state: true });
-    //}
+    {
+        document.onmousedown = function (event) {
+            socket.emit('keyPress', { inputId: 'leftMouse', state: true });
+        }
 
-    //document.onmouseup = function (event) {
-    //    socket.emit('keyPress', { inputId: 'leftMouse', state: false });
-    //}
+        document.onmouseup = function (event) {
+            socket.emit('keyPress', { inputId: 'leftMouse', state: false });
+        }
 
-    //document.onmousemove = function (event) {
-    //    var angle = [];
-    //    angle = {
-    //        x: event.clientX,
-    //        y: event.clientY,
-    //    }
-    //    socket.emit('keyPress', { inputId: 'mouseAngle', state: angle });
-    //}
-
+        document.onmousemove = function (event) {
+            var angle = [];
+            angle = {
+                x: event.clientX,
+                y: event.clientY,
+            }
+            socket.emit('keyPress', { inputId: 'mouseAngle', state: angle });
+        }
+    }
 
 });
 
