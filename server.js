@@ -1,8 +1,8 @@
-
 const express = require('express'),
-    socketio = require('socket.io');
+      socketio = require('socket.io');
 var app = express();
-var server = app.listen(5000);
+var port = 5000;
+var server = app.listen(port);
 var io = socketio(server);
 
 app.use(express.static(__dirname + '/public'));
@@ -17,7 +17,7 @@ app.get('/', function (req, res, next) {
 
 
 
-console.log("Server stared on port 5000");
+console.log("Server stared on port " + port);
 
 SocketList = {};
 
@@ -68,20 +68,20 @@ var platforms = [];
         h: 40,
         x: 250,
         y: 450,
-    })
+  })
 }
 
 friction = 0.9,
-    gravity = 0.25;
+gravity = 0.25;
 
 //Lobby data
 var lobbyUsers = { user: [] };
 var removeLobbyUsers = { user: [] };
 
 //Game Data
-var gameData = { player: [], bullet: [] };
+var gameData = { player: [] };
 var dataWorlds = [gameData, gameData, gameData];
-var removeEntity = { player: [], bullet: [] };
+var removeEntity = { player: [] };
 
 io.on('connection', (socket) => {
     //Adds new connection to socket list
@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
     socket.join('lobbyRoom');
 
 
-    socket.on('alert', function (data) {
+    socket.on('alert', function(data){
         console.log('Logged DATA : ' + data);
     });
 
@@ -137,22 +137,21 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', function () {
 
-        console.log('User disconected');
-        for (var i in User.list) {
-            if(User.list[socket.id] != undefined)
-            {
-                SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has disconnected.');
-            } else
-            {
-                console.log("would have broken")
-            }
-        }
-        delete SocketList[socket.id];
-        User.disconnect(socket);
-        Player.disconnect(socket);
-   
-   
-    });
+     console.log('User disconected');
+     for (var i in User.list) {
+         if(User.list[socket.id] != undefined)
+         {
+             SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has disconnected.');
+         } else
+         {
+             console.log("would have broken")
+         }
+     }
+     delete SocketList[socket.id];
+     User.disconnect(socket);
+
+
+ });
 
 
 
@@ -162,7 +161,7 @@ io.on('connection', (socket) => {
 
     //Chat functions
     socket.on('lobbyChat', function (data) {
-        //console.log('recifecved ' + data);       
+        //console.log('recifecved ' + data);
         for (var i in User.list) {
             SocketList[i].emit('printLobbyMsg', User.list[socket.id].username + ' : ' + data);
         }
@@ -179,7 +178,6 @@ function joinRoom(socket, room) {
 
     socket.join(room);
 }
-
 function printMsg(msg)
 {
     for (var i in User.list) {
@@ -195,15 +193,13 @@ setInterval(function () {
 
     var r1Data =
         {
-            player: Player.update('gameRoom1'),
-            bullet: Bullet.update('gameRoom1'),
+            player: Player.update('gameRoom1')
 
         };
 
     var r2Data =
         {
-            player: Player.update('gameRoom2'),
-            bullet: Bullet.update('gameRoom2'),
+            player: Player.update('gameRoom2')
         };
 
     io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
@@ -225,7 +221,7 @@ setInterval(function () {
     removeEntity.player = [];
 
 
-}, 1000 / 30);; //FPS
+}, 1000/30);; //FPS
 
 var User = function (socket, username) {
     var self = {
@@ -302,10 +298,6 @@ var Entity = function (room) {
         self.y += self.ySpeed;
     }
 
-    self.getDistance = function(pt){
-        return Math.sqrt(Math.pow(self.x-pt.x,2) + Math.pow(self.y-pt.y,2));
-    }
-
     return self;
 }
 
@@ -321,22 +313,13 @@ var Player = function (id, room, username) {
     self.pressingUp = false;
     self.pressingDown = false;
     self.pressingSpace = false;
-    self.speed = 3;
+	self.speed = 3;
     self.xVelocity = 0;
     self.yVelocity = 0,
-        self.isJumping = false;
+    self.isJumping = false;
     self.isGrounded = false;
 
-    //Shooting
-    self.ammo = 100;
-    self.playerHasShot;
-    self.mouseAngle;
-    self.mouseX;
-    self.mouseY;
 
-    //Player
-    self.lives = 3;
-    self.score = 0;
 
 
     //Stores entity update
@@ -345,9 +328,7 @@ var Player = function (id, room, username) {
     //Overwriting
     self.update = function () {
         self.updatePosition();
-        self.detectShooting();
         entityUpdate();
-       
     }
 
 
@@ -355,10 +336,10 @@ var Player = function (id, room, username) {
     self.updatePosition = function () {
         //Detect Jump
         if (self.pressingUp) {
-            if (!self.isJumping) {
+            if ( !self.isJumping) {
                 self.isJumping = true;
                 self.isGrounded = false;
-                //Negative goes up Y slowly goes back to positive creating a curve 
+                //Negative goes up Y slowly goes back to positive creating a curve
                 self.yVelocity = -self.speed * 2;
             }
         }
@@ -368,7 +349,7 @@ var Player = function (id, room, username) {
                 self.xVelocity++;
             }
         }
-        //<<-----    
+        //<<-----
         if (self.pressingLeft) {
             if (self.xVelocity > -self.speed) {
                 self.xVelocity--;
@@ -378,7 +359,7 @@ var Player = function (id, room, username) {
 
         //Slowly reduces velocity
         self.xVelocity *= friction;
-        //Positive yVelocity player goes down
+		//Positive yVelocity player goes down
         self.yVelocity += gravity;
 
 
@@ -392,19 +373,20 @@ var Player = function (id, room, username) {
             } else if (collisionPointer === "bottom") {
                 self.isGrounded = true;
                 self.isJumping = false;
-            } else if (collisionPointer === "top") {
+            } else if (collisionPointer === "top")
+            {
                 self.yVelocity *= -1;
             }
         }
 
         //At bootom of canvas
-        if (self.y >= 500 - self.width) {
+        if (self.y >= 500 - self.width ) {
             self.y = 500;
             self.isJumping = false;
             self.isGrounded = true;
         }
 
-        //Allows for falling off platforms       
+        //Allows for falling off platforms
         if (self.isGrounded) {
             self.yVelocity = 0;
         }
@@ -414,37 +396,6 @@ var Player = function (id, room, username) {
 
     }
 
-    self.detectShooting = function () {
-        if (self.pressingAttack && self.ammo > 0) {
-            var angle = Math.atan2(self.mouseY - self.y, self.mouseX - self.x);
-            angle = angle * (180 / Math.PI);
-            if (angle < 0) {
-                angle = 360 - (-angle);
-            }
-
-            self.mouseAngle = angle;
-            console.log(self.mouseAngle);
-
-            if (self.playerHasShot) {
-
-                self.shootBullet(self.mouseAngle);
-                self.ammo--;
-                self.playerHasShot = false;
-                console.log("bullet shot: " + self.mouseAngle + "ammo : " + self.ammo);
-            }
-
-        }
-
-        self.shootBullet = function (angle) {
-            var b = Bullet(self.id, angle, self.room);
-            b.x = self.x;
-            b.y = self.y;
-        }
-
-        if (!self.pressingAttack) {
-            self.playerHasShot = true;
-        }
-    }
 
     self.getPlayerInfo = function () {
         return {
@@ -452,9 +403,6 @@ var Player = function (id, room, username) {
             username: self.username,
             x: self.x,
             y: self.y,
-            lives: self.lives,
-            score: self.score,
-            ammo: self.ammo,
         };
     }
 
@@ -463,9 +411,6 @@ var Player = function (id, room, username) {
             id: self.id,
             x: self.x,
             y: self.y,
-            lives: self.lives,
-            score: self.score,
-            ammo: self.ammo,
         };
     }
 
@@ -483,9 +428,9 @@ var Player = function (id, room, username) {
 
     return self;
 
+
 }
 
-Player.list = {}; //static
 
 Player.getAllPlayerInfo = function (room) {
     var players = [];
@@ -506,16 +451,9 @@ Player.connect = function (socket, username, room) {
     socket.on('keyPress', function (data) {
         if (data.inputId === 'left') { player.pressingLeft = data.state; }
         else if (data.inputId === 'right') { player.pressingRight = data.state; }
-        else if (data.inputId === 'up') { player.pressingUp = data.state; }
-        else if (data.inputId === 'down') { player.pressingDown = data.state; }
-        else if (data.inputId === 'leftMouse') { player.pressingAttack = data.state; }
-        else if (data.inputId === 'mouseAngle') {
-            player.mouseX = data.state.x;
-            player.mouseY = data.state.y;       
-
-        }
-
-
+        else if (data.inputId === 'up') { player.pressingUp = data.state;}
+        else if (data.inputId === 'down') {  player.pressingDown = data.state; }
+        else if (data.inputId === 'leftMouse') {  player.pressingAttack = data.state; }
     });
 
 
@@ -523,7 +461,6 @@ Player.connect = function (socket, username, room) {
     socket.emit('initPlayer', {
         id: socket.id,
         player: Player.getAllPlayerInfo(room),
-        bullet: Bullet.getAllBulletInfo(room),
     });
 
 }
@@ -549,123 +486,26 @@ Player.update = function (room) {
     return pInfo;
 }
 
-var Bullet = function (parent, angle, room) {
-    var self = Entity();
-    self.room = room;
-    console.log('bullet created at room ' + self.room);
-    self.id = Math.random();
-    self.xSpeed = Math.cos(angle / 180 * Math.PI) * 10;
-    self.ySpeed = Math.sin(angle / 180 * Math.PI) * 10;
-    self.parent = parent;
-    self.timer = 0;
-    self.delBullet = false;
-    var entityUpdate = self.update;
+Player.list = {}; //static
 
-    self.update = function () {
-        if (self.timer++ > 100) {
-            self.delBullet = true;
-        }
-
-        entityUpdate();
-
-        for (var i in Player.list) {
-            var p = Player.list[i];
-           
-            
-            if (checkForCollision(p, self) !== null) {
-                console.log('BULLET HIT');
-            }
-             if (self.getDistance(p) < 6 && self.parent !== p.id) {
-
-                console.log(self.username + " has shot " + p.username);
-                 self.delBullet = true;
-             }
-        }
-
-        for (var i in platforms) {
-            var plat = platforms[i];
-            if (self.getDistance(plat) < 5) {
-                self.delBullet = true;
-            }
-        }
-    }
-
-
-    self.getInfo = function () {
-        return {
-            id: self.id,
-            x: self.x,
-            y: self.y,
-        };
-    }
-
-    self.getUpdateInfo = function () {
-        return {
-            id: self.id,
-            x: self.x,
-            y: self.y,
-        };
-    }
-
-    Bullet.list[self.id] = self;
-    if (room === 'gameRoom1') {
-        dataWorlds[0].bullet.push(self.getInfo());
-        console.log('Player ' + dataWorlds[0].bullet[0].id);
-    }
-    else if (room === 'gameRoom2') {
-        dataWorlds[1].bullet.push(self.getInfo());
-        console.log('Player ' + dataWorlds[1].bullet[0].id);
-    }
-
-    return self;
-
-}
-Bullet.list = {};
-
-Bullet.getAllBulletInfo = function () {
-    var bullets = [];
-    for (var i in Bullet.list) {
-        bullets.push(Bullet.list[i].getInfo());
-    }
-    return bullets;
-}
-
-
-//Called every frame
-Bullet.update = function () {
-
-    var bInfo = [];
-    for (var i in Bullet.list) {
-        var bullet = Bullet.list[i];
-        bullet.update();
-        if (bullet.delBullet) {
-            removeEntity.bullet.push(bullet.id);
-            delete Bullet.list[i];
-        }
-        else {
-            bInfo.push(bullet.getUpdateInfo());
-        }
-
-    }
-    return bInfo;
-}
 
 //Collision Checking
 function checkForCollision(entity1, entity2) {
 
-    //What the vectors get checked against 
+    //What the vectors get checked against
     var halfWidths = (entity1.width / 2) + (entity2.w / 2);
     var halfHeights = (entity1.height / 2) + (entity2.h / 2);
 
-    //Entity 
+    //Entity
     var vectorX = (entity1.x + (entity1.width / 2)) - (entity2.x + (entity2.w / 2));
     var vectorY = (entity1.y + (entity1.height / 2)) - (entity2.y + (entity2.h / 2));
 
     var collisionPointer = null;
 
 
-    if (Math.abs(vectorY) < halfHeights && Math.abs(vectorX) < halfWidths) {
-        //How far are the shapes collide into the object    
+    if (Math.abs(vectorY) < halfHeights && Math.abs(vectorX) < halfWidths)
+    {
+        //How far are the shapes collide into the object
         var offsetX = halfWidths - Math.abs(vectorX);
         var offsetY = halfHeights - Math.abs(vectorY);
 
@@ -673,21 +513,26 @@ function checkForCollision(entity1, entity2) {
         //Left or right collide
         if (offsetX < offsetY) //greater than
         {
-            if (vectorX > 0) {
+            if (vectorX > 0)
+            {
                 collisionPointer = "left";
                 entity1.x += offsetX;
-            } else {
+            } else
+            {
                 collisionPointer = "right";
                 entity1.x -= offsetX;
             }
 
         }
-        else {
-            if (vectorY > 0) {
+        else
+        {
+            if (vectorY > 0)
+            {
                 collisionPointer = "top";
                 entity1.y += offsetY;
             }
-            else {
+            else
+            {
                 collisionPointer = "bottom";
                 entity1.y -= offsetY;
             }
@@ -695,4 +540,3 @@ function checkForCollision(entity1, entity2) {
     }
     return collisionPointer;
 }
-
