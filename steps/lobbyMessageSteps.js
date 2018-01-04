@@ -7,8 +7,8 @@ module.exports = function () {
     helpers.loadPage("http://localhost:5000").then(function(){
       driver.findElement(By.id("userInput")).sendKeys("Nate").then(function(){             
         driver.findElement(By.id("joinLobby")).click().then(function(result){
-          var element = driver.findElement(By.id('LobbyHeading'));
-          element.getText().then(s => assert.equal(s, "Lobby")).then(function(){
+          var element = driver.findElement(By.id('loginText'));
+          element.getText().then(s => assert.equal(s, "")).then(function(){
             callback();  
           });         
         });
@@ -17,7 +17,7 @@ module.exports = function () {
   });
 
   this.Then(/^i write out my message to the lobby$/, function (callback) {
-    driver.findElement(By.id("lobbyChatInput")).sendKeys("Test").then(function(){         
+    driver.findElement(By.id("lobbyChatInput")).sendKeys("Hello Litte Shit").then(function(){         
         callback();        
     })    
   });
