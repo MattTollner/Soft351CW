@@ -1,7 +1,7 @@
 const express = require('express'),
       socketio = require('socket.io');
 var app = express();
-var server = app.listen(8080);
+var server = app.listen(5000);
 var io = socketio(server);
 
 app.use(express.static(__dirname + '/public')); 
@@ -11,12 +11,13 @@ app.get('/', function (req, res, next) {
 });
 
 
-console.log("Server stared on port 8080");
+console.log("Server stared on port 5000");
 
 SocketList = {};
 
 
 var lobbyUsers = { user: [] };
+var removeLobbyUsers = { user: [] };
 
 io.on('connection', (socket) => {
     //Adds new connection to socket list
@@ -25,16 +26,17 @@ io.on('connection', (socket) => {
 
     socket.on('checkUsername', function (uname) {
        var unames = [];
-
+        console.log("cUname Fired " + uname);
         for (i in User.list) {
             unames.push(User.list[i].username);
+            console.log("Hello " + i);
         }
-        console.log('checking username');
+       
         if (unames.length < 1)
-        {
-            console.log("First user");
+        {            
             socket.emit('checkUsernameResponse', { success: true, uname: uname });
             User.connection(socket, uname);
+            console.log("Users lenght "  + User.list.length);
         } else {
 
             if (unames.includes(uname))
@@ -44,19 +46,65 @@ io.on('connection', (socket) => {
             } else {
                 socket.emit('checkUsernameResponse', { success: true, uname: uname });
                 User.connection(socket, uname);                
-            }
-           
-        }
-
-       
-
-         
+            }           
+        }   
+        
+        
 
     });
 
+    socket.on('console', function(data){
+        console.log("CONSOLE: " + data);
+    });
 
+    socket.on('disconnect', function () {
+      
+        console.log('User disconected');  
+        for (var i in User.list) {
+            if(User.list[socket.id] != undefined)
+            {         
+                SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has disconnected.');
+            } else 
+            {
+                console.log("would have broken")
+            }
+        }
+        delete SocketList[socket.id];
+        User.disconnect(socket);        
+
+    });
+
+    //Chat functions
+    socket.on('lobbyChat', function (data) {
+        console.log('recifecved ' + data);  
+        io.sockets.emit('printLobbyMessage', data);     
+        for (var i in User.list) {            
+            SocketList[i].emit('printLobbyMsg', User.list[socket.id].username + ': ' + data);
+            
+           // SocketList[i].emit('lobbyChat', data);
+        }
+    });
 
 });
+
+setInterval(function () {
+    var lobbyData = {
+        user: User.update()
+    }
+
+
+    for (var i in User.list)
+    {
+        var socket = SocketList[i];
+        socket.emit('initLobbyUser', lobbyData);
+        socket.emit('removeLobbyUser', removeLobbyUsers);
+    }    
+
+    lobbyUsers.user = [];
+    removeLobbyUsers.user = [];
+
+
+}, 1000 / 25); //FPS
 
 var User = function (socket, username)
 {
@@ -84,11 +132,15 @@ User.list = {};
 //Used when user connects
 User.connection = function (socket, username)
 {
-    var user = User(socket, username);
+    var user = User(socket, username);    
     socket.emit('initLobbyUser', {
         id: socket.id,
         user: User.getAllUserInfo(),
     });
+
+    for (var i in User.list) {
+        SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has joined the lobby.');
+    }
 }
 
 //Runs every frame
@@ -104,6 +156,12 @@ User.update = function ()
     return updatedUsers;
 }
 
+User.disconnect = function (socket)
+{
+    delete User.list[socket.id];
+    removeLobbyUsers.user.push(socket.id);
+}
+
 
 User.getAllUserInfo = function ()
 {
@@ -114,3 +172,5 @@ User.getAllUserInfo = function ()
 
     return users;
 }
+
+

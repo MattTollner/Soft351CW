@@ -1,17 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
-
+   
 </head>
 <body>
 
     <div id="loginDiv">
-        Username: <input id="userInput" type="text" /> <br />
+        Username: <input id="userInput" type="text" /> <div id="loginText">....</div> <br />
+		
         <button id="joinLobby">Join Lobby</button>
     </div>
 
 
-    <h1>Hello World!</h1>
+    <div id="lobbyDiv" style="display:none;">
+
+        <div id="lobbyChat" style="width:500px;height:100px;overflow-y:scroll">
+            <div>Hello!</div>
+        </div>
+
+
+        <form id="lobbyChatForm">
+            <input id="lobbyChatInput" type="text" style="width:500px">
+        </form>
+
+      
+
+
+        <ul id="userList">
+            List
+        </ul>
+    </div> 
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>

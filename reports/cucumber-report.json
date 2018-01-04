@@ -1,0 +1,172 @@
+[
+  {
+    "description": "    As a user i should be able to enter a nick name and join the lobby",
+    "elements": [
+      {
+        "id": "user-loging-in;load-website,-enter-nickname-and-join-lobby",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Load website, enter nickname and join lobby",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I navigate to \"http://localhost:5000\"",
+            "result": {
+              "status": "passed",
+              "duration": 3592848798
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\loginSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i enter the nickname \"Nate\" into input field with id \"userInput\"",
+            "result": {
+              "status": "passed",
+              "duration": 48114970
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\loginSteps.js:14"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i click on the element \"joinLobby\"",
+            "result": {
+              "status": "passed",
+              "duration": 92461414
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\loginSteps.js:25"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "join the lobby if my username is unique",
+            "result": {
+              "status": "passed",
+              "duration": 13924739
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\loginSteps.js:36"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 115433925
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-loging-in",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User Loging in",
+    "tags": [],
+    "uri": "C:/Users/Matt/Source/Repos/Soft351CW2/features/Login.feature"
+  },
+  {
+    "description": "    As a user i should be able to write out and send messages to the lobby chat",
+    "elements": [
+      {
+        "id": "user-sending-messages-to-lobby;send-message-to-users-in-lobby",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Send message to users in lobby",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I have logged in",
+            "result": {
+              "status": "passed",
+              "duration": 2778541278
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\lobbyMessageSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i write out my message to the lobby",
+            "result": {
+              "status": "passed",
+              "duration": 63369901
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\lobbyMessageSteps.js:19"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i press enter",
+            "result": {
+              "status": "passed",
+              "duration": 28690439
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\lobbyMessageSteps.js:25"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i should see my message in the lobby chat with my username",
+            "result": {
+              "status": "passed",
+              "duration": 14953750
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\steps\\lobbyMessageSteps.js:31"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 111988244
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Matt\\Source\\Repos\\Soft351CW2\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-sending-messages-to-lobby",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User sending messages to lobby",
+    "tags": [],
+    "uri": "C:/Users/Matt/Source/Repos/Soft351CW2/features/SendLobbyMessage.feature"
+  }
+]
