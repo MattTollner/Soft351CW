@@ -23,7 +23,7 @@ module.exports = function () {
 
   this.Then(/^i will be back in the lobby$/, function (callback) {
     // Write code here that turns the phrase above into concrete actions
-    callback();
+    callback(null, 'pending');
   });
 
 }
