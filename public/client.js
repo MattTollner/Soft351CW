@@ -151,9 +151,9 @@ $(document).ready(function () {
     }
 
 
-    document.onmouseup = function (event) {
-        socket.emit('keyPress', { inputId: 'leftMouse', state: false });
-    }
+    //document.onmouseup = function (event) {
+    //    socket.emit('keyPress', { inputId: 'leftMouse', state: false });
+    //}
 
 
 });
