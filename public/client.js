@@ -160,9 +160,9 @@ $(document).ready(function () {
     }
 
 
-    document.onmouseup = function (event) {
-        socket.emit('keypress', { inputid: 'leftmouse', state: false });
-    }
+    //document.onmouseup = function (event) {
+    //    socket.emit('keypress', { inputid: 'leftmouse', state: false });
+    //}
 
 
 });
