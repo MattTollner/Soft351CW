@@ -14,7 +14,7 @@
             "name": "I navigate to \"http://localhost:5000\"",
             "result": {
               "status": "passed",
-              "duration": 3563021933
+              "duration": 1903230582
             },
             "line": 6,
             "match": {
@@ -27,7 +27,7 @@
             "name": "i enter the nickname \"Nate\" into input field with id \"userInput\"",
             "result": {
               "status": "passed",
-              "duration": 48158598
+              "duration": 49155414
             },
             "line": 7,
             "match": {
@@ -40,7 +40,7 @@
             "name": "i click on the element \"joinLobby\"",
             "result": {
               "status": "passed",
-              "duration": 89326844
+              "duration": 82340404
             },
             "line": 8,
             "match": {
@@ -53,7 +53,7 @@
             "name": "join the lobby if my username is unique",
             "result": {
               "status": "passed",
-              "duration": 14310468
+              "duration": 16301694
             },
             "line": 9,
             "match": {
@@ -65,7 +65,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 124334264
+              "duration": 9992836
             },
             "hidden": true,
             "match": {
@@ -99,7 +99,7 @@
             "name": "I have logged in",
             "result": {
               "status": "passed",
-              "duration": 2770259849
+              "duration": 1968065770
             },
             "line": 6,
             "match": {
@@ -112,7 +112,7 @@
             "name": "i write out my message to the lobby",
             "result": {
               "status": "passed",
-              "duration": 62073709
+              "duration": 52682934
             },
             "line": 7,
             "match": {
@@ -125,7 +125,7 @@
             "name": "i press enter",
             "result": {
               "status": "passed",
-              "duration": 25519763
+              "duration": 39271798
             },
             "line": 8,
             "match": {
@@ -138,7 +138,7 @@
             "name": "i should see my message in the lobby chat with my username",
             "result": {
               "status": "passed",
-              "duration": 14459704
+              "duration": 13355173
             },
             "line": 9,
             "match": {
@@ -150,7 +150,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 109240906
+              "duration": 6369033
             },
             "hidden": true,
             "match": {
