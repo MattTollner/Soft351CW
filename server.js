@@ -135,6 +135,12 @@ io.on('connection', (socket) => {
 
     });
 
+    socket.on("toLobby", function (data) {
+        Player.disconnect(socket);
+        User.connection(socket, data);
+        joinRoom(socket, "lobbyRoom");
+    });
+
     socket.on('disconnect', function () {
 
         console.log('User disconected');

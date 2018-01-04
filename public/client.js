@@ -64,7 +64,15 @@ $(document).ready(function () {
         $('#lobbyChat').append('<div class = "lobbyMsg">' + data + '</div >');
     });
 
+    //Lobby Load
+    $('#toLobby').click(function () {
+        $('#loginDiv').hide();
+        $('#lobbyDiv').show();
+        $('#gameDiv').hide();
+        $('#worldDisplay').text("");
 
+        socket.emit('toLobby', thisUserName);
+    });
 
     //Game load
     $('#toGame1').click(function () {
