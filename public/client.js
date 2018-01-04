@@ -194,3 +194,19 @@ var Player = function (playerInfo) {
 }
 
 Player.list = {};
+
+var Bullet = function (bulletInfo) {
+    var self = {};
+    self.id = bulletInfo.id;
+    self.x = bulletInfo.x;
+    self.y = bulletInfo.y;
+    Bullet.list[self.id] = self;
+
+    self.draw = function () {
+        ctx.fillStyle = 'red';
+        ctx.fillRect(self.x - 5, self.y - 5, 3, 3);
+    }
+    return self;
+}
+
+Bullet.list = {};
