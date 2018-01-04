@@ -162,6 +162,9 @@ setInterval(function () {
     for (var i in Player.list) {
         Player.list[i].draw();
     }
+    for (var i in Bullet.list) {
+        Bullet.list[i].draw();
+    }
 
 }, 1000 / 30);
 
