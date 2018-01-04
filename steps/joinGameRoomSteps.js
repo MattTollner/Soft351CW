@@ -3,7 +3,7 @@ module.exports = function () {
 
   this.Then(/^i can click on the element "([^"]*)"$/, function (arg1, callback) {
     // Write code here that turns the phrase above into concrete actions
-    driver.findElement(By.id("toGame1")).click().then(function(){        
+      driver.findElement(By.id("toGame1")).sendKeys(Keys.Return).then(function(){        
         callback();
     });
   });
@@ -16,7 +16,7 @@ module.exports = function () {
   });
 
   this.Then(/^i can leave the game room$/, function (callback) {
-    driver.findElement(By.id("toLobby")).click().then(function(){        
+      driver.findElement(By.id("toLobby")).sendKeys(Keys.Return).then(function(){        
         callback();
     });
   });
