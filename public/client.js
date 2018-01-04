@@ -13,7 +13,7 @@ $(document).ready(function () {
 
         if ($("#userInput").val().length === 0) {
             alert('Please enter a username');
-        } else {         
+        } else {
             socket.emit('checkUsername', $("#userInput").val())
         }
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
         }
         else if (!data.success) {
-            $('#loginText').text(data.uname + ' already in use'); 
+            $('#loginText').text(data.uname + ' already in use');
         }
     });
 
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
         $('#userList').empty();
         for (i in User.list) {
-            $('#userList').append('<li class = "userListItem">' + User.list[i].username + '</li>');           
+            $('#userList').append('<li class = "userListItem">' + User.list[i].username + '</li>');
         }
     });
 
@@ -65,25 +65,15 @@ $(document).ready(function () {
     });
 
 
-    //Lobby Load
-    $('#toLobby').click(function () {
-        $('#loginDiv').hide();
-        $('#lobbyDiv').show();
-        $('#gameDiv').hide();
-        $('#worldDisplay').text("");
-        
-        socket.emit('toLobby', thisUserName);
-    });
-
 
     //Game load
-     $('#toGame1').click(function () {
-         $('#loginDiv').hide();
-         $('#lobbyDiv').hide();
-         $('#gameDiv').show();
-         $('#worldDisplay').text("World One");
-         socket.emit('startGame', { room: 'gameRoom1', username: thisUserName });
-     });
+    $('#toGame1').click(function () {
+        $('#loginDiv').hide();
+        $('#lobbyDiv').hide();
+        $('#gameDiv').show();
+        $('#worldDisplay').text("World One");
+        socket.emit('startGame', { room: 'gameRoom1', username: thisUserName });
+    });
 
     var addLi = (message) => {
         $('#userList').append('<li class="list-group-item">' + message + '</li>');
@@ -98,16 +88,6 @@ $(document).ready(function () {
             new Player(data.player[i]);
         }
 
-        for (var i = 0; i < data.bullet.length; i++) {
-            new Bullet(data.bullet[i]);
-        }
-
-
-        $('#playerList').empty();
-            for (i in Player.list) {
-            $('#playerList').append('<li class="playerListItem">' + Player.list[i].username + '</li>');
-        } 
-
     });
 
     socket.on('updatePlayer', function (data) {
@@ -119,18 +99,6 @@ $(document).ready(function () {
             if (player) {
                 if (updatedP.x !== undefined) { player.x = updatedP.x; }
                 if (updatedP.y !== undefined) { player.y = updatedP.y; }
-                if (updatedP.lives !== undefined) { player.lives = updatedP.lives; }
-                if (updatedP.score !== undefined) { player.score = updatedP.score; }
-                if (updatedP.ammo !== undefined) { player.ammo = updatedP.ammo; }
-            }
-        }
-
-        for (var i = 0; i < data.bullet.length; i++) {
-            var updatedB = data.bullet[i];
-            var bullet = Bullet.list[data.bullet[i].id];
-            if (bullet) {
-                if (updatedB.x !== undefined) { bullet.x = updatedB.x; }
-                if (updatedB.y !== undefined) { bullet.y = updatedB.y; }            
             }
         }
     });
@@ -139,64 +107,39 @@ $(document).ready(function () {
         for (var i = 0; i < data.player.length; i++) {
             delete Player.list[data.player[i]];
         }
-
-        for (var i = 0; i < data.bullet.length; i++)
-        {
-            delete Bullet.list[data.bullet[i]];
-        }
     });
 
     //Init Map
-    socket.on('loadPlatforms',function(data){
-        ctx.clearRect(0,0,500,500);
-        for(var i = 0 ; i < data.length; i++){
-			platforms.push(data[i]);
-		}
+    socket.on('loadPlatforms', function (data) {
+        ctx.clearRect(0, 0, 500, 500);
+        for (var i = 0; i < data.length; i++) {
+            platforms.push(data[i]);
+        }
     });
 
-    //Keypresses 
+    //Keypresses
     document.onkeydown = function (key) {
         //S
         if (key.keyCode === 68) { socket.emit('keyPress', { inputId: 'right', state: true }); }
-            //D
+        //D
         else if (key.keyCode === 83) { socket.emit('keyPress', { inputId: 'down', state: true }); }
-            //A
+        //A
         else if (key.keyCode === 65) { socket.emit('keyPress', { inputId: 'left', state: true }); }
-            //W        
+        //W
         else if (key.keyCode === 87) { socket.emit('keyPress', { inputId: 'up', state: true }); }
-            //Space
+        //Space
         else if (key.keyCode === 32) { socket.emit('keyPress', { inputId: 'space', state: true }); }
 
     }
     document.onkeyup = function (event) {
         //D
         if (event.keyCode === 68) { socket.emit('keyPress', { inputId: 'right', state: false }); }
-            //S
+        //S
         else if (event.keyCode === 83) { socket.emit('keyPress', { inputId: 'down', state: false }); }
-            //A
+        //A
         else if (event.keyCode === 65) { socket.emit('keyPress', { inputId: 'left', state: false }); }
-            //W
+        //W
         else if (event.keyCode === 87) { socket.emit('keyPress', { inputId: 'up', state: false }); }
-    }
-
-    //Handle Mouse Press
-    document.onmousedown = function (event) {
-        socket.emit('keyPress', { inputId: 'leftMouse', state: true });
-    }
-
-    document.onmouseup = function (event) {
-        socket.emit('keyPress', { inputId: 'leftMouse', state: false });
-    }
-
-    document.onmousemove = function (event) {    
-        var angle = [];
-
-        angle = {
-            x: event.clientX,
-            y: event.clientY,
-        }
-
-        socket.emit('keyPress', { inputId: 'mouseAngle', state: angle });
     }
 
 
@@ -212,11 +155,7 @@ setInterval(function () {
         Player.list[i].draw();
     }
 
-    for (var i in Bullet.list) {
-        Bullet.list[i].draw();
-    }
-
-},1000/30);
+}, 1000 / 30);
 
 var User = function (data) {
     var self = {};
@@ -235,34 +174,15 @@ var Player = function (playerInfo) {
     self.username = playerInfo.uname;
     self.x = playerInfo.x;
     self.y = playerInfo.y;
-    self.lives = playerInfo.lives;
-    self.ammo = playerInfo.ammo;
-    self.score = playerInfo.score
+    self.hp = playerInfo.hp;
     Player.list[self.id] = self;
 
     self.draw = function () {
         ctx.fillStyle = 'green';
-        ctx.fillRect(self.x - 5, self.y - 5, 10, 10);
+        ctx.fillRect(self.x - 5, self.y - 5, 5, 5);
     }
 
     return self;
 }
 
 Player.list = {};
-
-
-var Bullet = function (bulletInfo) {
-    var self = {};
-    self.id = bulletInfo.id;
-    self.x = bulletInfo.x;
-    self.y = bulletInfo.y;
-    Bullet.list[self.id] = self;
-
-    self.draw = function () {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(self.x - 5, self.y - 5, 3, 3);
-    }
-    return self;
-}
-
-Bullet.list = {};
