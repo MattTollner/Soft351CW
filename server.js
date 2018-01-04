@@ -546,6 +546,78 @@ Player.update = function (room) {
 
 Player.list = {}; //static
 
+var Bullet = function (parent, angle, room) {
+    var self = Entity();
+    self.room = room;
+    console.log('bullet created at room ' + self.room);
+    self.id = Math.random();
+    self.xSpeed = Math.cos(angle / 180 * Math.PI) * 10;
+    self.ySpeed = Math.sin(angle / 180 * Math.PI) * 10;
+    self.parent = parent;
+    self.timer = 0;
+    self.delBullet = false;
+    var entityUpdate = self.update;
+
+    self.update = function () {
+        if (self.timer++ > 100) {
+            self.delBullet = true;
+        }
+
+        entityUpdate();
+
+        for (var i in Player.list) {
+            var p = Player.list[i];
+
+
+            if (checkForCollision(p, self) !== null) {
+                console.log('BULLET HIT');
+            }
+            if (self.getDistance(p) < 6 && self.parent !== p.id) {
+
+                console.log(self.username + " has shot " + p.username);
+                self.delBullet = true;
+            }
+        }
+
+        for (var i in platforms) {
+            var plat = platforms[i];
+            if (self.getDistance(plat) < 5) {
+                self.delBullet = true;
+            }
+        }
+    }
+
+
+    self.getInfo = function () {
+        return {
+            id: self.id,
+            x: self.x,
+            y: self.y,
+        };
+    }
+
+    self.getUpdateInfo = function () {
+        return {
+            id: self.id,
+            x: self.x,
+            y: self.y,
+        };
+    }
+
+    Bullet.list[self.id] = self;
+    if (room === 'gameRoom1') {
+        dataWorlds[0].bullet.push(self.getInfo());
+        console.log('Player ' + dataWorlds[0].bullet[0].id);
+    }
+    else if (room === 'gameRoom2') {
+        dataWorlds[1].bullet.push(self.getInfo());
+        console.log('Player ' + dataWorlds[1].bullet[0].id);
+    }
+
+    return self;
+
+}
+Bullet.list = {};
 
 //Collision Checking
 function checkForCollision(entity1, entity2) {
