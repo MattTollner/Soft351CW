@@ -150,7 +150,10 @@ $(document).ready(function () {
         else if (event.keyCode === 87) { socket.emit('keyPress', { inputId: 'up', state: false }); }
     }
 
-    
+
+    document.onmouseup = function (event) {
+        socket.emit('keyPress', { inputId: 'leftMouse', state: false });
+    }
 
 
 });
