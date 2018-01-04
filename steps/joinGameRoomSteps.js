@@ -1,4 +1,4 @@
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 module.exports = function () {    
 
   this.Then(/^i can click on the element "([^"]*)"$/, function (arg1, callback) {
