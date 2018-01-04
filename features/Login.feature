@@ -5,5 +5,5 @@ Feature: User Loging in
 
         Given I navigate to "http://localhost:5000"
         Then i enter the nickname "Nate" into input field with id "userInput"
-        Then i click on the element "joinLobby"
+        Then i press enter element "loginForm"
         And join the lobby if my username is unique

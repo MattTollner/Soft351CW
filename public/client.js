@@ -8,8 +8,8 @@ var boxes = [];
 
 $(document).ready(function () {
 
-    $("#joinLobby").click(function () {
-
+    $("#loginForm").submit(function (e) {
+        e.preventDefault();
 
         if ($("#userInput").val().length === 0) {
             alert('Please enter a username');
