@@ -17,7 +17,7 @@ module.exports = function () {
   });
 
   this.Then(/^i write out my message to the lobby$/, function (callback) {
-    driver.findElement(By.id("lobbyChatInput")).sendKeys("Hello Litte Shit").then(function(){         
+    driver.findElement(By.id("lobbyChatInput")).sendKeys("Test").then(function(){         
         callback();        
     })    
   });

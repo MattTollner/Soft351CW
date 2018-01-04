@@ -1,9 +1,8 @@
 
-var express = require('express'),
+const express = require('express'),
     socketio = require('socket.io');
 var app = express();
-var port = 5000;
-var server = app.listen(port);
+var server = app.listen(5000);
 var io = socketio(server);
 
 app.use(express.static(__dirname + '/public'));
@@ -18,7 +17,7 @@ app.get('/', function (req, res, next) {
 
 
 
-console.log("Server stared on port " + port);
+console.log("Server stared on port 5000");
 
 SocketList = {};
 
