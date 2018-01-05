@@ -589,9 +589,14 @@ var Bullet = function (parent, angle, room) {
 
                 } else {
                     if (p.id !== self.parent) {
-                        var up = Player.list[self.parent];
-                        console.log(up.username + " has shot " + p.username + " " + p.x + " " + self.x);
+                        var shooter = Player.list[self.parent];
+                        console.log(shooter.username + " has shot " + p.username + " " + p.x + " " + self.x);
+                        shooter.score++;
+                        Player.list[self.parent] = shooter;
+                        console.log("Player new score " + Player.list[self.parent].score);
                         self.delBullet = true;
+
+
                     }
                 }
             }
@@ -630,6 +635,7 @@ var Bullet = function (parent, angle, room) {
             id: self.id,
             x: self.x,
             y: self.y,
+            score: self.score
         };
     }
 

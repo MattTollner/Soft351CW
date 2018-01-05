@@ -21,7 +21,6 @@ $(document).ready(function () {
 
     });
 
-
     socket.on('checkUsernameResponse', function (data) {
         if (data.success) {
             $('#loginDiv').hide();
@@ -112,7 +111,7 @@ $(document).ready(function () {
 
         $('#playerList').empty();
         for (i in Player.list) {
-            $('#playerList').append('<li class="playerListItem">' + Player.list[i].username + '</li>');
+            $('#playerList').append('<li class="playerListItem">' + Player.list[i].username +  " Score : " + Player.list[i].score  + '</li>');
         }
 
     });
