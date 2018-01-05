@@ -110,6 +110,10 @@ $(document).ready(function () {
             new Bullet(data.bullet[i]);
         }
 
+        for (var i = 0; i < data.ammo.length; i++) {
+            new Ammo(data.ammo[i]);
+        }
+
         $('#playerList').empty();
         for (i in Player.list) {
             scoreBoard.push([Player.list[i].username, Player.list[i].score])        
@@ -162,6 +166,8 @@ $(document).ready(function () {
                 if (updatedB.y !== undefined) { bullet.y = updatedB.y; }
             }
         }
+
+        
     });
 
     socket.on('removePlayer', function (data) {
@@ -171,6 +177,10 @@ $(document).ready(function () {
 
         for (var i = 0; i < data.bullet.length; i++) {
             delete Bullet.list[data.bullet[i]];
+        }
+
+        for (var i = 0; i < data.ammo.length; i++) {
+            delete Ammo.list[data.ammo[i]];
         }
     });
 
@@ -249,11 +259,14 @@ setInterval(function () {
         Player.list[i].draw();
     }
 
-    for (var i in Bullet.list) {
-        
+    for (var i in Bullet.list) {     
       
-       Bullet.list[i].draw();
-        
+       Bullet.list[i].draw();        
+    }
+
+    for (var i in Ammo.list) {
+
+        Ammo.list[i].draw();
     }
 
 },1000/30);
@@ -309,3 +322,21 @@ var Bullet = function (bulletInfo) {
 }
 
 Bullet.list = {};
+
+var Ammo = function (ammoInfo) {
+    var self = {};
+    self.id = ammoInfo.id;
+    self.x = ammoInfo.x;
+    self.y = ammoInfo.y;
+    self.w = ammoInfo.w;
+    self.h = ammoInfo.h;
+    Ammo.list[self.id] = self;
+
+    self.draw = function () {
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(self.x - 5, self.y - 5, self.w, self.h);
+    }
+    return self;
+}
+
+Ammo.list = {};

@@ -91,8 +91,8 @@ var lobbyUsers = { user: [] };
 var removeLobbyUsers = { user: [] };
 
 //Game Data
-var gameData = { player: [], bullet: [] };
-var removeEntity = { player: [], bullet: [] };
+var gameData = { player: [], bullet: [], ammo: [] };
+var removeEntity = { player: [], bullet: [], ammo: [] };
 
 io.on('connection', (socket) => {
     //Adds new connection to socket list
@@ -201,6 +201,10 @@ function printMsg(msg)
 }
 
 setInterval(function () {
+    var rand = randNumber(300, 1)
+    if(rand == 17){
+        Ammo();
+    }
     var lobbyData = {
         user: User.update()
     }
@@ -209,6 +213,7 @@ setInterval(function () {
         {
             player: Player.update('gameRoom1'),
             bullet: Bullet.update('gameRoom1'),
+            ammo: Ammo.update(),
 
         };
 
@@ -229,8 +234,10 @@ setInterval(function () {
     removeLobbyUsers.user = [];
     gameData.player = [];
     gameData.bullet = [];   
+    gameData.ammo = [];
     removeEntity.player = [];
     removeEntity.bullet = [];
+    removeEntity.ammo = [];
 
 
 }, 1000 / 30);; //FPS
@@ -315,6 +322,24 @@ var Entity = function (room) {
 
     self.getDistance = function(pt){
         return Math.sqrt(Math.pow(self.x-pt.x,2) + Math.pow(self.y-pt.y,2));
+    }
+
+    self.getInfo = function () {
+        return {
+            id: self.id,
+            x: self.x,
+            y: self.y,
+            w: self.w,
+            h: self.h,
+        };
+    }
+
+    self.getUpdateInfo = function () {
+        return {
+            id: self.id,
+            x: self.x,
+            y: self.y,
+        };
     }
 
     return self;
@@ -483,8 +508,8 @@ var Player = function (id, room, username) {
     }
 
     self.respawn = function () {
-        self.x = Math.floor((Math.random() * 500) + 1);
-        self.y = Math.floor((Math.random() * 500) + 1);
+        self.x = randNumber(500, 1);
+        self.y = randNumber(500, 1);
     }
 
 
@@ -499,6 +524,14 @@ var Player = function (id, room, username) {
 }
 
 Player.list = {}; //static
+
+function randNumber(numL, numS)
+{
+    var num;
+    num = Math.floor((Math.random() * numL) + numS);
+    //console.log("Random Number " + num);
+    return num;
+}
 
 Player.getAllPlayerInfo = function (room) {
     var players = [];
@@ -536,6 +569,7 @@ Player.connect = function (socket, username, room) {
         id: socket.id,
         player: Player.getAllPlayerInfo(room),
         bullet: Bullet.getAllBulletInfo(room),
+        ammo: Ammo.getAllAmmoInfo(),
     });
 
 }
@@ -565,6 +599,80 @@ Player.update = function (room) {
     }
     return pInfo;
 }
+
+
+var Ammo = function () {
+    console.log("Ammo Spawned");
+    var self = Entity();
+    self.x = randNumber(500, 1);
+    self.y = randNumber(500, 1);
+    self.w = 10;
+    self.h = 10;
+    self.id = Math.random();
+    self.pickedUp = false;
+    self.timer = 0;
+
+    self.update = function () {        
+
+        if (self.timer++ > 600) {
+            self.pickedUp = true;
+        }
+
+        for (var i in Player.list) {
+            var p = Player.list[i];
+          
+                if (checkForCollision(p, self) === 'noHit') {
+
+                } else {
+                    console.log("Player touching ammo pack")
+                    self.pickedUp = true;
+                    Player.list[i].ammo += 5;
+                    console.log("Ammo count " + Player.list[i].ammo)                    
+                }           
+        }
+
+    }
+
+    Ammo.list[self.id] = self;
+
+    gameData.ammo.push(self.getInfo());
+    //  console.log('Player ' + gameData.bullet[0].id);
+
+
+    return self;
+}
+
+//Called every frame
+Ammo.update = function (room) {
+
+    var aInfo = [];
+    for (var i in Ammo.list) {
+        var ammo = Ammo.list[i];
+        
+        ammo.update();
+        
+
+        if (ammo.pickedUp) {
+            removeEntity.ammo.push(ammo.id);
+            delete Ammo.list[i];
+        }
+        else {
+            aInfo.push(ammo.getUpdateInfo());
+        }
+
+    }
+    return aInfo;
+}
+
+Ammo.getAllAmmoInfo = function () {
+    var ammos = [];
+    for (var i in Ammo.list) {
+        ammos.push(Ammo.list[i].getInfo());
+    }
+    return ammos;
+}
+
+Ammo.list = {};
 
 var Bullet = function (parent, angle, room) {
     var self = Entity();
@@ -626,30 +734,13 @@ var Bullet = function (parent, angle, room) {
     }
 
 
-    self.getInfo = function () {
-        return {
-            id: self.id,
-            x: self.x,
-            y: self.y,
-            w: self.w,
-            h: self.h,
-        };
-    }
-
-    self.getUpdateInfo = function () {
-        return {
-            id: self.id,
-            x: self.x,
-            y: self.y,
-            score: self.score
-        };
-    }
+    
 
     Bullet.list[self.id] = self;
-    if (room === 'gameRoom1') {
-        gameData.bullet.push(self.getInfo());
+ 
+    gameData.bullet.push(self.getInfo());
       //  console.log('Player ' + gameData.bullet[0].id);
-    }    
+    
 
     return self;
 
