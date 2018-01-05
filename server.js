@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('alert', function (data) {
-        console.log('Logged DATA : ' + data);
+      //  console.log('Logged DATA : ' + data);
     });
 
     //Load game
@@ -388,10 +388,10 @@ var Player = function (id, room, username) {
         if (self.pressingUp) {
         
             if (!self.isJumping) {
-                console.log('PRESSED UP + jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
+               // console.log('PRESSED UP + jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
                 self.isJumping = true;
                 self.isGrounded = false;
-                console.log('PRESSED UP 2+ jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
+               // console.log('PRESSED UP 2+ jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
                 //Negative goes up Y slowly goes back to positive creating a curve 
                 self.yVelocity = -self.speed * 2;
             }
@@ -434,7 +434,7 @@ var Player = function (id, room, username) {
             }
 
             self.mouseAngle = angle;
-            console.log(self.mouseAngle);
+          //  console.log(self.mouseAngle);
 
             if (self.playerHasShot) {
 
@@ -482,6 +482,11 @@ var Player = function (id, room, username) {
         };
     }
 
+    self.respawn = function () {
+        self.x = Math.floor((Math.random() * 500) + 1);
+        self.y = Math.floor((Math.random() * 500) + 1);
+    }
+
 
     Player.list[id] = self;
 
@@ -516,11 +521,10 @@ Player.connect = function (socket, username, room) {
         else if (data.inputId === 'right') { player.pressingRight = data.state; }
         else if (data.inputId === 'up') { player.pressingUp = data.state; }
         else if (data.inputId === 'down') { player.pressingDown = data.state; }
-        else if (data.inputId === 'leftMouse') { player.pressingAttack = data.state; }
+        else if (data.inputId === 'leftMouse') { player.pressingAttack = data.state;  }
         else if (data.inputId === 'mouseAngle') {
             player.mouseX = data.state.x;
-            player.mouseY = data.state.y;       
-
+            player.mouseY = data.state.y;  
         }
 
 
@@ -594,6 +598,8 @@ var Bullet = function (parent, angle, room) {
                         shooter.score++;
                         Player.list[self.parent] = shooter;
                         console.log("Player new score " + Player.list[self.parent].score);
+                        p.respawn();
+                        Player.list[p.id] = p;
                         self.delBullet = true;
 
 
@@ -610,7 +616,7 @@ var Bullet = function (parent, angle, room) {
             {
                 
             } else{
-                console.log('WAPGPG' + checkForCollision(self,plat) )
+               // console.log('WAPGPG' + checkForCollision(self,plat) )
                 self.delBullet = true;
             }
             // if (self.getDistance(plat) < 5) {
@@ -642,7 +648,7 @@ var Bullet = function (parent, angle, room) {
     Bullet.list[self.id] = self;
     if (room === 'gameRoom1') {
         gameData.bullet.push(self.getInfo());
-        console.log('Player ' + gameData.bullet[0].id);
+      //  console.log('Player ' + gameData.bullet[0].id);
     }    
 
     return self;

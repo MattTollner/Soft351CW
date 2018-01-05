@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\features",
+    "\\public",
+    "\\static",
     "\\steps"
   ],
-  "SelectedNode": "\\steps\\lobbyMessageSteps.js",
+  "SelectedNode": "\\features",
   "PreviewInSolutionExplorer": false
 }
