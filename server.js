@@ -26,24 +26,25 @@ var platforms = [];
 
 {
     //Walls
-    platforms.push({w: 510,h:1, x:0 ,y: 0}); //Top
-    platforms.push({w: 510,h:1, x:0 ,y: 500}); //Bottom
-    platforms.push({w: 1,h:510, x:0 ,y: 0}); //Left
-    platforms.push({w: 1,h:510, x:500 ,y: 0}); //Right
-    platforms.push({
-        w: 80,
-        h: 80,
-        x: 10,
-        y: 490,
-    });
-    platforms.push({
-        w: 500,
-        h: 1,
-        x: 250,
-        y: 500,
-    });
+    //+Y = ^^ +X = >>
+    platforms.push({w: 510,h:10, x:0 ,y: 0}); //Top
+    platforms.push({w: 510,h:10, x:0 ,y: 490}); //Bottom
+    platforms.push({w: 10,h:510, x:0 ,y: 0}); //Ledft
+    platforms.push({w: 10,h:510, x:495 ,y: 0}); //Right
+    //platforms.push({
+    //    w: 80,
+    //    h: 80,
+    //    x: 10,
+    //    y: 490,
+    //});
+    //platforms.push({
+    //    w: 500,ad
+    //    h: 5,
+    //    x: 250,
+    //    y: 500,
+    //});
     // platforms.push({
-    //     w: 515,
+    //     w: 515,d
     //     h: 80,
     //     x: -10,
     //     y: 490,
@@ -69,18 +70,18 @@ var platforms = [];
     //     x: 500,
     //     y: -10,
     // });
-    platforms.push({
-        w: 80,
-        h: 80,
-        x: 220,
-        y: 100,
-    });
-    platforms.push({
-        w: 40,
-        h: 40,
-        x: 250,
-        y: 450,
-    })
+    //platforms.push({
+    //    w: 80,
+    //    h: 80,
+    //    x: 220,
+    //    y: 100,
+    //});
+    //platforms.push({
+    //    w: 40,
+    //    h: 40,
+    //    x: 250,
+    //    y: 450,
+    //})
 }
 
 friction = 0.9,
