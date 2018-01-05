@@ -90,6 +90,7 @@ $(document).ready(function () {
         $('#gameDiv').hide();
         $('#worldDisplay').text("");
 
+
         socket.emit('toLobby', thisUserName);
     });
 
