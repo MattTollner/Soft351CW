@@ -6,6 +6,7 @@ var platforms = [];
 
 var boxes = [];
 
+var scoreBoard = [[,]];
 
 
 $(document).ready(function () {
@@ -111,10 +112,32 @@ $(document).ready(function () {
 
         $('#playerList').empty();
         for (i in Player.list) {
-            $('#playerList').append('<li class="playerListItem">' + Player.list[i].username +  " Score : " + Player.list[i].score  + '</li>');
+            scoreBoard.push([Player.list[i].username, Player.list[i].score])        
+            
         }
 
+        scoreBoard.sort(function (a, b) {
+            return b[1] - a[1];
+        });
+       
+
+        for (i in scoreBoard)
+        {
+            $('#playerList').append('<li class="playerListItem">' + scoreBoard[i][0] + " Score : " + scoreBoard[i][1] + '</li>');
+        }
+
+        scoreBoard = [];
+
     });
+
+    function compareSecondColumn(a, b) {
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] < b[1]) ? -1 : 1;
+        }
+    }
 
     socket.on('updatePlayer', function (data) {
         for (var i = 0; i < data.player.length; i++) {
