@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
         if (unames.length < 1) {
             joinRoom(socket, 'lobbyRoom');
 
-            socket.emit('checkUsernameResponse', { success: true, uname: uname });
+            socket.emit('checkUsernameResponse', { success: true, uname: uname, id: socket.id });
             User.connection(socket, uname);
         } else {
 
@@ -201,35 +201,48 @@ function printMsg(msg)
 }
 
 setInterval(function () {
-    var rand = randNumber(300, 1)
-    if(rand == 17){
-        Ammo();
-    }
+    var players = false;
     var lobbyData = {
         user: User.update()
     }
 
-    var r1Data =
-        {
-            player: Player.update('gameRoom1'),
-            bullet: Bullet.update('gameRoom1'),
-            ammo: Ammo.update(),
-
-        };
+  
 
 
 
     io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
     io.sockets.in('lobbyRoom').emit('removeLobbyUser', removeLobbyUsers);
 
-    io.sockets.in('gameRoom1').emit('initPlayer', gameData);
-    io.sockets.in('gameRoom1').emit('updatePlayer', r1Data);
-    io.sockets.in('gameRoom1').emit('removePlayer', removeEntity);
+    for (i in Player.list)
+    {      
+        players = true;
+    }
 
- 
+
+    if (players)
+    {     
+        var rand = randNumber(300, 1)
+        if (rand == 17) {
+            Ammo();
+        }
 
 
-    //Automate this
+        var r1Data =
+            {
+                player: Player.update('gameRoom1'),
+                bullet: Bullet.update('gameRoom1'),
+                ammo: Ammo.update(),
+
+            };
+
+
+        io.sockets.in('gameRoom1').emit('initPlayer', gameData);
+        io.sockets.in('gameRoom1').emit('updatePlayer', r1Data);
+        io.sockets.in('gameRoom1').emit('removePlayer', removeEntity);
+
+    } 
+
+
     lobbyUsers.user = [];
     removeLobbyUsers.user = [];
     gameData.player = [];

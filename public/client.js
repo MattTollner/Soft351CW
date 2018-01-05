@@ -1,5 +1,6 @@
 var socket = io({ transports: ['websocket'], upgrade: false });
 var thisUserName = "";
+var thisId = "";
 var ctx = document.getElementById("ctx").getContext("2d");
 
 var platforms = [];
@@ -26,7 +27,8 @@ $(document).ready(function () {
         if (data.success) {
             $('#loginDiv').hide();
             $('#lobbyDiv').show();
-            thisUserName = data.uname
+            thisUserName = data.uname;
+            thisId = data.id;
 
         }
         else if (!data.success) {
@@ -116,7 +118,11 @@ $(document).ready(function () {
 
         $('#playerList').empty();
         for (i in Player.list) {
-            scoreBoard.push([Player.list[i].username, Player.list[i].score])        
+            scoreBoard.push([Player.list[i].username, Player.list[i].score])  
+            if (Player.list[i].id == thisId)
+            {
+                $('#playerAmmo').text("Ammo : " + Player.list[i].ammo)
+            }
             
         }
 
