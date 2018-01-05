@@ -10,7 +10,7 @@ module.exports = function () {
 
     this.Then(/^i will join world one$/, function (callback) {
         var element = driver.findElement(By.id('worldDisplay'));
-        element.getText().then(s => assert.equal(s, "World One")).then(function () {
+        element.getText().then(s => assert.equal(s, "gameRoom1")).then(function () {
             callback();
         });
     });
