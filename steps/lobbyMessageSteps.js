@@ -17,16 +17,17 @@ module.exports = function () {
     });
 
     this.Then(/^i write out my message to the lobby$/, function (callback) {
-        driver.findElement(By.id("lobbyChatInput")).sendKeys("Hello Litte Shit").then(function () {
+        driver.findElement(By.id("lobbyChatInput")).sendKeys("Hello").then(function () {
             callback();
         })
     });
 
-    this.Then(/^i press enter$/, function (callback) {
-        driver.findElement(By.id("lobbyChatForm")).submit().then(function () {
+    this.Then(/^i press enter to submit "([^"]*)"$/, function (arg1, callback) {
+        driver.findElement(By.id(arg1)).submit().then(function () {
             callback();
         })
     });
+    
 
     this.Then(/^i should see my message in the lobby chat with my username$/, function (callback) {
         driver.findElement(By.className('lobbyMsg')).then(function (elements) {

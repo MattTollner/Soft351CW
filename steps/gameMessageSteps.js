@@ -3,13 +3,18 @@ module.exports = function () {
 
      
     this.Then(/^i write out my message to the game$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback();
+        driver.findElement(By.id("gameChatInput")).sendKeys("Hello").then(function () {
+            callback();
+        })  
     });
 
+   
+
     this.Then(/^i should see my message in the game chat with my username$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback();
+        driver.findElement(By.className('gameMsg')).then(function (elements) {
+            expect(elements).to.not.equal(undefined);
+            callback();
+        })
     });
 
 

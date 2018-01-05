@@ -5,5 +5,5 @@ Feature: User sending messages to lobby
 
         Given I have logged in
         Then i write out my message to the lobby
-        Then i press enter
+        Then i press enter to submit "lobbyChatForm"
         And i should see my message in the lobby chat with my username

@@ -157,7 +157,7 @@ io.on('connection', (socket) => {
 
         console.log('User disconected');
         for (var i in User.list) {
-            if(User.list[socket.id] != undefined)
+            if(User.list[socket.id] != undefined && User.list[socket.id].username != undefined)
             {
                 printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', "lobbyRoom", true, i);              
             } 

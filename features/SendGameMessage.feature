@@ -7,5 +7,5 @@ Feature: User sending messages to game chat
 		Then i can click on the element "JoinWorld" 
 		And i will join world one
         Then i write out my message to the game
-        Then i press enter
+        Then i press enter to submit "gameChatForm"
         And i should see my message in the game chat with my username
