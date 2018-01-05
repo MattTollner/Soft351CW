@@ -68,6 +68,20 @@ $(document).ready(function () {
         $('#lobbyChat').append('<div class = "lobbyMsg">' + data + '</div >');
     });
 
+    //Game Chat Controls
+    $('#gameChatForm').submit(function (e) {
+        //Prevents page refresh
+        e.preventDefault();
+
+        socket.emit('gameChat', $('#gameChatInput').val());
+        $('#gameChatInput').val('');
+    });
+
+
+    socket.on('printGameMsg', function (data) {
+        $('#gameChat').append('<div class = "gameMsg">' + data + '</div >');
+    });
+
 
     //Lobby Load
     $('#toLobby').click(function () {

@@ -115,6 +115,7 @@ io.on('connection', (socket) => {
         User.disconnect(socket);
         socket.emit('loadPlatforms', platforms);
         Player.connect(socket, data.username, data.room);
+        printMsg("SERVER : " + data.username + " joined " + data.room, "lobbyRoom", false, null);
     });
 
     socket.on('checkUsername', function (uname) {
@@ -158,11 +159,8 @@ io.on('connection', (socket) => {
         for (var i in User.list) {
             if(User.list[socket.id] != undefined)
             {
-                SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has disconnected.');
-            } else
-            {
-                console.log("would have broken")
-            }
+                printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', "lobbyRoom", true, i);              
+            } 
         }
        
        
@@ -176,9 +174,14 @@ io.on('connection', (socket) => {
 
     //Chat functions
     socket.on('lobbyChat', function (data) {
-        for (var i in User.list) {
-            SocketList[i].emit('printLobbyMsg', User.list[socket.id].username + ' : ' + data);
-        }
+        var datas = User.list[socket.id].username + ' : ' + data;
+        printMsg(datas, "lobbyRoom", false, null);        
+    });
+
+    socket.on('gameChat', function (data) {
+        console.log("game chat" + data);
+        var datas = Player.list[socket.id].username + ' : ' + data;
+        printMsg(datas, "gameRoom1", false, null);        
     });
 
 });
@@ -193,11 +196,32 @@ function joinRoom(socket, room) {
     socket.join(room);
 }
 
-function printMsg(msg)
+function printMsg(msg, room, noLoop, c)
 {
-    for (var i in User.list) {
-        SocketList[i].emit('printLobbyMsg', msg);
+    if (room == "lobbyRoom")
+    {
+        if (!noLoop)
+        {
+            for (var i in User.list) {
+                SocketList[i].emit('printLobbyMsg', msg);
+            }
+        } else {
+            SocketList[c].emit('printLobbyMsg', msg);
+        }
+       
     }
+    else if (room == "gameRoom1")
+    {
+        if (!noLoop) {
+            for (var i in Player.list) {
+                SocketList[i].emit('printGameMsg', msg);
+            }
+        } else {
+            SocketList[c].emit('printGameMsg', msg);
+        }
+        
+    }
+   
 }
 
 setInterval(function () {
@@ -284,9 +308,8 @@ User.connection = function (socket, username) {
         user: User.getAllUserInfo(),
     });
 
-    for (var i in User.list) {
-        SocketList[i].emit('printLobbyMsg', 'SERVER : ' + User.list[socket.id].username + ' has joined the lobby.');
-    }
+    printMsg('SERVER : ' + User.list[socket.id].username + ' has joined the lobby.', "lobbyRoom", false, null);
+  
 }
 
 //Runs every frame
@@ -559,7 +582,7 @@ Player.getAllPlayerInfo = function (room) {
 Player.connect = function (socket, username, room) {
     var player = Player(socket.id, room, username);
     console.log('Player  ' + player.username + " connected to room : " + player.room);
-
+    printMsg(player.username + " has connected", "gameRoom1", false, null);
 
     //Recives data of what key the player is pressing
     socket.on('keyPress', function (data) {
@@ -593,8 +616,10 @@ Player.disconnect = function (socket) {
     if(p !== undefined){
         if(p.room === 'gameRoom1') {removeEntity.player.push(socket.id)}  
         else (console.log('ERROR NO ROOM')); 
+
+        printMsg(p.username + " has disconnected", "gameRoom1", false, null);
     }
-   
+    
     delete Player.list[socket.id];
 }
 
@@ -716,6 +741,7 @@ var Bullet = function (parent, angle, room) {
                     if (p.id !== self.parent) {
                         var shooter = Player.list[self.parent];
                         console.log(shooter.username + " has shot " + p.username + " " + p.x + " " + self.x);
+                        printMsg(shooter.username + " has shot " + p.username, "gameRoom1", false, null);
                         shooter.score++;
                         Player.list[self.parent] = shooter;
                         console.log("Player new score " + Player.list[self.parent].score);
