@@ -99,7 +99,7 @@ io.on('connection', (socket) => {
     SocketList[socket.id] = socket;
     console.log('Socket ' + socket.id + ' just connected');
 
-    socket.join('lobbyRoom');
+    
 
 
     socket.on('alert', function (data) {
@@ -125,23 +125,24 @@ io.on('connection', (socket) => {
             unames.push(User.list[i].username);
         }
 
-        if (unames.length < 1) {
-            joinRoom(socket, 'lobbyRoom');
+        if (unames.length < 1) {           
 
             socket.emit('checkUsernameResponse', { success: true, uname: uname, id: socket.id });
             User.connection(socket, uname);
+            joinRoom(socket, 'lobbyRoom');
         } else {
 
             if (unames.includes(uname)) {
                 socket.emit('checkUsernameResponse', { success: false, uname: uname });
 
             } else {
-                joinRoom(socket, 'lobbyRoom');
+                
 
                 socket.emit('event', uname + ' joined the lobby');
                 socket.broadcast.to('lobbyRoom').emit('event', uname + ' joined room lobbyRoom');
                 socket.emit('checkUsernameResponse', { success: true, uname: uname });
                 User.connection(socket, uname);
+                joinRoom(socket, 'lobbyRoom');
             }
         }
 
@@ -154,8 +155,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', function () {
-
-        console.log('User disconected');
+       
         for (var i in User.list) {
             if(User.list[socket.id] != undefined && User.list[socket.id].username != undefined)
             {
@@ -226,16 +226,26 @@ function printMsg(msg, room, noLoop, c)
 
 setInterval(function () {
     var players = false;
-    var lobbyData = {
-        user: User.update()
+    var users = false;
+  
+  
+    for (i in User.list)
+    {
+        users = true;
+       
     }
 
-  
+    if (users)
+    {
+        var lobbyData = {
+            user: User.update()
+        }
+        
+        io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
+        io.sockets.in('lobbyRoom').emit('removeLobbyUser', removeLobbyUsers);
+    }
 
-
-
-    io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
-    io.sockets.in('lobbyRoom').emit('removeLobbyUser', removeLobbyUsers);
+   
 
     for (i in Player.list)
     {      
@@ -317,7 +327,7 @@ User.update = function () {
     var updatedUsers = [];
     for (var i in User.list) {
         var user = User.list[i];
-        updatedUsers.push(user.getInfo());
+        updatedUsers.push(user.getInfo());       
     }
 
     return updatedUsers;
