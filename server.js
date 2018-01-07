@@ -608,12 +608,12 @@ Player.connect = function (socket, username, room) {
 
     //Recives data of what key the player is pressing
     socket.on('inputKey', function (data) {
-        if (data.inputKey === 'left') { player.pressingLeft = data.pressed; }
-        else if (data.inputKey === 'right') { player.pressingRight = data.pressed; }
-        else if (data.inputKey === 'up') { player.pressingUp = data.pressed; }
-        else if (data.inputKey === 'down') { player.pressingDown = data.pressed; }
-        else if (data.inputKey === 'leftMouse') { player.pressingAttack = data.pressed;  }
-        else if (data.inputKey === 'mouseAngle') {
+        if (data.outputId === 'left') { player.pressingLeft = data.pressed; }
+        else if (data.outputId === 'right') { player.pressingRight = data.pressed; }
+        else if (data.outputId === 'up') { player.pressingUp = data.pressed; }
+        else if (data.outputId === 'down') { player.pressingDown = data.pressed; }
+        else if (data.outputId === 'leftMouse') { player.pressingAttack = data.pressed;  }
+        else if (data.outputId === 'mouseAngle') {
             player.mouseX = data.pressed.x;
             player.mouseY = data.pressed.y;  
         }
