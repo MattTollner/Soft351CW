@@ -22,8 +22,8 @@ const Rooms = ({
 });
 
 const Screen = ({
-    SCREEN_WIDTH: 600,
-    SCREEN_HEIGHT: 600
+    SCREEN_WIDTH: 800,
+    SCREEN_HEIGHT: 400
 });
 
 
@@ -36,15 +36,28 @@ var platforms = [];
 
 {
     //Walls
-    //+Y = ^^ +X = >>
-    platforms.push({w: Screen.SCREEN_WIDTH + 10,h:10, x:0 ,y: 0}); //Top
-    platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: Screen.SCREEN_HEIGHT - 5}); //Bottom
-    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x:0 ,y: 0}); //Ledft
-    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x: Screen.SCREEN_WIDTH - 5 ,y: 0}); //Right
+    //+Y = ^^ +X = >>     
+    platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: 0 }); //Top
+    platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: Screen.SCREEN_HEIGHT - 10}); //Bottom
+    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x:5 ,y: 0}); //Ledft
+    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x: Screen.SCREEN_WIDTH - 5, y: 0 }); //Right
+
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH / 3, y: Screen.SCREEN_HEIGHT - 60 }); //1st Row Mid
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH - Screen.SCREEN_WIDTH/4, y: Screen.SCREEN_HEIGHT - 120 }); //1st Row Right
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: -Screen.SCREEN_WIDTH / 9.5, y: Screen.SCREEN_HEIGHT - 120 }); //1st Row left
+
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH / 3, y: Screen.SCREEN_HEIGHT - 180 }); //2nd Row Mid
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH - Screen.SCREEN_WIDTH / 4, y: Screen.SCREEN_HEIGHT - 240 }); //2nd Row Right
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: -Screen.SCREEN_WIDTH / 9.5, y: Screen.SCREEN_HEIGHT - 240 }); //2nd Row left
+
+
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH / 3, y: Screen.SCREEN_HEIGHT - 300 }); //3rd Row Mid
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH - Screen.SCREEN_WIDTH / 4, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row Right
+    platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: -Screen.SCREEN_WIDTH / 9.5, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row left
+
     //platforms.push({
     //    w: 80,
     //    h: 80,
-    //    x: 10,
     //    y: 490,
     //});
     //platforms.push({
@@ -451,6 +464,12 @@ var Player = function (id, room, username) {
     self.updatePosition = function () {
         //Detect Jump
 
+        if (self.x < 0 || self.x > Screen.SCREEN_WIDTH || self.y < 0 || self.y > Screen.SCREEN_HEIGHT)
+        {
+            console.log("player out of bounds");
+            self.respawn();
+        }
+
 
         self.isGrounded = false;
         for (var i in platforms) {
@@ -688,7 +707,22 @@ var Ammo = function () {
                     self.pickedUp = true;
                     Player.list[i].ammo += 5;
                     console.log("Ammo count " + Player.list[i].ammo)                    
-                }           
+                }  
+
+        }
+
+        for (var i in platforms) {
+
+            var plat = platforms[i];
+            if (checkForCollision(self, plat) === 'noHit') {
+
+            } else { 
+                console.log("In wall");
+                self.pickedUp = true;
+                Ammo();
+                
+            }
+          
         }
 
     }
