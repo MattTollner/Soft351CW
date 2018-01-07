@@ -627,7 +627,6 @@ Player.connect = function (socket, username, room) {
 
     //Recives data of what key the player is pressing
     socket.on('inputKey', function (data) {
-        console.log("data " + data.outputId + data.pressed);
         if (data.outputId === 'left') { player.pressingLeft = data.pressed; }
         else if (data.outputId === 'right') { player.pressingRight = data.pressed; }
         else if (data.outputId === 'up') { player.pressingUp = data.pressed; }
