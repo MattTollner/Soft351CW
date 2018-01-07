@@ -16,6 +16,16 @@ app.get('/', function (req, res, next) {
 });
 
 
+const Rooms = ({
+    LOBBY: "lobbyRoom",
+    ROOM1: "gameRoom1" 
+});
+
+const Screen = ({
+    SCREEN_WIDTH: 600,
+    SCREEN_HEIGHT: 600
+});
+
 
 
 console.log("Server stared on port 5000");
@@ -27,10 +37,10 @@ var platforms = [];
 {
     //Walls
     //+Y = ^^ +X = >>
-    platforms.push({w: 510,h:10, x:0 ,y: 0}); //Top
-    platforms.push({w: 510,h:10, x:0 ,y: 490}); //Bottom
-    platforms.push({w: 10,h:510, x:0 ,y: 0}); //Ledft
-    platforms.push({w: 10,h:510, x:495 ,y: 0}); //Right
+    platforms.push({w: Screen.SCREEN_WIDTH + 10,h:10, x:0 ,y: 0}); //Top
+    platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: Screen.SCREEN_HEIGHT - 5}); //Bottom
+    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x:0 ,y: 0}); //Ledft
+    platforms.push({ w: 10, h: Screen.SCREEN_HEIGHT + 10, x: Screen.SCREEN_WIDTH - 5 ,y: 0}); //Right
     //platforms.push({
     //    w: 80,
     //    h: 80,
@@ -95,30 +105,25 @@ var removeLobbyUsers = { user: [] };
 var gameData = { player: [], bullet: [], ammo: [] };
 var removeEntity = { player: [], bullet: [], ammo: [] };
 
+
+//Fired when someone connects to the server
 io.on('connection', (socket) => {
+
     //Adds new connection to socket list
     SocketList[socket.id] = socket;
     console.log('Socket ' + socket.id + ' just connected');
 
-    
-
-
-    socket.on('alert', function (data) {
-      //  console.log('Logged DATA : ' + data);
-    });
-
-    //Load game
-    socket.on('startGame', function (data) {
-        console.log('detected');
-        joinRoom(socket, 'gameRoom1');
-
+    //Removes user from lobby and places them in game
+    socket.on('startGame', function (data) {       
+        joinRoom(socket, Rooms.ROOM1);
         console.log(data.username + " just joined room " + data.room);
         User.disconnect(socket);
         socket.emit('loadPlatforms', platforms);
         Player.connect(socket, data.username, data.room);
-        printMsg("SERVER : " + data.username + " joined " + data.room, "lobbyRoom", false, null);
+        printMsg("SERVER : " + data.username + " joined " + data.room, Rooms.LOBBY, false, null, "server");
     });
 
+    //Checks to see if usename is unique
     socket.on('checkUsername', function (uname) {
         var unames = [];
 
@@ -130,7 +135,7 @@ io.on('connection', (socket) => {
 
             socket.emit('checkUsernameResponse', { success: true, uname: uname, id: socket.id });
             User.connection(socket, uname);
-            joinRoom(socket, 'lobbyRoom');
+            joinRoom(socket, Rooms.LOBBY);
         } else {
 
             if (unames.includes(uname)) {
@@ -140,27 +145,29 @@ io.on('connection', (socket) => {
                 
 
                 socket.emit('event', uname + ' joined the lobby');
-                socket.broadcast.to('lobbyRoom').emit('event', uname + ' joined room lobbyRoom');
+                socket.broadcast.to(Rooms.LOBBY).emit('event', uname + ' joined room lobbyRoom');
                 socket.emit('checkUsernameResponse', { success: true, uname: uname });
                 User.connection(socket, uname);
-                joinRoom(socket, 'lobbyRoom');
+                joinRoom(socket, Rooms.LOBBY);
             }
         }
 
     });
 
+    //Player rejoins lobby from game room
     socket.on("toLobby", function(data) {        
         Player.disconnect(socket);
         User.connection(socket, data);
-        joinRoom(socket,"lobbyRoom");
+        joinRoom(socket,Rooms.LOBBY);
     });
 
+    //Handles disconnections updates accordingly
     socket.on('disconnect', function () {
        
         for (var i in User.list) {
             if(User.list[socket.id] != undefined && User.list[socket.id].username != undefined)
             {
-                printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', "lobbyRoom", true, i);              
+                printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', Rooms.LOBBY, true, i, "server");              
             } 
         }
        
@@ -170,19 +177,18 @@ io.on('connection', (socket) => {
         delete SocketList[socket.id];
    
    
-    });
-   
+    });   
 
-    //Chat functions
+    //Lobby Chat Functions
     socket.on('lobbyChat', function (data) {
         var datas = User.list[socket.id].username + ' : ' + data;
-        printMsg(datas, "lobbyRoom", false, null);        
+        printMsg(datas, Rooms.LOBBY, false, null, "user");        
     });
-
+    //Game Chat Function
     socket.on('gameChat', function (data) {
         console.log("game chat" + data);
         var datas = Player.list[socket.id].username + ' : ' + data;
-        printMsg(datas, "gameRoom1", false, null);        
+        printMsg(datas, Rooms.ROOM1, false, null, "user");        
     });
 
 });
@@ -197,28 +203,28 @@ function joinRoom(socket, room) {
     socket.join(room);
 }
 
-function printMsg(msg, room, noLoop, c)
+function printMsg(msg, room, noLoop, c, type)
 {
-    if (room == "lobbyRoom")
+    if (room == Rooms.LOBBY)
     {
         if (!noLoop)
         {
             for (var i in User.list) {
-                SocketList[i].emit('printLobbyMsg', msg);
+                SocketList[i].emit('printLobbyMsg', { msg, type: type });
             }
         } else {
-            SocketList[c].emit('printLobbyMsg', msg);
+            SocketList[c].emit('printLobbyMsg', { msg, type: type });
         }
        
     }
-    else if (room == "gameRoom1")
+    else if (room == Rooms.ROOM1)
     {
         if (!noLoop) {
             for (var i in Player.list) {
-                SocketList[i].emit('printGameMsg', msg);
+                SocketList[i].emit('printGameMsg', { msg, type: type });
             }
         } else {
-            SocketList[c].emit('printGameMsg', msg);
+            SocketList[c].emit('printGameMsg', { msg, type: type });
         }
         
     }
@@ -241,9 +247,11 @@ setInterval(function () {
         var lobbyData = {
             user: User.update()
         }
-        
-        io.sockets.in('lobbyRoom').emit('initLobbyUser', lobbyData);
-        io.sockets.in('lobbyRoom').emit('removeLobbyUser', removeLobbyUsers);
+
+        //Contains basic inforamtion of connected lobby users
+        io.sockets.in(Rooms.LOBBY).emit('initLobbyUser', lobbyData);
+        //Send id of users who disconnected to update client/server arrays 
+        io.sockets.in(Rooms.LOBBY).emit('removeLobbyUser', removeLobbyUsers);
     }
 
    
@@ -255,7 +263,8 @@ setInterval(function () {
 
 
     if (players)
-    {     
+    {    
+        //For random spawning of ammo
         var rand = randNumber(300, 1)
         if (rand == 17) {
             Ammo();
@@ -264,20 +273,22 @@ setInterval(function () {
 
         var r1Data =
             {
-                player: Player.update('gameRoom1'),
-                bullet: Bullet.update('gameRoom1'),
+                player: Player.update(Rooms.ROOM1),
+                bullet: Bullet.update(Rooms.ROOM1),
                 ammo: Ammo.update(),
 
             };
 
-
-        io.sockets.in('gameRoom1').emit('initPlayer', gameData);
-        io.sockets.in('gameRoom1').emit('updatePlayer', r1Data);
-        io.sockets.in('gameRoom1').emit('removePlayer', removeEntity);
+        //Contains all player information of player that just joined (only needed once)
+        io.sockets.in(Rooms.ROOM1).emit('initPlayer', gameData);
+        //Contains certain player information that needs updating such as position and ammo
+        io.sockets.in(Rooms.ROOM1).emit('updatePlayer', r1Data);
+        //Contains id of disonnected player to be updated on client side
+        io.sockets.in(Rooms.ROOM1).emit('removePlayer', removeEntity);
 
     } 
 
-
+    //Emptys all information
     lobbyUsers.user = [];
     removeLobbyUsers.user = [];
     gameData.player = [];
@@ -319,7 +330,7 @@ User.connection = function (socket, username) {
         user: User.getAllUserInfo(),
     });
 
-    printMsg('SERVER : ' + User.list[socket.id].username + ' has joined the lobby.', "lobbyRoom", false, null);
+    printMsg('SERVER : ' + User.list[socket.id].username + ' has joined the lobby.', Rooms.LOBBY, false, null, "server");
   
 }
 
@@ -555,14 +566,14 @@ var Player = function (id, room, username) {
     }
 
     self.respawn = function () {
-        self.x = randNumber(500, 1);
-        self.y = randNumber(500, 1);
+        self.x = randNumber(Screen.SCREEN_WIDTH, 1);
+        self.y = randNumber(Screen.SCREEN_HEIGHT, 1);
     }
 
 
     Player.list[id] = self;
 
-    if (room == 'gameRoom1') {
+    if (room == Rooms.ROOM1) {
         gameData.player.push(self.getPlayerInfo());       
     }    
 
@@ -593,18 +604,18 @@ Player.getAllPlayerInfo = function (room) {
 Player.connect = function (socket, username, room) {
     var player = Player(socket.id, room, username);
     console.log('Player  ' + player.username + " connected to room : " + player.room);
-    printMsg(player.username + " has connected", "gameRoom1", false, null);
+    printMsg(player.username + " has connected", Rooms.ROOM1, false, null, "server");
 
     //Recives data of what key the player is pressing
-    socket.on('keyPress', function (data) {
-        if (data.inputId === 'left') { player.pressingLeft = data.state; }
-        else if (data.inputId === 'right') { player.pressingRight = data.state; }
-        else if (data.inputId === 'up') { player.pressingUp = data.state; }
-        else if (data.inputId === 'down') { player.pressingDown = data.state; }
-        else if (data.inputId === 'leftMouse') { player.pressingAttack = data.state;  }
-        else if (data.inputId === 'mouseAngle') {
-            player.mouseX = data.state.x;
-            player.mouseY = data.state.y;  
+    socket.on('inputKey', function (data) {
+        if (data.inputKey === 'left') { player.pressingLeft = data.pressed; }
+        else if (data.inputKey === 'right') { player.pressingRight = data.pressed; }
+        else if (data.inputKey === 'up') { player.pressingUp = data.pressed; }
+        else if (data.inputKey === 'down') { player.pressingDown = data.pressed; }
+        else if (data.inputKey === 'leftMouse') { player.pressingAttack = data.pressed;  }
+        else if (data.inputKey === 'mouseAngle') {
+            player.mouseX = data.pressed.x;
+            player.mouseY = data.pressed.y;  
         }
 
 
@@ -625,10 +636,10 @@ Player.disconnect = function (socket) {
     var p = Player.list[socket.id];
     console.log(p);
     if(p !== undefined){
-        if(p.room === 'gameRoom1') {removeEntity.player.push(socket.id)}  
+        if(p.room === Rooms.ROOM1) {removeEntity.player.push(socket.id)}  
         else (console.log('ERROR NO ROOM')); 
 
-        printMsg(p.username + " has disconnected", "gameRoom1", false, null);
+        printMsg(p.username + " has disconnected", Rooms.ROOM1, false, null, "server");
     }
     
     delete Player.list[socket.id];
@@ -653,8 +664,8 @@ Player.update = function (room) {
 var Ammo = function () {
     console.log("Ammo Spawned");
     var self = Entity();
-    self.x = randNumber(500, 1);
-    self.y = randNumber(500, 1);
+    self.x = randNumber(Screen.SCREEN_WIDTH, 1);
+    self.y = randNumber(Screen.SCREEN_HEIGHT, 1);
     self.w = 10;
     self.h = 10;
     self.id = Math.random();
@@ -752,7 +763,7 @@ var Bullet = function (parent, angle, room) {
                     if (p.id !== self.parent) {
                         var shooter = Player.list[self.parent];
                         console.log(shooter.username + " has shot " + p.username + " " + p.x + " " + self.x);
-                        printMsg(shooter.username + " has shot " + p.username, "gameRoom1", false, null);
+                        printMsg(shooter.username + " has shot " + p.username, Rooms.ROOM1, false, null, "server");
                         shooter.score++;
                         Player.list[self.parent] = shooter;
                         console.log("Player new score " + Player.list[self.parent].score);
@@ -817,7 +828,7 @@ Bullet.update = function (room) {
         }
      
         if (bullet.delBullet) {
-            if(bullet.room === 'gameRoom1') {removeEntity.bullet.push(bullet.id)}            
+            if(bullet.room === Rooms.ROOM1) {removeEntity.bullet.push(bullet.id)}            
             delete Bullet.list[i];
         }
         else {
@@ -874,5 +885,7 @@ Bullet.update = function (room) {
         }
     }
     return collisionPointer;
- }
+}
+
+module.exports 
 
