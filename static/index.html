@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
     <div id="gameDiv" style="display:none;">
-        <canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+        <canvas id="canvasG" width="600" height="600" style="border:3px solid #00ff21;"></canvas>
  
             <ul id="playerList">
                 
@@ -26,7 +26,8 @@
         <button id="toLobby" style="display:block">To Lobby</button>
     </div>
 
-    <div id="loginDiv">
+    
+    <div id="loginDiv">        
         Username: <input id="userInput" type="text" /> <div id="loginText">....</div> <br />
 		
         <button id="joinLobby">Join Lobby</button>
