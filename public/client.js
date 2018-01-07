@@ -11,8 +11,8 @@ var scoreBoard = [[,]];
 
 
 const Screen = Object.freeze({
-    SCREEN_WIDTH: 600,
-    SCREEN_HEIGHT: 600
+    SCREEN_WIDTH: 800,
+    SCREEN_HEIGHT: 400
 });
 
 
@@ -245,12 +245,12 @@ $(document).ready(function () {
     document.onmousedown = function (event)
     {
         //console.log("mouse down");
-        socket.emit('inputKey', { outputId: 'leftMouse', presssed: true });
+         socket.emit('inputKey', { outputId: 'leftMouse', pressed: true }); 
     }
 
 
     document.onmouseup = function (event) {
-        socket.emit('inputKey', { outputId: 'leftMouse', presssed: false });
+         socket.emit('inputKey', { outputId: 'leftMouse', pressed: false }); 
     }
 
     document.onmousemove = function (event) {
@@ -261,7 +261,7 @@ $(document).ready(function () {
             y: event.clientY,
         }
 
-        socket.emit('inputKey', { outputId: 'mouseAngle', presssed: angle });
+        socket.emit('inputKey', { outputId: 'mouseAngle', pressed: angle });
     }
 
 
@@ -270,26 +270,26 @@ $(document).ready(function () {
     //inputKeyes 
     document.onkeydown = function (key) {
         //S
-        if (key.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', presssed: true }); }
+        if (key.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', pressed: true }); }
         //D
-        else if (key.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', presssed: true }); }
+        else if (key.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', pressed: true }); }
         //A
-        else if (key.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', presssed: true }); }
+        else if (key.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', pressed: true }); }
         //W        
-        else if (key.keyCode === 87) { socket.emit('inputKey', { outputId: 'up', presssed: true }); }
+        else if (key.keyCode === 87) { socket.emit('inputKey', { outputId: 'up', pressed: true }); }
         //Space
-        else if (key.keyCode === 32) { socket.emit('inputKey', { outputId: 'space', presssed: true }); }
+        else if (key.keyCode === 32) { socket.emit('inputKey', { outputId: 'space', pressed: true }); }
 
     }
     document.onkeyup = function (event) {
         //D
-        if (event.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', presssed: false }); }
+        if (event.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', pressed: false }); }
         //S
-        else if (event.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', presssed: false }); }
+        else if (event.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', pressed: false }); }
         //A
-        else if (event.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', presssed: false }); }
+        else if (event.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', pressed: false }); }
         //W
-        else if (event.keyCode === 87) { socket.emit('inputKey', { outputId: 'up', presssed: false }); }
+        else if (event.keyCode === 87) { socket.emit('inputKey', { outputId: 'up', pressed: false }); }
     }
 
    
