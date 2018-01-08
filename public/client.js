@@ -19,7 +19,7 @@ const Screen = Object.freeze({
 var canvasBackgound = new Image();
 canvasBackgound.src = "https://i.stack.imgur.com/9WYxT.png"
 
-//Change
+
 
 $(document).ready(function () {
 
