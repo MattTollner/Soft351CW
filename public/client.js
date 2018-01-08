@@ -5,7 +5,6 @@ var canvasG = document.getElementById("canvasG").getContext("2d");
 
 var platforms = [];
 
-var boxes = [];
 
 var scoreBoard = [[,]];
 var enableControls = false;
@@ -15,6 +14,10 @@ const Screen = Object.freeze({
     SCREEN_WIDTH: 800,
     SCREEN_HEIGHT: 400
 });
+
+
+var canvasBackgound = new Image();
+canvasBackgound.src = "https://i.stack.imgur.com/9WYxT.png"
 
 
 
@@ -72,7 +75,7 @@ $(document).ready(function () {
     });
 
 
-    socket.on('printLobbyMsg', function (data) {
+    socket.on('LobbyMsg', function (data) {
         if (data.type == "server")
         {
             $('#lobbyChat').append('<div class = "lobbyMsg" style="color:#FF3232">' + data.msg + '</div >');
@@ -97,7 +100,7 @@ $(document).ready(function () {
     });
 
 
-    socket.on('printGameMsg', function (data) {
+    socket.on('GameMsg', function (data) {
         if (data.type == "server") {
             $('#gameChat').append('<div class = "gameMsg" style="color:#FF3232">' + data.msg + '</div >');            
             
@@ -182,15 +185,7 @@ $(document).ready(function () {
         scoreBoard = [];
 
     });
-
-    function compareSecondColumn(a, b) {
-        if (a[1] === b[1]) {
-            return 0;
-        }
-        else {
-            return (a[1] < b[1]) ? -1 : 1;
-        }
-    }
+   
 
     socket.on('updatePlayer', function (data) {
         for (var i = 0; i < data.player.length; i++) {
@@ -200,8 +195,7 @@ $(document).ready(function () {
             var player = Player.list[updatedP.id];
             if (player) {
                 if (updatedP.x !== undefined) { player.x = updatedP.x; }
-                if (updatedP.y !== undefined) { player.y = updatedP.y; }
-                if (updatedP.lives !== undefined) { player.lives = updatedP.lives; }
+                if (updatedP.y !== undefined) { player.y = updatedP.y; }               
                 if (updatedP.score !== undefined) { player.score = updatedP.score; }
                 if (updatedP.ammo !== undefined) { player.ammo = updatedP.ammo; }
             }
@@ -302,6 +296,9 @@ if(enableControls){
 
 setInterval(function () {
     canvasG.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);
+
+    canvasG.drawImage(canvasBackgound,0,0);
+
     for (var i in platforms) {
         canvasG.fillStyle = 'black';
         canvasG.fillRect(platforms[i].x - 5, platforms[i].y, platforms[i].w, platforms[i].h);
@@ -384,7 +381,7 @@ var Ammo = function (ammoInfo) {
     Ammo.list[self.id] = self;
 
     self.draw = function () {
-        canvasG.fillStyle = 'blue';
+        canvasG.fillStyle = 'yellow';
         canvasG.fillRect(self.x - 5, self.y - 5, self.w, self.h);
     }
     return self;

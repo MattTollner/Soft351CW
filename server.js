@@ -174,10 +174,10 @@ function printMsg(msg, room, noLoop, c, type)
         if (!noLoop)
         {
             for (var i in User.list) {
-                SocketList[i].emit('printLobbyMsg', { msg, type: type });
+                SocketList[i].emit('LobbyMsg', { msg, type: type });
             }
         } else {
-            SocketList[c].emit('printLobbyMsg', { msg, type: type });
+            SocketList[c].emit('LobbyMsg', { msg, type: type });
         }
        
     }
@@ -185,10 +185,10 @@ function printMsg(msg, room, noLoop, c, type)
     {
         if (!noLoop) {
             for (var i in Player.list) {
-                SocketList[i].emit('printGameMsg', { msg, type: type });
+                SocketList[i].emit('GameMsg', { msg, type: type });
             }
         } else {
-            SocketList[c].emit('printGameMsg', { msg, type: type });
+            SocketList[c].emit('GameMsg', { msg, type: type });
         }
         
     }
@@ -395,7 +395,6 @@ var Player = function (id, room, username) {
     self.mouseY;
 
     //Player
-    self.lives = 3;
     self.score = 0;
 
 
@@ -517,8 +516,7 @@ var Player = function (id, room, username) {
             x: self.x,
             y: self.y,
             w: self.w,
-            h: self.h,
-            lives: self.lives,
+            h: self.h,        
             score: self.score,
             ammo: self.ammo,
         };
@@ -528,8 +526,7 @@ var Player = function (id, room, username) {
         return {
             id: self.id,
             x: self.x,
-            y: self.y,
-            lives: self.lives,
+            y: self.y,       
             score: self.score,
             ammo: self.ammo,
         };
@@ -681,7 +678,7 @@ var Ammo = function () {
     Ammo.list[self.id] = self;
 
     gameData.ammo.push(self.getInfo());
-    //  console.log('Player ' + gameData.bullet[0].id);
+    
 
 
     return self;
@@ -839,7 +836,7 @@ Bullet.update = function (room) {
 
     var collisionPointer = 'noHit';
 
-
+    //If Y & X is less than halfHeights there is collision
     if (Math.abs(vectorY) < halfHeights && Math.abs(vectorX) < halfWidths) {
         //How far are the shapes collide into the object    
         var offsetX = halfWidths - Math.abs(vectorX);
@@ -847,25 +844,27 @@ Bullet.update = function (room) {
 
 
         //Left or right collide
-        if (offsetX < offsetY) //greater than
+        if (offsetX < offsetY) 
         {
             if (vectorX > 0) {
-                collisionPointer = "left";
                 entity1.x += offsetX;
+                collisionPointer = "left";
+                
             } else {
-                collisionPointer = "right";
                 entity1.x -= offsetX;
+                collisionPointer = "right";                
             }
 
         }
         else {
             if (vectorY > 0) {
-                collisionPointer = "top";
                 entity1.y += offsetY;
+                collisionPointer = "top";                
             }
             else {
-                collisionPointer = "bottom";
                 entity1.y -= (offsetY - 5);
+                collisionPointer = "bottom";
+                
             }
         }
     }
