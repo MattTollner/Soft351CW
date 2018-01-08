@@ -55,56 +55,7 @@ var platforms = [];
     platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH - Screen.SCREEN_WIDTH / 4, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row Right
     platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: -Screen.SCREEN_WIDTH / 9.5, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row left
 
-    //platforms.push({
-    //    w: 80,
-    //    h: 80,
-    //    y: 490,
-    //});
-    //platforms.push({
-    //    w: 500,ad
-    //    h: 5,
-    //    x: 250,
-    //    y: 500,
-    //});
-    // platforms.push({
-    //     w: 515,d
-    //     h: 80,
-    //     x: -10,
-    //     y: 490,
-    // });
-
-    // platforms.push({
-    //     w: 515,
-    //     h: 10,
-    //     x: -10,
-    //     y: 0,
-    // });
-
-    // platforms.push({
-    //     w: 10,
-    //     h: 500,
-    //     x: 0,
-    //     y: -10,
-    // });
-
-    // platforms.push({
-    //     w: 10,
-    //     h: 500,
-    //     x: 500,
-    //     y: -10,
-    // });
-    //platforms.push({
-    //    w: 80,
-    //    h: 80,
-    //    x: 220,
-    //    y: 100,
-    //});
-    //platforms.push({
-    //    w: 40,
-    //    h: 40,
-    //    x: 250,
-    //    y: 450,
-    //})
+   
 }
 
 friction = 0.9,
