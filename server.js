@@ -235,7 +235,7 @@ setInterval(function () {
         }
 
 
-        var r1Data =
+        var updateData =
             {
                 player: Player.update(Rooms.ROOM1),
                 bullet: Bullet.update(Rooms.ROOM1),
@@ -243,11 +243,11 @@ setInterval(function () {
 
             };
 
-        //Contains all player information of player that just joined (only needed once)
+        //Contains all player information of player that just joined (filled only when player joins)
         io.sockets.in(Rooms.ROOM1).emit('initPlayer', gameData);
         //Contains certain player information that needs updating such as position and ammo
-        io.sockets.in(Rooms.ROOM1).emit('updatePlayer', r1Data);
-        //Contains id of disonnected player to be updated on client side
+        io.sockets.in(Rooms.ROOM1).emit('updatePlayer', updateData);
+        //Contains id of disonnected player to be updated on client side (filled only if player leaves)
         io.sockets.in(Rooms.ROOM1).emit('removePlayer', removeEntity);
 
     } 
@@ -280,6 +280,7 @@ var User = function (socket, username) {
 
     //Adds new user to user list
     User.list[self.id] = self;
+
     lobbyUsers.user.push(self.getInfo());
     return self;
 }
@@ -367,15 +368,15 @@ var Entity = function (room) {
     return self;
 }
 
+//Player Class
 var Player = function (id, room, username) {
-    var self = Entity();
+    var self = Entity(); //Inheritence
     self.id = id;
     self.room = room;
     self.username = username;    
     self.pressingRight = false;
     self.pressingLeft = false;
-    self.pressingUp = false;
-    self.pressingDown = false;
+    self.pressingUp = false;   
     self.pressingSpace = false;
     self.speed = 3;
     self.xVelocity = 0;
@@ -383,11 +384,11 @@ var Player = function (id, room, username) {
     self.isJumping = false;
     self.isGrounded = false;
 
-    //Overwrite
+    //Overwrite entity size
     self.w = 10;
     self.h = 10;
 
-    //Shooting
+    //Shooting 
     self.ammo = 100;
     self.playerHasShot;
     self.mouseAngle;
@@ -401,19 +402,19 @@ var Player = function (id, room, username) {
     //Stores entity update
     var entityUpdate = self.update;
 
-    //Overwriting
+    //Overwriting enity update
     self.update = function () {
         self.updatePosition();
         self.detectShooting();
-        entityUpdate();
-       
+       // entityUpdate();       
     }
 
-
-
+    //Updates players positon based on clients input
     self.updatePosition = function () {
         //Detect Jump
 
+
+        //Respanws player if somehow out of bounds
         if (self.x < 0 || self.x > Screen.SCREEN_WIDTH || self.y < 0 || self.y > Screen.SCREEN_HEIGHT)
         {
             console.log("player out of bounds");
@@ -477,6 +478,7 @@ var Player = function (id, room, username) {
 
     }
 
+    //Deals with shooting
     self.detectShooting = function () {
         if (self.pressingAttack && self.ammo > 0) {
             var angle = Math.atan2(self.mouseY - self.y, self.mouseX - self.x);
@@ -509,6 +511,7 @@ var Player = function (id, room, username) {
         }
     }
 
+    //Used for init players
     self.getPlayerInfo = function () {
         return {
             id: self.id,
@@ -522,6 +525,7 @@ var Player = function (id, room, username) {
         };
     }
 
+    //Data sent per frame 
     self.getUpdateInfo = function () {
         return {
             id: self.id,
@@ -537,9 +541,10 @@ var Player = function (id, room, username) {
         self.y = randNumber(Screen.SCREEN_HEIGHT, 1);
     }
 
-
+    //New player added to list
     Player.list[id] = self;
 
+    //Fills array to be sent in player init to client
     if (room == Rooms.ROOM1) {
         gameData.player.push(self.getPlayerInfo());       
     }    
@@ -550,6 +555,7 @@ var Player = function (id, room, username) {
 
 Player.list = {}; //static
 
+//Used generating random numbers
 function randNumber(numL, numS)
 {
     var num;
@@ -558,6 +564,7 @@ function randNumber(numL, numS)
     return num;
 }
 
+//Gets all connected players info
 Player.getAllPlayerInfo = function (room) {
     var players = [];
     for (var i in Player.list) {
@@ -568,6 +575,7 @@ Player.getAllPlayerInfo = function (room) {
     return players;
 }
 
+//Creates player object deals with controls
 Player.connect = function (socket, username, room) {
     var player = Player(socket.id, room, username);
     console.log('Player  ' + player.username + " connected to room : " + player.room);
@@ -577,8 +585,7 @@ Player.connect = function (socket, username, room) {
     socket.on('inputKey', function (data) {
         if (data.outputId === 'left') { player.pressingLeft = data.pressed; }
         else if (data.outputId === 'right') { player.pressingRight = data.pressed; }
-        else if (data.outputId === 'up') { player.pressingUp = data.pressed; }
-        else if (data.outputId === 'down') { player.pressingDown = data.pressed; }
+        else if (data.outputId === 'up') { player.pressingUp = data.pressed; }    
         else if (data.outputId === 'leftMouse') { player.pressingAttack = data.pressed;  }
         else if (data.outputId === 'mouseAngle') {
             player.mouseX = data.pressed.x;
@@ -599,6 +606,7 @@ Player.connect = function (socket, username, room) {
 
 }
 
+//Removes player from server list and pushses player data to removeEnity array
 Player.disconnect = function (socket) {
     var p = Player.list[socket.id];
     console.log(p);
@@ -612,6 +620,7 @@ Player.disconnect = function (socket) {
     delete Player.list[socket.id];
 }
 
+//Calls class update function for all connected players
 Player.update = function (room) {
     //To be sent to all players - contains all players information
     var pInfo = [];
@@ -627,7 +636,7 @@ Player.update = function (room) {
     return pInfo;
 }
 
-
+//Ammo Class
 var Ammo = function () {
     console.log("Ammo Spawned");
     var self = Entity();
@@ -677,10 +686,8 @@ var Ammo = function () {
 
     Ammo.list[self.id] = self;
 
-    gameData.ammo.push(self.getInfo());
+    gameData.ammo.push(self.getInfo());   
     
-
-
     return self;
 }
 
@@ -719,7 +726,6 @@ Ammo.list = {};
 var Bullet = function (parent, angle, room) {
     var self = Entity();
     self.room = room;
-    console.log('bullet created at room ' + self.room);
     self.id = Math.random();
     self.xSpeed = Math.cos(angle / 180 * Math.PI) * 10;
     self.ySpeed = Math.sin(angle / 180 * Math.PI) * 10;
@@ -728,13 +734,11 @@ var Bullet = function (parent, angle, room) {
     self.delBullet = false;
     var entityUpdate = self.update;
 
-    self.update = function () {
-        if (self.timer++ > 100) {
-            self.delBullet = true;
-        }
+    self.update = function () {     
 
         entityUpdate();
 
+        //loops though players checking collision
         for (var i in Player.list) {
             var p = Player.list[i];
            
@@ -742,15 +746,15 @@ var Bullet = function (parent, angle, room) {
                 if (checkForCollision(p, self) === 'noHit') {
 
                 } else {
-                    if (p.id !== self.parent) {
+                    if (p.id !== self.parent) { //Checks if 
                         var shooter = Player.list[self.parent];
                         console.log(shooter.username + " has shot " + p.username + " " + p.x + " " + self.x);
-                        printMsg(shooter.username + " has shot " + p.username, Rooms.ROOM1, false, null, "server");
+                        printMsg(shooter.username + " has shot " + p.username, Rooms.ROOM1, false, null, "server"); //Prints to game chat
                         shooter.score++;
-                        Player.list[self.parent] = shooter;
+                        Player.list[self.parent] = shooter; //Updates player score and updates list
                         console.log("Player new score " + Player.list[self.parent].score);
                         p.respawn();
-                        Player.list[p.id] = p;
+                        Player.list[p.id] = p; //Updates 
                         self.delBullet = true;
 
 
@@ -770,9 +774,6 @@ var Bullet = function (parent, angle, room) {
                // console.log('WAPGPG' + checkForCollision(self,plat) )
                 self.delBullet = true;
             }
-            // if (self.getDistance(plat) < 5) {
-            //     self.delBullet = true;
-            // }
         }
     }
 
@@ -781,9 +782,7 @@ var Bullet = function (parent, angle, room) {
 
     Bullet.list[self.id] = self;
  
-    gameData.bullet.push(self.getInfo());
-      //  console.log('Player ' + gameData.bullet[0].id);
-    
+    gameData.bullet.push(self.getInfo());    
 
     return self;
 
