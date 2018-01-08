@@ -8,6 +8,7 @@ var platforms = [];
 var boxes = [];
 
 var scoreBoard = [[,]];
+var enableControls = false;
 
 
 const Screen = Object.freeze({
@@ -242,28 +243,30 @@ $(document).ready(function () {
 
     //Handle Mouse Press
 
-    //document.onmousedown = function (event)
-    //{
-    //    //console.log("mouse down");
-    //     socket.emit('inputKey', { outputId: 'leftMouse', pressed: true }); 
-    //}
+if(enableControls){
+
+    document.onmousedown = function (event)
+    {
+       //console.log("mouse down");
+        socket.emit('inputKey', { outputId: 'leftMouse', pressed: true }); 
+    }
 
 
-    //document.onmouseup = function (event) {
-    //     socket.emit('inputKey', { outputId: 'leftMouse', pressed: false }); 
-    //}
+    document.onmouseup = function (event) {
+        socket.emit('inputKey', { outputId: 'leftMouse', pressed: false }); 
+    }
 
-    //document.onmousemove = function (event) {
-    //    var angle = [];
+    document.onmousemove = function (event) {
+       var angle = [];
 
-    //    angle = {
-    //        x: event.clientX,
-    //        y: event.clientY,
-    //    }
+       angle = {
+           x: event.clientX,
+           y: event.clientY,
+       }
 
-    //    socket.emit('inputKey', { outputId: 'mouseAngle', pressed: angle });
-    //}
-
+       socket.emit('inputKey', { outputId: 'mouseAngle', pressed: angle });
+    }
+}
 
 
 
