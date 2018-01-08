@@ -8,7 +8,7 @@ var platforms = [];
 var boxes = [];
 
 var scoreBoard = [[,]];
-var enableControls = false;
+var enableControls = true;
 
 
 const Screen = Object.freeze({
