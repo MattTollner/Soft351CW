@@ -62,7 +62,6 @@ gravity = 0.25;
 //Lobby data
 var lobbyUsers = { user: [] };
 var removeLobbyUsers = { user: [] };
-
 //Game Data
 var gameData = { player: [], bullet: [], ammo: [] };
 var removeData = { player: [], bullet: [], ammo: [] };
@@ -95,20 +94,20 @@ io.on('connection', (socket) => {
 
         if (unames.length < 1) {
 
-            socket.emit('checkUsernameResponse', { success: true, uname: uname, id: socket.id });
+            socket.emit('usernameUnique', { unique: true, uname: uname, id: socket.id });
             User.connection(socket, uname);
             joinRoom(socket, Rooms.LOBBY);
         } else {
 
             if (unames.includes(uname)) {
-                socket.emit('checkUsernameResponse', { success: false, uname: uname });
+                socket.emit('usernameUnique', { unique: false, uname: uname });
 
             } else {
 
 
                 socket.emit('event', uname + ' joined the lobby');
                 socket.broadcast.to(Rooms.LOBBY).emit('event', uname + ' joined room lobbyRoom');
-                socket.emit('checkUsernameResponse', { success: true, uname: uname });
+                socket.emit('checkUsernameResponse', { unique: true, uname: uname });
                 User.connection(socket, uname);
                 joinRoom(socket, Rooms.LOBBY);
             }
@@ -254,7 +253,6 @@ setInterval(function () {
     //Resets arrays
     lobbyUsers = { user: [] };
     removeLobbyUsers = { user: [] };
-
     gameData = { player: [], bullet: [], ammo: [] };
     removeData = { player: [], bullet: [], ammo: [] };
 
@@ -264,6 +262,7 @@ setInterval(function () {
 
 }, 1000 / 30);; //FPS
 
+//User class
 var User = function (socket, username) {
     var self = {
         id: socket.id,
@@ -282,8 +281,6 @@ var User = function (socket, username) {
     lobbyUsers.user.push(self.getInfo());
     return self;
 }
-
-User.list = {};
 
 //Used when user connects
 User.connection = function (socket, username) {
@@ -308,12 +305,13 @@ User.update = function () {
     return updatedUsers;
 }
 
+//Handles user disconnect
 User.disconnect = function (socket) {
     delete User.list[socket.id];
     removeLobbyUsers.user.push(socket.id);
 }
 
-
+//Gets all connected users data
 User.getAllUserInfo = function () {
     var users = [];
     for (var i in User.list) {
@@ -323,7 +321,10 @@ User.getAllUserInfo = function () {
     return users;
 }
 
+User.list = {};
 
+
+//Parent Class
 var Entity = function (room) {
     var self = {
         x: 250,
@@ -358,6 +359,7 @@ var Entity = function (room) {
     return self;
 }
 
+//PlayerClass
 var Player = function (id, room, username) {
     var self = Entity();
     self.id = id;
@@ -386,26 +388,21 @@ var Player = function (id, room, username) {
     //Player
     self.score = 0;
 
-
-
-
     self.update = function () {
         self.updatePosition();
         self.detectShooting();
     }
 
-
-
     self.updatePosition = function () {
-        //Detect Jump
-
+        
+        //Player out of bounds
         if (self.x < 0 || self.x > Screen.SCREEN_WIDTH || self.y < 0 || self.y > Screen.SCREEN_HEIGHT)
         {
             console.log("player out of bounds");
             self.respawn();
         }
 
-
+        //Detect Jump
         self.isGrounded = false;
         for (var i in platforms) {
             var collisionPointer = checkForCollision(self, platforms[i]);
@@ -424,11 +421,9 @@ var Player = function (id, room, username) {
 
         if (self.clientUpKey) {
 
-            if (!self.isJumping) {
-               // console.log('PRESSED UP + jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
+            if (!self.isJumping) {             
                 self.isJumping = true;
-                self.isGrounded = false;
-               // console.log('PRESSED UP 2+ jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
+                self.isGrounded = false;            
                 //Negative goes up Y slowly goes back to positive creating a curve
                 self.yVelocity = -self.speed * 2;
             }
@@ -529,15 +524,6 @@ var Player = function (id, room, username) {
 
 }
 
-Player.list = {};
-
-function randNumber(numL, numS)
-{
-    var num;
-    num = Math.floor((Math.random() * numL) + numS);
-    return num;
-}
-
 Player.getAllPlayerInfo = function (room) {
     var players = [];
     for (var i in Player.list) {
@@ -583,18 +569,19 @@ Player.disconnect = function (socket) {
 
     var player = Player.list[socket.id];
 
-    console.log("player " + player)
+ 
 
     if(player){
         if(player.room === Rooms.ROOM1) {removeData.player.push(socket.id)}
         else (console.log('ERROR NO ROOM'));
 
 
-   printMsg(Player.list[i].username + " has disconnected", Rooms.ROOM1, false, null, "server");
+        printMsg(Player.list[i].username + " has disconnected", Rooms.ROOM1, false, null, "server");
 
 
-    delete Player.list[socket.id];
-  }   else {console.log("old player caught")}
+        delete Player.list[socket.id];
+    }   
+    else {console.log("old player caught")}
 }
 
 Player.update = function (room) {
@@ -753,9 +740,6 @@ var Bullet = function (parent, angle, room) {
         }
     }
 
-
-
-
     Bullet.list[self.id] = self;
 
     gameData.bullet.push(self.getInfo());
@@ -795,6 +779,14 @@ Bullet.update = function (room) {
     return bInfo;
 }
 
+
+
+function randNumber(numL, numS)
+{
+    var num;
+    num = Math.floor((Math.random() * numL) + numS);
+    return num;
+}
 
 
 //Collision Checking

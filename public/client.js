@@ -35,15 +35,15 @@ $(document).ready(function () {
 
     });
 
-    socket.on('checkUsernameResponse', function (data) {
-        if (data.success) {
+    socket.on('usernameUnique', function (data) {
+        if (data.unique) {
             $('#loginDiv').hide();
             $('#lobbyDiv').show();
             thisUserName = data.uname;
             thisId = data.id;
 
         }
-        else if (!data.success) {
+        else if (!data.unique) {
             $('#loginText').text(data.uname + ' already in use');
         }
     });
