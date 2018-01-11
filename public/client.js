@@ -1,3 +1,4 @@
+
 var socket = io({ transports: ['websocket'], upgrade: false });
 var thisUserName = "";
 var thisId = "";
@@ -36,6 +37,8 @@ $(document).ready(function () {
 
     socket.on('checkUsernameResponse', function (data) {
         if (data.success) {
+    socket.on('usernameUnique', function (data) {
+        if (data.unique) {
             $('#loginDiv').hide();
             $('#lobbyDiv').show();
             thisUserName = data.uname;
@@ -43,6 +46,7 @@ $(document).ready(function () {
 
         }
         else if (!data.success) {
+        else if (!data.unique) {
             $('#loginText').text(data.uname + ' already in use');
         }
     });
@@ -51,6 +55,10 @@ $(document).ready(function () {
 
         for (var i = 0; i < data.user.length; i++) {
             new User(data.user[i]);
+
+        for(i in data.user)
+        {
+            new User(data.user[i]);       
         }
 
         $('#userList').empty();
@@ -61,14 +69,18 @@ $(document).ready(function () {
 
     socket.on('removeLobbyUser', function (data) {
         for (var i = 0; i < data.user.length; i++) {
+        for(i in data.user)
+        {
             delete User.list[data.user[i]];
         }
     });
 
     //Lobby Chat Controls
     $('#lobbyChatForm').submit(function (e) {
+    $('#lobbyChatForm').submit(function (lobbyPage) {
         //Prevents page refresh
         e.preventDefault();
+        lobbyPage.preventDefault();
 
         socket.emit('lobbyChat', $('#lobbyChatInput').val());
         $('#lobbyChatInput').val('');
@@ -92,8 +104,10 @@ $(document).ready(function () {
 
     //Game Chat Controls
     $('#gameChatForm').submit(function (e) {
+    $('#gameChatForm').submit(function (gamePage) {
         //Prevents page refresh
         e.preventDefault();
+        gamePage.preventDefault();
 
         socket.emit('gameChat', $('#gameChatInput').val());
         $('#gameChatInput').val('');
@@ -152,13 +166,21 @@ $(document).ready(function () {
 
         for (var i = 0; i < data.player.length; i++) {
             new Player(data.player[i]);
+
+        for(i in data.player)
+        {
+            new Player(data.player[i]);       
         }
 
         for (var i = 0; i < data.bullet.length; i++) {
+        for (i in data.bullet)
+        {
             new Bullet(data.bullet[i]);
         }
 
         for (var i = 0; i < data.ammo.length; i++) {
+        for(i in data.ammo)
+        {
             new Ammo(data.ammo[i]);
         }
 
@@ -187,9 +209,12 @@ $(document).ready(function () {
     });
    
 
+    //Updates players positions and info 
     socket.on('updatePlayer', function (data) {
         for (var i = 0; i < data.player.length; i++) {
 
+        for (i in data.player)
+        {
             var updatedP = data.player[i];
 
             var player = Player.list[updatedP.id];
@@ -199,15 +224,25 @@ $(document).ready(function () {
                 if (updatedP.score !== undefined) { player.score = updatedP.score; }
                 if (updatedP.ammo !== undefined) { player.ammo = updatedP.ammo; }
             }
+            var curPlayer = Player.list[updatedP.id];
+           
+            curPlayer.x = updatedP.x;
+            curPlayer.y = updatedP.y;               
+            curPlayer.score = updatedP.score;
+            curPlayer.ammo = updatedP.ammo;             
         }
 
         for (var i = 0; i < data.bullet.length; i++) {
+        for(i in data.bullet)
+        {
             var updatedB = data.bullet[i];
             var bullet = Bullet.list[data.bullet[i].id];
             if (bullet) {
                 if (updatedB.x !== undefined) { bullet.x = updatedB.x; }
                 if (updatedB.y !== undefined) { bullet.y = updatedB.y; }
             }
+            bullet.x = updatedB.x; 
+            bullet.y = updatedB.y;             
         }
 
         
@@ -215,22 +250,32 @@ $(document).ready(function () {
 
     socket.on('removePlayer', function (data) {
         for (var i = 0; i < data.player.length; i++) {
+
+        for(i in data.player)
+        {
             delete Player.list[data.player[i]];
         }
 
         for (var i = 0; i < data.bullet.length; i++) {
+        for(i in data.bullet)
+        {
             delete Bullet.list[data.bullet[i]];
         }
 
         for (var i = 0; i < data.ammo.length; i++) {
+        for(i in data.ammo)
+        {
             delete Ammo.list[data.ammo[i]];
         }
+       
     });
 
     //Init Map
     socket.on('loadPlatforms', function (data) {
         canvasG.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);
         for (var i = 0; i < data.length; i++) {
+        for(i in data)
+        {
             platforms.push(data[i]);
         }
     });
@@ -252,6 +297,7 @@ if(enableControls){
 
     document.onmousemove = function (event) {
        var angle = [];
+    document.onmousemove = function (event) {      
 
        angle = {
            x: event.clientX,
@@ -259,6 +305,7 @@ if(enableControls){
        }
 
        socket.emit('inputKey', { outputId: 'mouseAngle', pressed: angle });
+       socket.emit('inputKey', { outputId: 'mousePos', mouseX: event.clientX, mouseY: event.clientY });
     }
 }
 
@@ -302,6 +349,7 @@ setInterval(function () {
     for (var i in platforms) {
         canvasG.fillStyle = 'black';
         canvasG.fillRect(platforms[i].x - 5, platforms[i].y, platforms[i].w, platforms[i].h);
+        canvasG.fillRect(platforms[i].x, platforms[i].y, platforms[i].w, platforms[i].h);
     }
     for (var i in Player.list) {
         Player.list[i].draw();
@@ -342,6 +390,8 @@ var Player = function (playerInfo) {
     self.h = playerInfo.h;
     self.w = playerInfo.w;
     Player.list[self.id] = self;    
+    Player.list[self.id] = self; 
+
     self.draw = function () {
         canvasG.fillStyle = 'green';
         canvasG.fillRect(self.x - 5, self.y - 5, self.w, self.h);
@@ -383,6 +433,7 @@ var Ammo = function (ammoInfo) {
     self.draw = function () {
         canvasG.fillStyle = 'yellow';
         canvasG.fillRect(self.x - 5, self.y - 5, self.w, self.h);
+        canvasG.fillRect(self.x, self.y, self.w, self.h);
     }
     return self;
 }
