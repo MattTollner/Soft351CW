@@ -515,6 +515,8 @@ var Player = function (id, room, username) {
 
 
     Player.list[id] = self;
+    console.log(self);
+    Player.list[self.id] = self;
 
     if (room == Rooms.ROOM1) {
         gameData.player.push(self.getPlayerInfo());
@@ -567,7 +569,6 @@ Player.connect = function (socket, username, room) {
 
 Player.disconnect = function (socket) {
 
-    var player = Player.list[socket.id];
 
  
 
