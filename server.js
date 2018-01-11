@@ -513,8 +513,6 @@ var Player = function (id, room, username) {
         self.y = randNumber(Screen.SCREEN_HEIGHT, 1);
     }
 
-
-    Player.list[id] = self;
     console.log(self);
     Player.list[self.id] = self;
 
@@ -569,6 +567,7 @@ Player.connect = function (socket, username, room) {
 
 Player.disconnect = function (socket) {
 
+    var player = Player.list[socket];
 
  
 
