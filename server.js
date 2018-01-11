@@ -1,5 +1,3 @@
-
-
 const express = require('express'),
     socketio = require('socket.io');
 var app = express();
@@ -18,7 +16,6 @@ app.get('/', function (req, res, next) {
 
 const Rooms = ({
     LOBBY: "lobbyRoom",
-    ROOM1: "gameRoom1" 
     ROOM1: "gameRoom1"
 });
 
@@ -37,7 +34,6 @@ var platforms = [];
 
 {
     //Walls
-    //+Y = ^^ +X = >>     
     //+Y = ^^ +X = >>
     platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: 0 }); //Top
     platforms.push({ w: Screen.SCREEN_WIDTH + 10, h: 10, x: 0, y: Screen.SCREEN_HEIGHT - 10}); //Bottom
@@ -57,7 +53,6 @@ var platforms = [];
     platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: Screen.SCREEN_WIDTH - Screen.SCREEN_WIDTH / 4, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row Right
     platforms.push({ w: Screen.SCREEN_WIDTH / 3 + 30, h: 10, x: -Screen.SCREEN_WIDTH / 9.5, y: Screen.SCREEN_HEIGHT - 360 }); //3rd Row left
 
-   
 
 }
 
@@ -67,10 +62,8 @@ gravity = 0.25;
 //Lobby data
 var lobbyUsers = { user: [] };
 var removeLobbyUsers = { user: [] };
-
 //Game Data
 var gameData = { player: [], bullet: [], ammo: [] };
-var removeEntity = { player: [], bullet: [], ammo: [] };
 var removeData = { player: [], bullet: [], ammo: [] };
 
 
@@ -82,7 +75,6 @@ io.on('connection', (socket) => {
     console.log('Socket ' + socket.id + ' just connected');
 
     //Removes user from lobby and places them in game
-    socket.on('startGame', function (data) {       
     socket.on('startGame', function (data) {
         joinRoom(socket, Rooms.ROOM1);
         console.log(data.username + " just joined room " + data.room);
@@ -100,26 +92,21 @@ io.on('connection', (socket) => {
             unames.push(User.list[i].username);
         }
 
-        if (unames.length < 1) {           
         if (unames.length < 1) {
 
-            socket.emit('checkUsernameResponse', { success: true, uname: uname, id: socket.id });
             socket.emit('usernameUnique', { unique: true, uname: uname, id: socket.id });
             User.connection(socket, uname);
             joinRoom(socket, Rooms.LOBBY);
         } else {
 
             if (unames.includes(uname)) {
-                socket.emit('checkUsernameResponse', { success: false, uname: uname });
                 socket.emit('usernameUnique', { unique: false, uname: uname });
 
             } else {
-                
 
 
                 socket.emit('event', uname + ' joined the lobby');
                 socket.broadcast.to(Rooms.LOBBY).emit('event', uname + ' joined room lobbyRoom');
-                socket.emit('checkUsernameResponse', { success: true, uname: uname });
                 socket.emit('checkUsernameResponse', { unique: true, uname: uname });
                 User.connection(socket, uname);
                 joinRoom(socket, Rooms.LOBBY);
@@ -129,34 +116,26 @@ io.on('connection', (socket) => {
     });
 
     //Player rejoins lobby from game room
-    socket.on("toLobby", function(data) {        
     socket.on("toLobby", function(data) {
         Player.disconnect(socket);
         User.connection(socket, data);
         joinRoom(socket,Rooms.LOBBY);
     });
 
-    //Handles disconnections updates accordingly
     //Handles user/player/socket disconnections updates accordingly
     socket.on('disconnect', function () {
-       
 
         for (var i in User.list) {
             if(User.list[socket.id] != undefined && User.list[socket.id].username != undefined)
             {
-                printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', Rooms.LOBBY, true, i, "server");              
-            } 
                 printMsg('SERVER : ' + User.list[socket.id].username + ' has disconnected.', Rooms.LOBBY, true, i, "server");
             }
         }
-       
-       
+
+
         Player.disconnect(socket);
         User.disconnect(socket);
         delete SocketList[socket.id];
-   
-   
-    });   
 
 
     });
@@ -164,14 +143,12 @@ io.on('connection', (socket) => {
     //Lobby Chat Functions
     socket.on('lobbyChat', function (data) {
         var datas = User.list[socket.id].username + ' : ' + data;
-        printMsg(datas, Rooms.LOBBY, false, null, "user");        
         printMsg(datas, Rooms.LOBBY, false, null, "user");
     });
     //Game Chat Function
     socket.on('gameChat', function (data) {
         console.log("game chat" + data);
         var datas = Player.list[socket.id].username + ' : ' + data;
-        printMsg(datas, Rooms.ROOM1, false, null, "user");        
         printMsg(datas, Rooms.ROOM1, false, null, "user");
     });
 
@@ -199,7 +176,6 @@ function printMsg(msg, room, noLoop, c, type)
         } else {
             SocketList[c].emit('LobbyMsg', { msg, type: type });
         }
-       
 
     }
     else if (room == Rooms.ROOM1)
@@ -211,24 +187,19 @@ function printMsg(msg, room, noLoop, c, type)
         } else {
             SocketList[c].emit('GameMsg', { msg, type: type });
         }
-        
 
     }
-   
 
 }
 
 setInterval(function () {
     var players = false;
     var users = false;
-  
-  
 
 
     for (i in User.list)
     {
         users = true;
-       
 
     }
 
@@ -240,23 +211,19 @@ setInterval(function () {
 
         //Contains basic inforamtion of connected lobby users
         io.sockets.in(Rooms.LOBBY).emit('initLobbyUser', lobbyData);
-        //Send id of users who disconnected to update client/server arrays 
         //Send id of users who disconnected to update client/server arrays
         io.sockets.in(Rooms.LOBBY).emit('removeLobbyUser', removeLobbyUsers);
     }
 
-   
 
 
     for (i in Player.list)
-    {      
     {
         players = true;
     }
 
 
     if (players)
-    {    
     {
         //For random spawning of ammo
         var rand = randNumber(300, 1)
@@ -277,8 +244,6 @@ setInterval(function () {
         io.sockets.in(Rooms.ROOM1).emit('initPlayer', gameData);
         //Contains certain player information that needs updating such as position and ammo
         io.sockets.in(Rooms.ROOM1).emit('updatePlayer', updateData);
-        //Contains id of disonnected player to be updated on client side (filled only if player leaves)
-        io.sockets.in(Rooms.ROOM1).emit('removePlayer', removeEntity);
         //Contains id of disonnected player to be updated on client side
         io.sockets.in(Rooms.ROOM1).emit('removePlayer', removeData);
 
@@ -292,17 +257,7 @@ setInterval(function () {
     removeData = { player: [], bullet: [], ammo: [] };
 
 
-    } 
 
-    //Emptys all information
-    lobbyUsers.user = [];
-    removeLobbyUsers.user = [];
-    gameData.player = [];
-    gameData.bullet = [];   
-    gameData.ammo = [];
-    removeEntity.player = [];
-    removeEntity.bullet = [];
-    removeEntity.ammo = [];
 
 
 }, 1000 / 30);; //FPS
@@ -328,8 +283,6 @@ var User = function (socket, username) {
     return self;
 }
 
-User.list = {};
-
 //Used when user connects
 User.connection = function (socket, username) {
     var user = User(socket, username);
@@ -339,7 +292,6 @@ User.connection = function (socket, username) {
     });
 
     printMsg('SERVER : ' + User.list[socket.id].username + ' has joined the lobby.', Rooms.LOBBY, false, null, "server");
-  
 
 }
 
@@ -348,7 +300,6 @@ User.update = function () {
     var updatedUsers = [];
     for (var i in User.list) {
         var user = User.list[i];
-        updatedUsers.push(user.getInfo());       
         updatedUsers.push(user.getInfo());
     }
 
@@ -360,7 +311,6 @@ User.disconnect = function (socket) {
     delete User.list[socket.id];
     removeLobbyUsers.user.push(socket.id);
 }
-
 
 //Gets all connected users data
 User.getAllUserInfo = function () {
@@ -388,14 +338,6 @@ var Entity = function (room) {
         room: room,
 
     }
-    self.update = function () {
-        self.x += self.xSpeed;
-        self.y += self.ySpeed;
-    }
-
-    self.getDistance = function(pt){
-        return Math.sqrt(Math.pow(self.x-pt.x,2) + Math.pow(self.y-pt.y,2));
-    }
 
     self.getInfo = function () {
         return {
@@ -418,15 +360,11 @@ var Entity = function (room) {
     return self;
 }
 
+//PlayerClass
 var Player = function (id, room, username) {
     var self = Entity(); //Inheritence
     self.id = id;
     self.room = room;
-    self.username = username;    
-    self.pressingRight = false;
-    self.pressingLeft = false;
-    self.pressingUp = false;   
-    self.pressingSpace = false;
     self.username = username;
     self.clientRightKey = false;
     self.clientLeftKey = false;
@@ -451,23 +389,12 @@ var Player = function (id, room, username) {
     //Player
     self.score = 0;
 
-
-    //Stores entity update
-    var entityUpdate = self.update;
-
-    //Overwriting enity update
     self.update = function () {
         self.updatePosition();
         self.detectShooting();
-       // entityUpdate();       
     }
 
-    //Updates players positon based on clients input
     self.updatePosition = function () {
-        //Detect Jump
-
-
-        //Respanws player if somehow out of bounds
         
         //Player out of bounds
         if (self.x < 0 || self.x > Screen.SCREEN_WIDTH || self.y < 0 || self.y > Screen.SCREEN_HEIGHT)
@@ -475,7 +402,6 @@ var Player = function (id, room, username) {
             console.log("player out of bounds");
             self.respawn();
         }
-
 
         //Detect Jump
         self.isGrounded = false;
@@ -485,7 +411,6 @@ var Player = function (id, room, username) {
             if (collisionPointer === "left" || collisionPointer === "right") {
                 self.xVelocity = 0;
                 //self.isJumping = false;
-            } else if (collisionPointer === "bottom") {              
             } else if (collisionPointer === "bottom") {
                 self.isGrounded = true;
                 self.isJumping = false;
@@ -494,33 +419,22 @@ var Player = function (id, room, username) {
             }
         }
 
-        
-        if (self.pressingUp) {
-        
-            if (!self.isJumping) {
-               // console.log('PRESSED UP + jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
 
         if (self.clientUpKey) {
 
             if (!self.isJumping) {             
                 self.isJumping = true;
-                self.isGrounded = false;
-               // console.log('PRESSED UP 2+ jumping = ' + self.isJumping + ' grounded :  ' + self.isGrounded);
-                //Negative goes up Y slowly goes back to positive creating a curve 
                 self.isGrounded = false;            
                 //Negative goes up Y slowly goes back to positive creating a curve
                 self.yVelocity = -self.speed * 2;
             }
         }
         //----->>
-        if (self.pressingRight) {
         if (self.clientRightKey) {
             if (self.xVelocity < self.speed) {
                 self.xVelocity++;
             }
         }
-        //<<-----    
-        if (self.pressingLeft) {
         //<<-----
         if (self.clientLeftKey) {
             if (self.xVelocity > -self.speed) {
@@ -529,13 +443,11 @@ var Player = function (id, room, username) {
         }
 
 
-        //Slowly reduces velocity 
         //Slowly reduces velocity
         self.xVelocity *= friction;
         //Positive yVelocity player goes down
         self.yVelocity += gravity;
 
-       //Allows for falling off platforms       
        //Allows for falling off platforms
           if (self.isGrounded) {
               self.yVelocity = 0;
@@ -548,7 +460,6 @@ var Player = function (id, room, username) {
 
     //Deals with shooting
     self.detectShooting = function () {
-        if (self.pressingAttack && self.ammo > 0) {
         if (self.clientLeftMouse && self.ammo > 0) {
             var angle = Math.atan2(self.mouseY - self.y, self.mouseX - self.x);
             angle = angle * (180 / Math.PI);
@@ -560,8 +471,6 @@ var Player = function (id, room, username) {
           //  console.log(self.mouseAngle);
 
             if (self.playerHasShot) {
-
-                self.shootBullet(self.mouseAngle);
                 //Spawns bullet a players location
                 var b = Bullet(self.id, self.mouseAngle, self.room);
                 b.x = self.x;
@@ -573,13 +482,6 @@ var Player = function (id, room, username) {
 
         }
 
-        self.shootBullet = function (angle) {
-            var b = Bullet(self.id, angle, self.room);
-            b.x = self.x;
-            b.y = self.y;
-        }
-
-        if (!self.pressingAttack) {
         if (!self.clientLeftMouse) {
             self.playerHasShot = true;
         }
@@ -593,7 +495,6 @@ var Player = function (id, room, username) {
             x: self.x,
             y: self.y,
             w: self.w,
-            h: self.h,        
             h: self.h,
             score: self.score,
             ammo: self.ammo,
@@ -605,7 +506,6 @@ var Player = function (id, room, username) {
         return {
             id: self.id,
             x: self.x,
-            y: self.y,       
             y: self.y,
             score: self.score,
             ammo: self.ammo,
@@ -622,8 +522,6 @@ var Player = function (id, room, username) {
 
     //Fills array to be sent in player init to client
     if (room == Rooms.ROOM1) {
-        gameData.player.push(self.getPlayerInfo());       
-    }    
         gameData.player.push(self.getPlayerInfo());
     }
 
@@ -631,18 +529,6 @@ var Player = function (id, room, username) {
 
 }
 
-Player.list = {}; //static
-
-//Used generating random numbers
-function randNumber(numL, numS)
-{
-    var num;
-    num = Math.floor((Math.random() * numL) + numS);
-    //console.log("Random Number " + num);
-    return num;
-}
-
-//Gets all connected players info
 Player.getAllPlayerInfo = function (room) {
     var players = [];
     for (var i in Player.list) {
@@ -660,14 +546,6 @@ Player.connect = function (socket, username, room) {
     printMsg(player.username + " has connected", Rooms.ROOM1, false, null, "server");
 
     //Recives data of what key the player is pressing
-    socket.on('inputKey', function (data) {
-        if (data.outputId === 'left') { player.pressingLeft = data.pressed; }
-        else if (data.outputId === 'right') { player.pressingRight = data.pressed; }
-        else if (data.outputId === 'up') { player.pressingUp = data.pressed; }    
-        else if (data.outputId === 'leftMouse') { player.pressingAttack = data.pressed;  }
-        else if (data.outputId === 'mouseAngle') {
-            player.mouseX = data.pressed.x;
-            player.mouseY = data.pressed.y;  
     socket.on('inputKey', function (data)
     {
         if (data.outputId === 'left') { player.clientLeftKey = data.pressed; }
@@ -686,7 +564,6 @@ Player.connect = function (socket, username, room) {
 
     //Fills the client side arrays of all data from players
     socket.emit('initPlayer', {
-        id: socket.id,
         player: Player.getAllPlayerInfo(room),
         bullet: Bullet.getAllBulletInfo(room),
         ammo: Ammo.getAllAmmoInfo(),
@@ -696,16 +573,7 @@ Player.connect = function (socket, username, room) {
 
 //Removes player from server list and pushses player data to removeEnity array
 Player.disconnect = function (socket) {
-    var p = Player.list[socket.id];
-    console.log(p);
-    if(p !== undefined){
-        if(p.room === Rooms.ROOM1) {removeEntity.player.push(socket.id)}  
-        else (console.log('ERROR NO ROOM')); 
 
-        printMsg(p.username + " has disconnected", Rooms.ROOM1, false, null, "server");
-    }
-    
-    delete Player.list[socket.id];
     var player = Player.list[socket.id];
 
  
@@ -728,11 +596,6 @@ Player.update = function (room) {
     //To be sent to all players - contains all players information
     var pInfo = [];
     for (var i in Player.list) {
-        var player = Player.list[i];
-
-        if (player.room === room) {
-            player.update();
-            pInfo.push(player.getUpdateInfo());
         if (Player.list[i].room === room) {
             Player.list[i].update();
             pInfo.push(Player.list[i].getUpdateInfo());
@@ -752,12 +615,8 @@ var Ammo = function () {
     self.h = 10;
     self.id = Math.random();
     self.pickedUp = false;
-    self.timer = 0;
-
-    self.update = function () {        
     self.ammoTick = 0;
 
-        if (self.timer++ > 600) {
     self.update = function () {
         //Ammo gets cleared after time
         self.ammoTick ++;
@@ -768,7 +627,6 @@ var Ammo = function () {
 
         for (var i in Player.list) {
             var p = Player.list[i];
-          
 
                 if (checkForCollision(p, self) === 'noHit') {
 
@@ -776,8 +634,6 @@ var Ammo = function () {
                     console.log("Player touching ammo pack")
                     self.pickedUp = true;
                     Player.list[i].ammo += 5;
-                    console.log("Ammo count " + Player.list[i].ammo)                    
-                }  
                     console.log("Ammo count " + Player.list[i].ammo)
                 }
 
@@ -786,19 +642,14 @@ var Ammo = function () {
         //Checks if ammo pack spawend in wall - respawns if so
         for (var i in platforms) {
 
-            var plat = platforms[i];
-            if (checkForCollision(self, plat) === 'noHit') {
             if (checkForCollision(self, platforms[i]) === 'noHit') {
 
-            } else { 
             } else {
                 console.log("In wall");
                 self.pickedUp = true;
                 Ammo();
-                
 
             }
-          
 
         }
 
@@ -806,9 +657,6 @@ var Ammo = function () {
 
     //Updates server array
     Ammo.list[self.id] = self;
-
-    gameData.ammo.push(self.getInfo());   
-    
     //Data to be sent to client
     gameData.ammo.push(self.getInfo());
     return self;
@@ -820,14 +668,11 @@ Ammo.update = function (room) {
     var aInfo = [];
     for (var i in Ammo.list) {
         var ammo = Ammo.list[i];
-        
 
         ammo.update();
-        
 
 
         if (ammo.pickedUp) {
-            removeEntity.ammo.push(ammo.id);
             removeData.ammo.push(ammo.id);
             delete Ammo.list[i];
         }
@@ -856,13 +701,9 @@ var Bullet = function (parent, angle, room) {
     self.xSpeed = Math.cos(angle / 180 * Math.PI) * 10;
     self.ySpeed = Math.sin(angle / 180 * Math.PI) * 10;
     self.parent = parent;
-    self.timer = 0;
     self.delBullet = false;
-    var entityUpdate = self.update;
 
-    self.update = function () {     
 
-        entityUpdate();
     self.update = function () {
 
 
@@ -872,28 +713,19 @@ var Bullet = function (parent, angle, room) {
 
         //loops though players checking collision
         for (var i in Player.list) {
-            var p = Player.list[i];
-           
-            if (p.room === self.room) {
-                if (checkForCollision(p, self) === 'noHit') {
             var player = Player.list[i];
 
             if (player.room === self.room) {
                 if (checkForCollision(player, self) === 'noHit') {
 
                 } else {
-                    if (p.id !== self.parent) { //Checks if 
                     if (player.id !== self.parent) {
                         var shooter = Player.list[self.parent];
-                        console.log(shooter.username + " has shot " + p.username + " " + p.x + " " + self.x);
-                        printMsg(shooter.username + " has shot " + p.username, Rooms.ROOM1, false, null, "server"); //Prints to game chat
                         console.log(shooter.username + " has shot " + player.username + " " + p.x + " " + self.x);
                         printMsg(shooter.username + " has shot " + player.username, Rooms.ROOM1, false, null, "server");
                         shooter.score++;
                         Player.list[self.parent] = shooter; //Updates player score and updates list
                         console.log("Player new score " + Player.list[self.parent].score);
-                        p.respawn();
-                        Player.list[p.id] = p; //Updates 
                         player.respawn();
                         Player.list[p.id] = player;
                         self.delBullet = true;
@@ -902,33 +734,21 @@ var Bullet = function (parent, angle, room) {
                     }
                 }
             }
-          
 
         }
 
         for (var i in platforms) {
-
-            var plat = platforms[i];          
-            if(checkForCollision(self,plat) === 'noHit')
             if(checkForCollision(self,platforms[i]) === 'noHit')
             {
-                
 
             } else{
-               // console.log('WAPGPG' + checkForCollision(self,plat) )
                 self.delBullet = true;
             }
         }
     }
 
-
-    
-
     Bullet.list[self.id] = self;
- 
-    gameData.bullet.push(self.getInfo());    
 
-    return self;
     gameData.bullet.push(self.getInfo());
 
     return self;
@@ -953,10 +773,8 @@ Bullet.update = function (room) {
         if (bullet.room === room) {
             bullet.update();
         }
-     
 
         if (bullet.delBullet) {
-            if(bullet.room === Rooms.ROOM1) {removeEntity.bullet.push(bullet.id)}            
             if(bullet.room === Rooms.ROOM1) {removeData.bullet.push(bullet.id)}
             delete Bullet.list[i];
         }
@@ -981,12 +799,10 @@ function randNumber(numL, numS)
 //Collision Checking
  function checkForCollision(entity1, entity2) {
 
-    //What the vectors get checked against 
     //What the vectors get checked against
     var halfWidths = (entity1.w / 2) + (entity2.w / 2);
     var halfHeights = (entity1.h / 2) + (entity2.h / 2);
 
-    //Entity 
     //Entity
     var vectorX = (entity1.x + (entity1.w / 2)) - (entity2.x + (entity2.w / 2));
     var vectorY = (entity1.y + (entity1.h / 2)) - (entity2.y + (entity2.h / 2));
@@ -995,24 +811,20 @@ function randNumber(numL, numS)
 
     //If Y & X is less than halfHeights there is collision
     if (Math.abs(vectorY) < halfHeights && Math.abs(vectorX) < halfWidths) {
-        //How far are the shapes collide into the object    
         //How far are the shapes collide into the object
         var offsetX = halfWidths - Math.abs(vectorX);
         var offsetY = halfHeights - Math.abs(vectorY);
 
 
         //Left or right collide
-        if (offsetX < offsetY) 
         if (offsetX < offsetY)
         {
             if (vectorX > 0) {
                 entity1.x += offsetX;
                 collisionPointer = "left";
-                
 
             } else {
                 entity1.x -= offsetX;
-                collisionPointer = "right";                
                 collisionPointer = "right";
             }
 
@@ -1020,19 +832,14 @@ function randNumber(numL, numS)
         else {
             if (vectorY > 0) {
                 entity1.y += offsetY;
-                collisionPointer = "top";                
                 collisionPointer = "top";
             }
             else {
                 entity1.y -= (offsetY - 5);
                 collisionPointer = "bottom";
-                
 
             }
         }
     }
     return collisionPointer;
 }
-
-module.exports 
-

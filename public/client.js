@@ -35,8 +35,6 @@ $(document).ready(function () {
 
     });
 
-    socket.on('checkUsernameResponse', function (data) {
-        if (data.success) {
     socket.on('usernameUnique', function (data) {
         if (data.unique) {
             $('#loginDiv').hide();
@@ -45,7 +43,6 @@ $(document).ready(function () {
             thisId = data.id;
 
         }
-        else if (!data.success) {
         else if (!data.unique) {
             $('#loginText').text(data.uname + ' already in use');
         }
@@ -53,13 +50,12 @@ $(document).ready(function () {
 
     socket.on('initLobbyUser', function (data) {
 
-        for (var i = 0; i < data.user.length; i++) {
-            new User(data.user[i]);
 
         for(i in data.user)
         {
             new User(data.user[i]);       
         }
+       
 
         $('#userList').empty();
         for (i in User.list) {
@@ -68,7 +64,6 @@ $(document).ready(function () {
     });
 
     socket.on('removeLobbyUser', function (data) {
-        for (var i = 0; i < data.user.length; i++) {
         for(i in data.user)
         {
             delete User.list[data.user[i]];
@@ -76,10 +71,8 @@ $(document).ready(function () {
     });
 
     //Lobby Chat Controls
-    $('#lobbyChatForm').submit(function (e) {
     $('#lobbyChatForm').submit(function (lobbyPage) {
         //Prevents page refresh
-        e.preventDefault();
         lobbyPage.preventDefault();
 
         socket.emit('lobbyChat', $('#lobbyChatInput').val());
@@ -103,10 +96,8 @@ $(document).ready(function () {
     });
 
     //Game Chat Controls
-    $('#gameChatForm').submit(function (e) {
     $('#gameChatForm').submit(function (gamePage) {
         //Prevents page refresh
-        e.preventDefault();
         gamePage.preventDefault();
 
         socket.emit('gameChat', $('#gameChatInput').val());
@@ -122,7 +113,6 @@ $(document).ready(function () {
             $('#gameChat').append('<div class = "gameMsg" style="color:#BA55D3">' + data.msg + '</div >');
         }
 
-        //$('#gameChat').scrollTop = $('#gameChat').scrollHeight;
         var d = $('#gameChat');
         d.scrollTop(d.prop("scrollHeight"));
     });
@@ -155,30 +145,22 @@ $(document).ready(function () {
     });
 
 
-    var addLi = (message) => {
-        $('#userList').append('<li class="list-group-item">' + message + '</li>');
-    };
 
-    socket.on('event', addLi);
 
     //Game
     socket.on('initPlayer', function (data) {
 
-        for (var i = 0; i < data.player.length; i++) {
-            new Player(data.player[i]);
 
         for(i in data.player)
         {
             new Player(data.player[i]);       
         }
 
-        for (var i = 0; i < data.bullet.length; i++) {
         for (i in data.bullet)
         {
             new Bullet(data.bullet[i]);
         }
 
-        for (var i = 0; i < data.ammo.length; i++) {
         for(i in data.ammo)
         {
             new Ammo(data.ammo[i]);
@@ -211,19 +193,9 @@ $(document).ready(function () {
 
     //Updates players positions and info 
     socket.on('updatePlayer', function (data) {
-        for (var i = 0; i < data.player.length; i++) {
-
         for (i in data.player)
         {
             var updatedP = data.player[i];
-
-            var player = Player.list[updatedP.id];
-            if (player) {
-                if (updatedP.x !== undefined) { player.x = updatedP.x; }
-                if (updatedP.y !== undefined) { player.y = updatedP.y; }               
-                if (updatedP.score !== undefined) { player.score = updatedP.score; }
-                if (updatedP.ammo !== undefined) { player.ammo = updatedP.ammo; }
-            }
             var curPlayer = Player.list[updatedP.id];
            
             curPlayer.x = updatedP.x;
@@ -232,15 +204,10 @@ $(document).ready(function () {
             curPlayer.ammo = updatedP.ammo;             
         }
 
-        for (var i = 0; i < data.bullet.length; i++) {
         for(i in data.bullet)
         {
             var updatedB = data.bullet[i];
             var bullet = Bullet.list[data.bullet[i].id];
-            if (bullet) {
-                if (updatedB.x !== undefined) { bullet.x = updatedB.x; }
-                if (updatedB.y !== undefined) { bullet.y = updatedB.y; }
-            }
             bullet.x = updatedB.x; 
             bullet.y = updatedB.y;             
         }
@@ -249,20 +216,17 @@ $(document).ready(function () {
     });
 
     socket.on('removePlayer', function (data) {
-        for (var i = 0; i < data.player.length; i++) {
 
         for(i in data.player)
         {
             delete Player.list[data.player[i]];
         }
 
-        for (var i = 0; i < data.bullet.length; i++) {
         for(i in data.bullet)
         {
             delete Bullet.list[data.bullet[i]];
         }
 
-        for (var i = 0; i < data.ammo.length; i++) {
         for(i in data.ammo)
         {
             delete Ammo.list[data.ammo[i]];
@@ -273,7 +237,6 @@ $(document).ready(function () {
     //Init Map
     socket.on('loadPlatforms', function (data) {
         canvasG.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);
-        for (var i = 0; i < data.length; i++) {
         for(i in data)
         {
             platforms.push(data[i]);
@@ -295,16 +258,9 @@ if(enableControls){
         socket.emit('inputKey', { outputId: 'leftMouse', pressed: false }); 
     }
 
-    document.onmousemove = function (event) {
-       var angle = [];
     document.onmousemove = function (event) {      
 
-       angle = {
-           x: event.clientX,
-           y: event.clientY,
-       }
 
-       socket.emit('inputKey', { outputId: 'mouseAngle', pressed: angle });
        socket.emit('inputKey', { outputId: 'mousePos', mouseX: event.clientX, mouseY: event.clientY });
     }
 }
@@ -315,21 +271,15 @@ if(enableControls){
     document.onkeydown = function (key) {
         //S
         if (key.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', pressed: true }); }
-        //D
-        else if (key.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', pressed: true }); }
         //A
         else if (key.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', pressed: true }); }
         //W        
         else if (key.keyCode === 87) { socket.emit('inputKey', { outputId: 'up', pressed: true }); }
-        //Space
-        else if (key.keyCode === 32) { socket.emit('inputKey', { outputId: 'space', pressed: true }); }
 
     }
     document.onkeyup = function (event) {
         //D
         if (event.keyCode === 68) { socket.emit('inputKey', { outputId: 'right', pressed: false }); }
-        //S
-        else if (event.keyCode === 83) { socket.emit('inputKey', { outputId: 'down', pressed: false }); }
         //A
         else if (event.keyCode === 65) { socket.emit('inputKey', { outputId: 'left', pressed: false }); }
         //W
@@ -348,7 +298,6 @@ setInterval(function () {
 
     for (var i in platforms) {
         canvasG.fillStyle = 'black';
-        canvasG.fillRect(platforms[i].x - 5, platforms[i].y, platforms[i].w, platforms[i].h);
         canvasG.fillRect(platforms[i].x, platforms[i].y, platforms[i].w, platforms[i].h);
     }
     for (var i in Player.list) {
@@ -389,7 +338,6 @@ var Player = function (playerInfo) {
     self.score = playerInfo.score
     self.h = playerInfo.h;
     self.w = playerInfo.w;
-    Player.list[self.id] = self;    
     Player.list[self.id] = self; 
 
     self.draw = function () {
@@ -432,7 +380,6 @@ var Ammo = function (ammoInfo) {
 
     self.draw = function () {
         canvasG.fillStyle = 'yellow';
-        canvasG.fillRect(self.x - 5, self.y - 5, self.w, self.h);
         canvasG.fillRect(self.x, self.y, self.w, self.h);
     }
     return self;
