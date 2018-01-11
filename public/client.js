@@ -38,6 +38,7 @@ $(document).ready(function () {
     socket.on('usernameUnique', function (data) {
         if (data.unique) {
             $('#loginDiv').hide();
+            $('gameDiv').hide();
             $('#lobbyDiv').show();
             thisUserName = data.uname;
             thisId = data.id;

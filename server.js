@@ -96,19 +96,20 @@ io.on('connection', (socket) => {
         if (unames.length < 1) {
 
             socket.emit('usernameUnique', { unique: true, uname: uname, id: socket.id });
+            
             User.connection(socket, uname);
             joinRoom(socket, Rooms.LOBBY);
         } else {
 
             if (unames.includes(uname)) {
-                socket.emit('usernameUnique', { unique: false, uname: uname });
+                socket.emit('usernameUnique', { unique: false, uname: uname, id: socket.id });
 
             } else {
 
 
                 socket.emit('event', uname + ' joined the lobby');
                 socket.broadcast.to(Rooms.LOBBY).emit('event', uname + ' joined room lobbyRoom');
-                socket.emit('checkUsernameResponse', { unique: true, uname: uname });
+                socket.emit('usernameUnique', { unique: true, uname: uname, id: socket.id });
                 User.connection(socket, uname);
                 joinRoom(socket, Rooms.LOBBY);
             }
@@ -594,7 +595,7 @@ Player.disconnect = function (socket) {
 
         delete Player.list[socket.id];
     }   
-    else {console.log("old player caught")}
+    else {console.log("old player caught"); delete Player.list[socket.id];}
 }
 
 //Calls class update function for all connected players
@@ -728,13 +729,13 @@ var Bullet = function (parent, angle, room) {
                 } else {
                     if (player.id !== self.parent) {
                         var shooter = Player.list[self.parent];
-                        console.log(shooter.username + " has shot " + player.username + " " + p.x + " " + self.x);
+                        console.log(shooter.username + " has shot " + player.username + " " + player.x + " " + self.x);
                         printMsg(shooter.username + " has shot " + player.username, Rooms.ROOM1, false, null, "server");
                         shooter.score++;
                         Player.list[self.parent] = shooter; //Updates player score and updates list
                         console.log("Player new score " + Player.list[self.parent].score);
                         player.respawn();
-                        Player.list[p.id] = player;
+                        Player.list[player.id] = player;
                         self.delBullet = true;
 
 
