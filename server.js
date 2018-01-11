@@ -1,3 +1,4 @@
+
 const express = require('express'),
     socketio = require('socket.io');
 var app = express();
@@ -515,13 +516,15 @@ var Player = function (id, room, username) {
         self.y = randNumber(Screen.SCREEN_HEIGHT, 1);
     }
 
-    //New player added to list
-    Player.list[id] = self;
+    
 
     //Fills array to be sent in player init to client
     if (room == Rooms.ROOM1) {
         gameData.player.push(self.getPlayerInfo());
     }
+
+    //New player added to list
+    Player.list[self.id] = self;
 
     return self;
 
@@ -537,6 +540,8 @@ Player.getAllPlayerInfo = function (room) {
     }
     return players;
 }
+
+Player.list = {};
 
 //Creates player object deals with controls
 Player.connect = function (socket, username, room) {
@@ -573,9 +578,11 @@ Player.connect = function (socket, username, room) {
 //Removes player from server list and pushses player data to removeEnity array
 Player.disconnect = function (socket) {
 
-    var player = Player.list[socket.id];
+    if(Player.list[socket.id])
+    {
 
- 
+    var player = Player.list[socket.id]; 
+    }
 
     if(player){
         if(player.room === Rooms.ROOM1) {removeData.player.push(socket.id)}
