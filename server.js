@@ -132,11 +132,9 @@ io.on('connection', (socket) => {
             }
         }
 
-
         Player.disconnect(socket);
         User.disconnect(socket);
         delete SocketList[socket.id];
-
 
     });
 
@@ -529,6 +527,7 @@ var Player = function (id, room, username) {
 
 }
 
+//Gets all connected players info
 Player.getAllPlayerInfo = function (room) {
     var players = [];
     for (var i in Player.list) {
@@ -694,6 +693,7 @@ Ammo.getAllAmmoInfo = function () {
 
 Ammo.list = {};
 
+//Bullet Class
 var Bullet = function (parent, angle, room) {
     var self = Entity();
     self.room = room;
@@ -753,8 +753,7 @@ var Bullet = function (parent, angle, room) {
 
     return self;
 }
-Bullet.list = {};
-
+//Gets all bulllets in game
 Bullet.getAllBulletInfo = function () {
     var bullets = [];
     for (var i in Bullet.list) {
@@ -762,7 +761,6 @@ Bullet.getAllBulletInfo = function () {
     }
     return bullets;
 }
-
 
 //Called every frame
 Bullet.update = function (room) {
@@ -785,6 +783,8 @@ Bullet.update = function (room) {
     }
     return bInfo;
 }
+
+Bullet.list = {};
 
 
 
