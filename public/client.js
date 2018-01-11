@@ -18,7 +18,8 @@ const Screen = Object.freeze({
 
 
 var canvasBackgound = new Image();
-canvasBackgound.src = "https://i.stack.imgur.com/9WYxT.png"
+canvasBackgound.src = '/img/BG.png'
+//canvasBackgound.src = "https://i.stack.imgur.com/9WYxT.png"
 
 //Changedsafsaf
 

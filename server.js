@@ -640,7 +640,7 @@ var Ammo = function () {
                 } else {
                     console.log("Player touching ammo pack")
                     self.pickedUp = true;
-                    Player.list[i].ammo += 5;
+                    Player.list[i].ammo += 30;
                     console.log("Ammo count " + Player.list[i].ammo)
                 }
 
