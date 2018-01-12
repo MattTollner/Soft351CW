@@ -81,7 +81,7 @@ $(document).ready(function () {
         $('#lobbyChatInput').val('');
     });
 
-
+    //Adds lobby message
     socket.on('LobbyMsg', function (data) {
         if (data.type == "server")
         {
@@ -106,7 +106,7 @@ $(document).ready(function () {
         $('#gameChatInput').val('');
     });
 
-
+    //Adds Game Message 
     socket.on('GameMsg', function (data) {
         if (data.type == "server") {
             $('#gameChat').append('<div class = "gameMsg" style="color:#FF3232">' + data.msg + '</div >');            

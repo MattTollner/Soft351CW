@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "express": "^4.16.2",
     "jquery": "^3.2.1",
     "socket.io": "^2.0.4"
@@ -20,7 +21,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chromedriver": "^2.34.0",
-    "eslint": "^4.14.0",
+    "eslint": "^4.15.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-config-strongloop": "^2.1.0",
     "eslint-plugin-import": "^2.8.0",
