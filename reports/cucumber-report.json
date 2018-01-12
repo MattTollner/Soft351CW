@@ -1,0 +1,381 @@
+[
+  {
+    "description": "    As a user user i should be able to join and leave 3 different worlds",
+    "elements": [
+      {
+        "id": "user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Once in lobby i should be able to join world one and then leave",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I have logged in",
+            "result": {
+              "status": "passed",
+              "duration": 4467429834
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i can click on the element \"JoinWorld\"",
+            "result": {
+              "status": "passed",
+              "duration": 59648411
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:4"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i will join world one",
+            "result": {
+              "status": "passed",
+              "duration": 74734296
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:10"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i can leave the game room",
+            "result": {
+              "status": "passed",
+              "duration": 87554693
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:17"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i will be back in the lobby",
+            "result": {
+              "status": "passed",
+              "duration": 45358846
+            },
+            "line": 10,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:23"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 200728657
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-join-game-world",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User join game world",
+    "tags": [],
+    "uri": "C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/JoinWorld.feature"
+  },
+  {
+    "description": "    As a user i should be able to enter a nick name and join the lobby",
+    "elements": [
+      {
+        "id": "user-loging-in;load-website,-enter-nickname-and-join-lobby",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Load website, enter nickname and join lobby",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I navigate to \"http://localhost:5000\"",
+            "result": {
+              "status": "passed",
+              "duration": 2924376878
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\loginSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i enter the nickname \"Nate\" into input field with id \"userInput\"",
+            "result": {
+              "status": "passed",
+              "duration": 85200473
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\loginSteps.js:14"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i press enter element \"joinLobby\"",
+            "result": {
+              "status": "passed",
+              "duration": 131509691
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\loginSteps.js:25"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "join the lobby if my username is unique",
+            "result": {
+              "status": "passed",
+              "duration": 19186041
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\loginSteps.js:36"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 202487430
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-loging-in",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User Loging in",
+    "tags": [],
+    "uri": "C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/Login.feature"
+  },
+  {
+    "description": "    As a player i should be able to write out and send messages to the game chat",
+    "elements": [
+      {
+        "id": "user-sending-messages-to-game-chat;send-message-to-players-in-game",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Send message to players in game",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I have logged in",
+            "result": {
+              "status": "passed",
+              "duration": 3103255657
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i can click on the element \"JoinWorld\"",
+            "result": {
+              "status": "passed",
+              "duration": 86472545
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:4"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i will join world one",
+            "result": {
+              "status": "passed",
+              "duration": 60101131
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\joinGameRoomSteps.js:10"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i write out my message to the game",
+            "result": {
+              "status": "passed",
+              "duration": 93856525
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\gameMessageSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i press enter to submit \"gameChatForm\"",
+            "result": {
+              "status": "passed",
+              "duration": 42825652
+            },
+            "line": 10,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:24"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i should see my message in the game chat with my username",
+            "result": {
+              "status": "passed",
+              "duration": 20151138
+            },
+            "line": 11,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\gameMessageSteps.js:13"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 2371252694
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-sending-messages-to-game-chat",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User sending messages to game chat",
+    "tags": [],
+    "uri": "C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/SendGameMessage.feature"
+  },
+  {
+    "description": "    As a user i should be able to write out and send messages to the lobby chat",
+    "elements": [
+      {
+        "id": "user-sending-messages-to-lobby;send-message-to-users-in-lobby",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Send message to users in lobby",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I have logged in",
+            "result": {
+              "status": "passed",
+              "duration": 3495140529
+            },
+            "line": 6,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:5"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i write out my message to the lobby",
+            "result": {
+              "status": "passed",
+              "duration": 141264127
+            },
+            "line": 7,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:18"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "i press enter to submit \"lobbyChatForm\"",
+            "result": {
+              "status": "passed",
+              "duration": 51446589
+            },
+            "line": 8,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:24"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "i should see my message in the lobby chat with my username",
+            "result": {
+              "status": "passed",
+              "duration": 29948996
+            },
+            "line": 9,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\steps\\lobbyMessageSteps.js:31"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 248240471
+            },
+            "hidden": true,
+            "match": {
+              "location": "C:\\Users\\Mattt\\Documents\\GitHub\\SOfrt\\Soft351CW\\node_modules\\selenium-cucumber-js\\runtime\\world.js:221"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "user-sending-messages-to-lobby",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "User sending messages to lobby",
+    "tags": [],
+    "uri": "C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/SendLobbyMessage.feature"
+  }
+]

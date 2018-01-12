@@ -5,15 +5,15 @@
             <property name="URI" value="C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/JoinWorld.feature">
             </property>
         </properties>
-        <testcase name="Given I have logged in" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="3.822901893">
+        <testcase name="Given I have logged in" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="4.467429834">
         </testcase>
-        <testcase name="Then i can click on the element &quot;JoinWorld&quot;" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.066467152">
+        <testcase name="Then i can click on the element &quot;JoinWorld&quot;" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.059648411">
         </testcase>
-        <testcase name="And i will join world one" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.045858008">
+        <testcase name="And i will join world one" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.074734296">
         </testcase>
-        <testcase name="Then i can leave the game room" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.073200561">
+        <testcase name="Then i can leave the game room" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.087554693">
         </testcase>
-        <testcase name="And i will be back in the lobby" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.038968281">
+        <testcase name="And i will be back in the lobby" classname="user-join-game-world;once-in-lobby-i-should-be-able-to-join-world-one-and-then-leave" time="0.045358846">
         </testcase>
     </testsuite>
     <testsuite name="user-loging-in;load-website,-enter-nickname-and-join-lobby" tests="4" failures="0" skipped="0">
@@ -21,13 +21,13 @@
             <property name="URI" value="C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/Login.feature">
             </property>
         </properties>
-        <testcase name="Given I navigate to &quot;http://localhost:5000&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="2.840153208">
+        <testcase name="Given I navigate to &quot;http://localhost:5000&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="2.924376878">
         </testcase>
-        <testcase name="Then i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.062547859">
+        <testcase name="Then i enter the nickname &quot;Nate&quot; into input field with id &quot;userInput&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.085200473">
         </testcase>
-        <testcase name="Then i press enter element &quot;joinLobby&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.102730442">
+        <testcase name="Then i press enter element &quot;joinLobby&quot;" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.131509691">
         </testcase>
-        <testcase name="And join the lobby if my username is unique" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.01602946">
+        <testcase name="And join the lobby if my username is unique" classname="user-loging-in;load-website,-enter-nickname-and-join-lobby" time="0.019186041">
         </testcase>
     </testsuite>
     <testsuite name="user-sending-messages-to-game-chat;send-message-to-players-in-game" tests="6" failures="0" skipped="0">
@@ -35,17 +35,17 @@
             <property name="URI" value="C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/SendGameMessage.feature">
             </property>
         </properties>
-        <testcase name="Given I have logged in" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="3.003725973">
+        <testcase name="Given I have logged in" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="3.103255657">
         </testcase>
-        <testcase name="Then i can click on the element &quot;JoinWorld&quot;" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.064024201">
+        <testcase name="Then i can click on the element &quot;JoinWorld&quot;" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.086472545">
         </testcase>
-        <testcase name="And i will join world one" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.041022324">
+        <testcase name="And i will join world one" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.060101131">
         </testcase>
-        <testcase name="Then i write out my message to the game" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.088054988">
+        <testcase name="Then i write out my message to the game" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.093856525">
         </testcase>
-        <testcase name="Then i press enter to submit &quot;gameChatForm&quot;" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.04554084">
+        <testcase name="Then i press enter to submit &quot;gameChatForm&quot;" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.042825652">
         </testcase>
-        <testcase name="And i should see my message in the game chat with my username" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.018310429">
+        <testcase name="And i should see my message in the game chat with my username" classname="user-sending-messages-to-game-chat;send-message-to-players-in-game" time="0.020151138">
         </testcase>
     </testsuite>
     <testsuite name="user-sending-messages-to-lobby;send-message-to-users-in-lobby" tests="4" failures="0" skipped="0">
@@ -53,13 +53,13 @@
             <property name="URI" value="C:/Users/Mattt/Documents/GitHub/SOfrt/Soft351CW/features/SendLobbyMessage.feature">
             </property>
         </properties>
-        <testcase name="Given I have logged in" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="2.991634685">
+        <testcase name="Given I have logged in" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="3.495140529">
         </testcase>
-        <testcase name="Then i write out my message to the lobby" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.067956334">
+        <testcase name="Then i write out my message to the lobby" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.141264127">
         </testcase>
-        <testcase name="Then i press enter to submit &quot;lobbyChatForm&quot;" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.035206816">
+        <testcase name="Then i press enter to submit &quot;lobbyChatForm&quot;" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.051446589">
         </testcase>
-        <testcase name="And i should see my message in the lobby chat with my username" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.015926003">
+        <testcase name="And i should see my message in the lobby chat with my username" classname="user-sending-messages-to-lobby;send-message-to-users-in-lobby" time="0.029948996">
         </testcase>
     </testsuite>
 </testsuites>
