@@ -3,7 +3,6 @@ module.exports = function () {
 
 
     this.Given(/^I have logged in$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
         helpers.loadPage("http://localhost:5000").then(function () {
             driver.findElement(By.id("userInput")).sendKeys("Nate").then(function () {
                 driver.findElement(By.id("joinLobby")).click().then(function (result) {
