@@ -2,12 +2,28 @@
 {
 }
 
-/*#testDiv {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;   
-    background-color:aquamarine;
-}*/
+#gameChat {
+    border:3px solid #96a197;
+    background-color: rgb(36, 36, 36);
 
+}
+
+#gameChatInput {
+    border:3px solid #96a197;
+    background-color: rgb(36, 36, 36);
+    color: #BA55D3;
+
+}
+
+#lobbyChat {
+    border:3px solid #96a197;
+    background-color: rgb(36, 36, 36);
+
+}
+
+#lobbyChatInput {
+    border:3px solid #96a197;
+    background-color: rgb(36, 36, 36);
+    color: #BA55D3;
+
+}
